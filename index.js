@@ -36,11 +36,8 @@ app.set("json spaces", 2);
 
 
 app.get('/', (req, res) => {
-	res.sendFile(__path + '/public/index.html');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-app.get('/doc/ai', (req, res) => {
-    res.sendFile(__path + '/public/ai.html')
-})
 
 
 global.creator = "@IM-REREZZ"
