@@ -3893,7 +3893,7 @@ function muptime(seconds) {
 });
 
 
-app.post('/api/dl', async (req, res) => {
+app.get('/api/dlmp3', async (req, res) => {
     const { url } = req.body;
 
     if (!url) {
