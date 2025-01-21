@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> IM REREZZ APIS </title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   body {
+            background-color: #000;
+            color: #00ffea;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.5s, color 0.5s;
+        }
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px solid #00ffea;
+            padding: 10px;
+            transition: border-color 0.5s;
+        }
+        .header img {
+            width: 50px;
+            height: 50px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .header .menu {
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .info-box {
+            display: flex;
+            justify-content: space-between;
+            border: 2px solid #00ffea;
+            padding: 10px;
+            margin-top: 20px;
+            transition: border-color 0.5s;
+        }
+        .info-box div {
+            width: 48%;
+            border: 2px solid #00ffea;
+            padding: 10px;
+            box-sizing: border-box;
+            transition: border-color 0.5s;
+        }
+        .info-box div i {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        .api-docs {
+            margin-top: 20px;
+        }
+        .api-docs h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .api-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid #00ffea;
+            padding: 10px;
+            margin-top: 10px;
+            transition: border-color 0.5s;
+        }
+        .api-item button {
+            background-color: #000;
+            color: #00ffea;
+            border: 2px solid #00ffea;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: border-color 0.5s;
+        }
+        .api-item button:hover {
+            background-color: #00ffea;
+            color: #000;
+        }
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+        .sidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #00ffea;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            color: #f1f1f1;
+        }
+        .sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .info-box {
+                flex-direction: column;
+            }
+            .info-box div {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+            display: none;
+        }
+  </style>
+ </head>
+ <body>
+  <div class="container">
+   <div class="header">
+    <img alt="Logo" height="50" src="https://storage.googleapis.com/a1aa/image/qTUDanyc86JMPVw4DdvlDgb2vekcUpgdjtbN4XduY1UbKqDKA.jpg" width="50"/>
+    <h1>API IM REREZZ</h1>
+    <div class="menu" onclick="toggleNav()">
+     <i class="fas fa-bars" id="menu-icon"></i>
+    </div>
+   </div>
+
+   <div class="info-box">
+    <div>
+        <i class="fas fa-server"></i>
+        <strong>WEB INFORMATION</strong>
+        <p id="web-info">Pengunjung 1 Jam Terakhir: 0<br/>Hari Ini: Selasa, 21/1/2025 18:50:58.475</p>
+    </div>
+
+    <div>
+        <i class="fas fa-user"></i>
+        <strong>USER INFORMATION</strong>
+        <p id="user-info">IP Address: 192.2.166.211<br/>Kecepatan Jaringan: 17.18 MB/0.5s<br/>Baterai: 0%<br/>Status: Sedang mengisi daya</p>
+    </div>
+
+   </div>
+   <div class="api-docs">
+    <h2>DOKUMENTASI API</h2>
+
+    <!-- API 1 -->
+    <div class="api-item">
+        <span>
+          <i class="fas fa-robot"></i>
+          API OPENAI
+        </span>
+        <button onclick="openLink('/doc/ai')">
+          <i class="fas fa-external-link-alt"></i>
+          OPEN
+        </button>
+      </div>
+    
+      <!-- API Item 2 -->
+      <div class="api-item">
+        <span>
+          <i class="fas fa-link"></i>
+          API OKECONNEC
+        </span>
+        <button onclick="openLink('https://okecollect.com')">
+          <i class="fas fa-external-link-alt"></i>
+          OPEN
+        </button>
+      </div>
+    
+      <!-- API Item 3 -->
+      <div class="api-item">
+        <span>
+          <i class="fas fa-tv"></i>
+          API ANIME
+        </span>
+        <button onclick="openLink('https://animeapi.com')">
+          <i class="fas fa-external-link-alt"></i>
+          OPEN
+        </button>
+      </div>
+    
+      <!-- API Item 4 -->
+      <div class="api-item">
+        <span>
+          <i class="fas fa-download"></i>
+          API DOWNLOADER
+        </span>
+        <button onclick="openLink('https://downloaderapi.com')">
+          <i class="fas fa-external-link-alt"></i>
+          OPEN
+        </button>
+      </div>
+    
+      <!-- API Item 5 -->
+      <div class="api-item">
+        <span>
+          <i class="fas fa-gamepad"></i>
+          API FUNN GAME
+        </span>
+        <button onclick="openLink('https://funnapi.com')">
+          <i class="fas fa-external-link-alt"></i>
+          OPEN
+        </button>
+      </div>
+
+      <div class="api-item">
+        <span>
+          <i class="fas fa-gamepad"></i>
+          API GAME
+        </span>
+        <button onclick="openLink('https://funnapi.com')">
+          <i class="fas fa-external-link-alt"></i>
+          OPEN
+        </button>
+      </div>
+
+   </div>
+  </div>
+
+  <div class="sidebar" id="mySidebar">
+    <a class="closebtn" href="javascript:void(0)" onclick="closeNav()">
+        <i class="fas fa-times"></i>
+    </a>
+
+    <a href="#"><i class="fas fa-robot"></i>API OPENAI</a>
+
+   <a href="#"><i class="fas fa-link"></i>API OKECONNEC</a>
+
+   <a href="#"><i class="fas fa-tv"></i>API ANIME</a>
+
+   <a href="#"><i class="fas fa-download"></i>API DOWNLOADER</a>
+  </div>
+
+  <div class="overlay" id="overlay" onclick="closeNav()">
+  </div>
+
+  <script>
+   function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+            document.getElementById("overlay").style.display = "block";
+            document.getElementById("menu-icon").classList.remove("fa-bars");
+            document.getElementById("menu-icon").classList.add("fa-times");
+            document.querySelector(".menu").style.transform = "rotate(180deg)";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.getElementById("overlay").style.display = "none";
+            document.getElementById("menu-icon").classList.remove("fa-times");
+            document.getElementById("menu-icon").classList.add("fa-bars");
+            document.querySelector(".menu").style.transform = "rotate(0deg)";
+        }
+
+        function toggleNav() {
+            if (document.getElementById("mySidebar").style.width === "250px") {
+                closeNav();
+            } else {
+                openNav();
+            }
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', fractionalSecondDigits: 3 };
+            const formattedDate = now.toLocaleDateString('id-ID', options);
+            document.getElementById('web-info').innerHTML = `Pengunjung 1 Jam Terakhir: 0<br/>Hari Ini: ${formattedDate}`;
+        }
+
+        function updateUserInfo() {
+            const ip = '192.2.166.211';
+            const speed = '17.18 MB/0.5s';
+            const battery = '0%';
+            const status = 'Sedang mengisi daya';
+            document.getElementById('user-info').innerHTML = `IP Address: ${ip}<br/>Kecepatan Jaringan: ${speed}<br/>Baterai: ${battery}<br/>Status: ${status}`;
+        }
+
+        setInterval(updateDateTime, 1);
+        setInterval(updateUserInfo, 1);
+
+        function openLink(url) {
+            window.location.href = url;
+          }
+  </script>
+ </body>
+</html>
