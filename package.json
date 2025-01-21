@@ -41,8 +41,6 @@
     "fs": "0.0.1-security",
     "chalk": "^4.1.2",
     "monk": "^7.3.3",
-    "yt-search": "^2.12.1",
-    "canvas": "latest",
-    "sharp": "latest"
+    "yt-search": "^2.12.1"
   }
 }
