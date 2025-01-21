@@ -34,8 +34,17 @@ const PORT = process.env.PORT || 3000;
 app.enable("trust proxy");
 app.set("json spaces", 2);
 
+
+app.get('/', (req, res) => {
+	res.sendFile(__path + '/public/index.html');
+});
+app.get('/doc/ai', (req, res) => {
+    res.sendFile(__path + '/public/ai.html')
+})
+
+
 global.creator = "@IM-REREZZ"
-// Middleware untuk CORS
+
 app.use(cors());
 const chatsandbox = {  
     chatbot: async (question, model) => {
@@ -3888,22 +3897,6 @@ function muptime(seconds) {
 });
 
 
-app.get('/', (req, res) => {
-	res.sendFile(__path + '/public/index.html');
-});
-app.get('/doc/ai', (req, res) => {
-    res.sendFile(__path + '/public/ai.html')
-})
-
-app.get('/chatgpt', (req, res) => {
-	res.sendFile(__path + "/chatai.html");
-});
-app.get('/pro', (req, res) => {
-	res.sendFile(__path + "/views/pro.html");
-});
-app.get('/ttdlzx', (req, res) => {
-	res.sendFile(__path + "/views/tiktokdl.html");
-});
 
 
 app.listen(PORT, () => {
