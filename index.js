@@ -7,7 +7,6 @@ const axios = require('axios');
 const fetch = require('node-fetch');
 const got = require('got');
 const { exec } = require("child_process");
-const { createCanvas, loadImage, registerFont } = require('canvas');
 const FormData = require('form-data'); 
 const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
