@@ -1,0 +1,492 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: #000;
+            color: #00ffff;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative; 
+            z-index: 1; 
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .header {
+            display: flex;
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+        }
+        .header h1 {
+            margin: 0 0 0 0;
+            font-size: 30px;
+            text-align: center;
+        }
+        .menu {
+            cursor: pointer;
+            color: aqua;
+            font-size: 30px;
+            margin-right: 15px;
+        }
+        .api-section {
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            padding: 15px;
+        }
+        .api-section h2 {
+            margin: 0;
+            font-size: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .api-section .api-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        .api-section .api-content a {
+            width: 45%;
+            padding: 10px 15px;
+            border: 2px solid #00ffff;
+            background-color: #000;
+            color: #00ffff;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            margin-right: 2%;
+            border-radius: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .api-section .api-content a:hover {
+            background-color: #00ffff;
+            color: #000;
+        }
+        .api-section .api-content a:last-child {
+            margin-right: 0;
+        }
+        .api-section .api-content a i {
+            margin-left: 5px;
+        }
+        .api-section .api-url {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding: 15px;
+            border: 2px solid #00ffff;
+            background-color: none;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #00ffff;
+        }
+    
+        .api-section .api-example {
+            padding: 15px;
+            border: 2px solid #00ffff;
+            background-color: none;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #00ffff;
+            margin-top: 10px;
+        }
+    
+        .api-section .api-toggle {
+            text-align: right;
+            cursor: pointer;
+            padding: 10px 20px;
+            border: 2px solid aqua;
+            border-radius: 10px;
+        }
+        .api-section .api-toggle i {
+            font-size: 30px;
+        }
+    
+        .api-section .api-details {
+            display: none;
+            margin-top: 10px;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .copy-btn {
+            background: none;
+            font-size: 25px;
+            border: none;
+            color: #00ffff;
+            cursor: pointer;
+            position: relative;
+            top: -15px;
+            right: -15px;
+            transition: color 0.3s;
+        }
+    </style>
+</head>
+<body>
+<div id="particles-js"></div>
+    <div class="container">
+        <div class="header">
+            <a href="/" class="menu">
+                <i class="fas fa-home"></i>
+            </a>
+            <h1>DOKUMENTASI API SEARCH</h1>
+        </div><br><br>
+        
+        <!-- API 1 -->
+        <div class="api-section">
+            <h2>API SEARCH SPOTIFY <i class="fas fa-chevron-down api-toggle"></i></h2>
+            <div class="api-details">
+                <div class="api-content">
+                    <a href="https://api-im.rerezz.digital-server.biz.id/api/search-spotify?message=mendua" target="_self">Open API <i class="fas fa-external-link-alt"></i></a>
+                    <a href="https://www.youtube.com/@RerezzOffc" target="_self">YouTube <i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="api-url">
+                    <span>https://api-im.rerezz.digital-server.biz.id/api/search-spotify?message=${text}</span>
+                    <button class="copy-btn" data-url="https://api-im.rerezz.digital-server.biz.id/api/search-spotify?message=${text}"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="api-example">
+                    <pre>
+"artists": [
+{
+  "external_urls": {
+    "spotify": "https://open.spotify.com/artist/7MVBTm3q8kDohur36hrZaJ"
+  },
+  "href": "https://api.spotify.com/v1/artists/7MVBTm3q8kDohur36hrZaJ",
+  "id": "7MVBTm3q8kDohur36hrZaJ",
+  "name": "Demeises",
+  "type": "artist",
+  "uri": "spotify:artist:7MVBTm3q8kDohur36hrZaJ"
+}
+                      ],
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="api-section">
+            <h2>API SEARCH YOUTUBE <i class="fas fa-chevron-down api-toggle"></i></h2>
+            <div class="api-details">
+                <div class="api-content">
+                    <a href="https://api-im.rerezz.digital-server.biz.id/api/search-yts?message=@RerezzOffc" target="_self">Open API <i class="fas fa-external-link-alt"></i></a>
+                    <a href="https://www.youtube.com/@RerezzOffc" target="_self">YouTube <i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="api-url">
+                    <span>https://api-im.rerezz.digital-server.biz.id/api/search-yts?message=${text}</span>
+                    <button class="copy-btn" data-url="https://api-im.rerezz.digital-server.biz.id/api/search-yts?message=${text}"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="api-example">
+                    <pre>
+{
+    "authorName": "Pardosi Store And Hosting",
+    "authorAvatar": "https://yt3.ggpht.com/jUNT6HsZE5ZGySUtdPI2a9E6ytP0NO25Ik55BOEzmjjYNIg67VXdWN5DC03Q2r49ESLbufXOYQ=s68-c-k-c0x00ffffff-no-rj",
+    "videoId": "e6ZEAWjzFS0",
+    "url": "https://www.youtube.com/@RerezzOffc",
+    "thumbnail": "https://i.ytimg.com/vi/e6ZEAWjzFS0/hq2.jpg?sqp=-oaymwEcCOADEI4CSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDUNJ4zx9rsyfzakvBGtoKtd4yJYQ",
+    "title": "REVIEW SC XYREREZ TEAM @RerezzOffc .BISA PUSHKONTAK GC TERTUTUP || PARDOSI STORE AND HOSTING",
+    "description": "Halo gaes, kali ini gua mau review SC XYREREZ team yang banyak fiturnya kayak SC store, push kontak, dan lain lain. Jika anda ...",
+    "publishedTime": "5 months ago",
+    "durationH": "6 minutes, 8 seconds",
+    "durationS": 368,
+    "duration": "6:08",
+    "viewH": "29 views",
+    "view": "29 views",
+    "type": "video"
+},                    ],
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="api-section">
+            <h2>API SEARCH TIKTOK <i class="fas fa-chevron-down api-toggle"></i></h2>
+            <div class="api-details">
+                <div class="api-content">
+                    <a href="https://api-im.rerezz.digital-server.biz.id/api/search-tiktok?message=@vilian.0208" target="_self">Open API <i class="fas fa-external-link-alt"></i></a>
+                    <a href="https://www.youtube.com/@RerezzOffc" target="_self">YouTube <i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="api-url">
+                    <span>https://api-im.rerezz.digital-server.biz.id/api/search-tiktok?message=${text}</span>
+                    <button class="copy-btn" data-url="https://api-im.rerezz.digital-server.biz.id/api/search-tiktok?message=${text}"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="api-example">
+                    <pre>
+{
+    "status": 200,
+    "creator": "IM-REREZZ",
+    "data": {
+      "response": {
+        "author": "@IM-REREZZ",
+        "title": "#fyp #mojonotabitabi #elaina #waifu #ku #elainacantik #iloveyou ",
+        "cover": "https://p16-sign-va.tiktokcdn.com/tos-maliva-p-0068/oYcqVwnhoqIcAICECAfyAU4zoZkuzgV9NSFChO~tplv-tiktokx-origin.image?biz_tag=musically_video.video_cover&dr=1370&idc=maliva&nonce=55860&ps=933b5bde&refresh_token=52ff746cd07725fec9c1ae06017920ea&s=SEARCH&sc=cover&shcp=c1333099&shp=d05b14bd&t=bacd0480&x-expires=1737644400&x-signature=tmeSxBzXry3KSJzZ0BVVwAQXpbA%3D",
+        "origin_cover": "https://p16-sign-va.tiktokcdn.com/tos-maliva-p-0068/06dca76dc978465e9e5debc46bc74d23_1680495571~tplv-tiktokx-360p.image?dr=1363&nonce=22841&refresh_token=7c9e9df5317bf56c713a577fb4e10e06&x-expires=1737644400&x-signature=DmYV7Fd20YpG%2FvAhalWe8J%2BWj8I%3D&biz_tag=tt_video&idc=maliva&ps=d97f9a4f&s=SEARCH&sc=cover&shcp=c1333099&shp=d05b14bd&t=bacd0480",
+        "no_watermark": "https://v39-jp.tiktokcdn.com/23758ea3b056e1a116c06e7c597b05a4/67926333/video/tos/maliva/tos-maliva-ve-0068c801-us/occqnyqwhdqSAfEQhQkIgogU7VEFAZzOCU9NIc/?a=1233&bti=NEBzNTY6QGo6OjZALnAjNDQuYCMxNDNg&ch=0&cr=0&dr=0&er=0&lr=all&net=0&cd=0%7C0%7C0%7C0&br=4106&bt=2053&cs=0&ds=6&ft=XsFbCqx4m~aPD12Rd0XJ3wUi2GBKaeF~O5&mime_type=video_mp4&qs=0&rc=ZTQ8OjNkaWk7NjdoMzo6M0BpanZsZGg6ZmQ4ajMzNzczM0BeNjU1NTI0Xl8xLTFeNDAxYSNgL2dscjRnNGlgLS1kMTZzcw%3D%3D&vvpl=1&l=20250122154120749E9C96B1C86DB76C38&btag=e000bd000",
+        "watermark": "https://v39-jp.tiktokcdn.com/b15c7e4fd916fb401db294a106828db8/67926333/video/tos/maliva/tos-maliva-ve-0068c801-us/ocwqI8AygotUS4IZEhXYNQcAqVkzFfOnSkhjcC/?a=1233&bti=NEBzNTY6QGo6OjZALnAjNDQuYCMxNDNg&ch=0&cr=0&dr=0&er=0&lr=all&net=0&cd=0%7C0%7C0%7C0&br=4298&bt=2149&cs=0&ds=3&ft=XsFbCqx4m~aPD12Rd0XJ3wUi2GBKaeF~O5&mime_type=video_mp4&qs=0&rc=OzQ3ODhpOzg4aTZlaDo7NUBpanZsZGg6ZmQ4ajMzNzczM0AuYjAzMGIyNTIxLjVgL2EyYSNgL2dscjRnNGlgLS1kMTZzcw%3D%3D&vvpl=1&l=20250122154120749E9C96B1C86DB76C38&btag=e000bd000",
+        "music": "https://sf16-ies-music-va.tiktokcdn.com/obj/musically-maliva-obj/7217673500478229253.mp3"
+      }
+    }
+}
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="api-section">
+            <h2>API SEARCH STICKER <i class="fas fa-chevron-down api-toggle"></i></h2>
+            <div class="api-details">
+                <div class="api-content">
+                    <a href="https://api-im.rerezz.digital-server.biz.id/api/search-sticker?text=nailong" target="_self">Open API <i class="fas fa-external-link-alt"></i></a>
+                    <a href="https://www.youtube.com/@RerezzOffc" target="_self">YouTube <i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="api-url">
+                    <span>https://api-im.rerezz.digital-server.biz.id/api/search-sticker?text=${text}</span>
+                    <button class="copy-btn" data-url="https://api-im.rerezz.digital-server.biz.id/api/search-sticker?text=${text}"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="api-example">
+                    <pre>
+{
+    "status": 200,
+    "creator": "IM-REREZZ",
+    "result": {
+      "title": "xiaonailong",
+      "author": "S_Y",
+      "author_link": "https://getstickerpack.com/publisher/s-y-1656949401",
+      "sticker": [
+        "https://s3.getstickerpack.com/storage/uploads/sticker-pack/xiaonailong/sticker_1.gif?41d679e9c16d3877febaaeb4b585b930",
+        "https://s3.getstickerpack.com/storage/uploads/sticker-pack/xiaonailong/sticker_13.gif?41d679e9c16d3877febaaeb4b585b930"
+      ]
+    }
+}
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="api-section">
+            <h2>API SEARCH APPLE MUSIC <i class="fas fa-chevron-down api-toggle"></i></h2>
+            <div class="api-details">
+                <div class="api-content">
+                    <a href="https://api-im.rerezz.digital-server.biz.id/api/search-applemusic?query=mendua" target="_self">Open API <i class="fas fa-external-link-alt"></i></a>
+                    <a href="https://www.youtube.com/@RerezzOffc" target="_self">YouTube <i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="api-url">
+                    <span>https://api-im.rerezz.digital-server.biz.id/api/search-applemusic?query=${text}</span>
+                    <button class="copy-btn" data-url="https://api-im.rerezz.digital-server.biz.id/api/search-applemusic?query=${text}"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="api-example">
+                    <pre>
+{
+"status": 200,
+"creator": "IM-REREZZ",
+"result": [
+  {
+    "title": "Mendua",
+    "subtitle": "Song · Astrid",
+    "link": "https://music.apple.com/us/album/mendua/739624760?i=739624791"
+  },
+    "title": "Mendua",
+    "subtitle": "Artist",
+    "link": "https://music.apple.com/us/artist/mendua/447297457"
+  }
+                        ]               
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        function toggleNav() {
+        }
+
+        document.querySelectorAll('.api-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const details = toggle.parentElement.nextElementSibling;
+                const icon = toggle;
+                const allDetails = document.querySelectorAll('.api-details');
+                const allIcons = document.querySelectorAll('.api-toggle');
+
+                allDetails.forEach(detail => {
+                    if (detail !== details) {
+                        detail.style.maxHeight = '0';
+                        setTimeout(() => {
+                            detail.style.display = 'none';
+                        }, 500);
+                    }
+                });
+
+                allIcons.forEach(ic => {
+                    if (ic !== icon) {
+                        ic.classList.remove('fa-chevron-up');
+                        ic.classList.add('fa-chevron-down');
+                    }
+                });
+
+                if (details.style.display === 'none' || details.style.display === '') {
+                    details.style.display = 'block';
+                    details.style.maxHeight = details.scrollHeight + 'px';
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    details.style.maxHeight = '0';
+                    setTimeout(() => {
+                        details.style.display = 'none';
+                    }, 500);
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const url = button.getAttribute('data-url');
+                navigator.clipboard.writeText(url).then(() => {
+                    button.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        button.innerHTML = '<i class="fas fa-copy"></i>';
+                    }, 2000);
+                });
+            });
+        });
+    
+    
+    
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 220, // Increased number of particles
+                    "density": {
+                        "enable": true,
+                        "value_area": 1600 // Increased area for particle density
+                    }
+                },
+                "color": {
+                    "value": "#00ffff" // Aqua color for particles
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 10,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 10
+                    },
+                    "image": {
+                        "src": "img/github.svg",
+                        "width": 1000,
+                        "height": 1000
+                    }
+                },
+                "opacity": {
+                    "value": 3.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 1.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 5, // Increased size of particles by 2px
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 1.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 170, // Increased distance between particles
+                    "color": "#00ffff", // Aqua color for lines
+                    "opacity": 1.5,
+                    "width": 0.5
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1.5, // Reduced speed of particles
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": true,
+                        "rotateX": 50000, // High value to make particles gather around points
+                        "rotateY": 50000
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 150,
+                        "line_linked": {
+                          "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
+</body>
+</html>
