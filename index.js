@@ -11,6 +11,7 @@ const FormData = require('form-data');
 const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const qs = require("qs");
+const { ytdlv2, search } = require('@vreden/youtube_scraper')
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 const { chromium } = require('playwright');
@@ -3605,22 +3606,136 @@ app.get('/api/search-sfile', async (req, res) => {
   }
 });
 
-app.get('/api/ytmp4', async (req, res) => {
-  try {
-    const url = req.query.url;
-    if (!url) {
-      return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
+
+async function Search(teks) {
+    try {
+        const results = await search(`${encodeURIComponent(teks)}`)
+        if (results.status) {
+            return {
+                status: true,
+                data: results.results.map(result => ({
+                    type: result.type,
+                    videoId: result.videoId,
+                    url: result.url,
+                    title: result.title,
+                    description: result.description,
+                    image: result.image,
+                    thumbnail: result.thumbnail,
+                    seconds: result.seconds,
+                    timestamp: result.timestamp,
+                    duration: result.duration,
+                    ago: result.ago,
+                    views: result.views,
+                    author: result.author
+                }))
+            }
+        }
+    } catch (e) {
+        return { status: false, message: e.message }
     }
-    const response = await ytdl(url);
-    res.status(200).json({
-      status: 200,
-      creator: "IM-REREZZ",
-      data: { response }
+}
+
+async function Ytmp4(url) {
+    try {
+        const response = await ytdlv2(url)
+        if (response.status) {
+            return {
+                status: true,
+                title: response.details.title,
+                description: response.details.description,
+                publishedAt: response.details.publishedAt,
+                channelId: response.details.channelId,
+                channelTitle: response.details.channelTitle,
+                categoryId: response.details.categoryId,
+                liveBroadcastContent: response.details.liveBroadcastContent,
+                thumbnails: response.details.thumbnails,
+                statistics: response.statistics,
+                downloadLink: response.downloads.video
+            }
+        }
+    } catch (e) {
+        return { status: false, message: e.message }
+    }
+}
+
+async function Ytmp3(url) {
+    try {
+        const response = await ytdlv2(url)
+        if (response.status) {
+            return {
+                status: true,
+                title: response.details.title,
+                description: response.details.description,
+                publishedAt: response.details.publishedAt,
+                channelId: response.details.channelId,
+                channelTitle: response.details.channelTitle,
+                categoryId: response.details.categoryId,
+                liveBroadcastContent: response.details.liveBroadcastContent,
+                thumbnails: response.details.thumbnails,
+                statistics: response.statistics,
+                download: response.downloads.audio
+            }
+        }
+    } catch (e) {
+        return { status: false, message: e.message }
+    }
+}
+app.get('/api/ytmp4', async (req, res) => {
+  const { url } = req.query;
+
+  if (!url) {
+    return res.status(400).json({
+      status: false,
+      creator: "Hello Line",
+      message: "Parameter 'url' tidak boleh kosong.",
     });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  }
+
+  const downloadResult = await Ytmp4(url);
+  if (downloadResult.status) {
+    res.status(200).json({
+      status: true,
+      creator: "Hello Line",
+      data: downloadResult,
+    });
+  } else {
+    res.status(500).json({
+      status: false,
+      creator: "Hello Line",
+      message: "Gagal mengunduh video.",
+      details: downloadResult.message,
+    });
   }
 });
+
+app.get('/api/ytmp3', async (req, res) => {
+  const { url } = req.query;
+
+  if (!url) {
+    return res.status(400).json({
+      status: false,
+      creator: "IM REREZZ",
+      message: "Parameter 'url' tidak boleh kosong.",
+    });
+  }
+
+  const downloadResult = await Ytmp3(url);
+  if (downloadResult.status) {
+    res.status(200).json({
+      status: true,
+      creator: "IM REREZZ",
+      data: downloadResult,
+    });
+  } else {
+    res.status(500).json({
+      status: false,
+      creator: "IM REREZZ",
+      message: "Gagal mengunduh audio.",
+      details: downloadResult.message,
+    });
+  }
+});
+
 app.get('/api/appledl', async (req, res) => {
   try {
     const url = req.query.url;
@@ -3653,22 +3768,7 @@ app.get('/api/appleaudio', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-app.get('/api/ytmp3', async (req, res) => {
-  try {
-    const linkurl = req.query.url; // Ambil parameter dari query
-    if (!linkurl) {
-      return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
-    }
-    const result = await ytmp3(linkurl);
-    res.status(200).json({
-      status: 200,
-      creator: "IM-REREZZ",
-      data: result
-    });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+
 app.get('/api/ytdl', async (req, res) => {
   try {
     const url = req.query.url;
