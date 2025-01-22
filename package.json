@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {
   "@google/generative-ai": "^0.21.0",
-  "@vreden/youtube_scraper": "@vreden/youtube_scraper",
+  "@vreden/youtube_scraper": "latest",
   "together-ai": "^0.10.0",
   "groq-sdk": "^0.9.0",
   "javascript-obfuscator":"^4.1.1",
