@@ -47,6 +47,10 @@ app.get('/doc/search', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "search.html"));
 });
 
+app.get('/doc/download', (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "download.html"));
+});
+
 global.creator = "@IM-REREZZ"
 
 app.use(cors());
