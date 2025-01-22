@@ -39,6 +39,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+app.get('/doc/ai', (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "ai.html"));
+});
+
 global.creator = "@IM-REREZZ"
 
 app.use(cors());
@@ -3893,31 +3897,6 @@ function muptime(seconds) {
 });
 
 
-app.get('/api/dlmp3', async (req, res) => {
-    const { url } = req.body;
-
-    if (!url) {
-        return res.status(400).json({ error: 'URL YouTube diperlukan!' });
-    }
-
-    try {
-        // Menggunakan ytmp3.cc (sebagai alternatif)
-        const apiUrl = `https://api.vevioz.com/api/button/mp3/${encodeURIComponent(url)}`;
-        const response = await axios.get(apiUrl);
-
-        // Cari URL MP3 dalam respons HTML
-        const mp3UrlMatch = response.data.match(/href="(https:\/\/[^"]+\.mp3)"/);
-        if (mp3UrlMatch && mp3UrlMatch[1]) {
-            const mp3Url = mp3UrlMatch[1];
-            return res.json({ success: true, downloadUrl: mp3Url });
-        } else {
-            return res.status(500).json({ error: 'Gagal mendapatkan URL MP3!' });
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Terjadi kesalahan saat memproses permintaan Anda!' });
-    }
-});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
