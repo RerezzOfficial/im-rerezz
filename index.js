@@ -104,6 +104,29 @@ app.get('/api/profile', async (req, res) => {
         res.status(500).json({ error: "Gagal memproses gambar." });
     }
 });
+
+app.get('/api/levelup', async (req, res) => {
+    try {
+        const {
+            background,
+            foto,
+            fromlevel,
+            tolevel,
+            name
+        } = req.query;
+        if (!background || !foto || !fromlevel || !tolevel || !name) {
+            return res.status(400).json({ error: 'Parameter tidak lengkap.' });
+        }
+        const apiUrl = `https://apis.xyrezz.online-server.biz.id/api/levelup?background=${encodeURIComponent(background)}&foto=${encodeURIComponent(foto)}&fromLevel=${encodeURIComponent(fromlevel)}&toLevel=${encodeURIComponent(tolevel)}&name=${encodeURIComponent(name)}`;
+        const imageData = await fetchImage(apiUrl);
+        res.setHeader("Content-Type", "image/png");
+        res.send(imageData);
+
+    } catch (error) {
+        console.error("Gagal memproses gambar:", error.message);
+        res.status(500).json({ error: "Gagal memproses gambar." });
+    }
+});
 // Endpoint API
 
 
