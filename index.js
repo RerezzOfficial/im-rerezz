@@ -107,16 +107,11 @@ app.get('/api/profile', async (req, res) => {
 
 app.get('/api/levelup', async (req, res) => {   
     try {
-        const {
-            background,
-            foto,
-            fromlevel,
-            tolevel,
-            name
-        } = req.query;
-        if (!background || !foto || !fromlevel || !tolevel || !name) {
-            return res.status(400).json({ error: 'Parameter tidak lengkap.' });
-        }
+      const { background, foto, fromLevel, toLevel, name } = req.query;
+  
+      if (!background || !foto || !fromLevel || !toLevel || !name) {
+        return res.status(400).json({ error: "Semua parameter harus diisi." });
+      }
         const apiUrl = `https://apis.xyrezz.online-server.biz.id/api/levelup?background=${encodeURIComponent(background)}&foto=${encodeURIComponent(foto)}&fromLevel=${encodeURIComponent(fromlevel)}&toLevel=${encodeURIComponent(tolevel)}&name=${encodeURIComponent(name)}`;
         console.log("API URL: ", apiUrl);
         const imageData = await fetchImage(apiUrl);
