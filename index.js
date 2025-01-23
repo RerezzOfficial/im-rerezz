@@ -64,23 +64,43 @@ async function fetchImage(url) {
 app.get("/api/fotomenu", async (req, res) => {
     try {
         const { background, ppuser, name, botname, ownername, title, text1, text2, text3 } = req.query;
-
-        // Validasi parameter
         if (!background || !ppuser || !name || !botname || !ownername || !title || !text1 || !text2 || !text3) {
             return res.status(400).json({ error: "Parameter tidak lengkap atau salah format." });
         }
-
-        // Bangun URL API untuk mengambil gambar
         const apiUrl = `https://apis.xyrezz.online-server.biz.id/api/fotomenu?background=${encodeURIComponent(background)}&ppuser=${encodeURIComponent(ppuser)}&name=${encodeURIComponent(name)}&botname=${encodeURIComponent(botname)}&ownername=${encodeURIComponent(ownername)}&title=${encodeURIComponent(title)}&text1=${encodeURIComponent(text1)}&text2=${encodeURIComponent(text2)}&text3=${encodeURIComponent(text3)}`;
-
-        // Ambil gambar dari API eksternal
         const imageData = await fetchImage(apiUrl);
-
-        // Kirim gambar sebagai respons
         res.setHeader("Content-Type", "image/png");
         res.send(imageData);
     } catch (error) {
         console.error(error);
+        res.status(500).json({ error: "Gagal memproses gambar." });
+    }
+});
+
+
+app.get('/api/profile', async (req, res) => {
+    try {
+        const {
+            background,
+            ppuser,
+            sender,
+            name,
+            level,
+            exp,
+            requireExp,
+            rankName,
+            rankId
+        } = req.query;
+        if (!background || !ppuser || !sender || !name || !level || !exp || !requireExp || !rankName || !rankId) {
+            return res.status(400).json({ error: 'Parameter tidak lengkap.' });
+        }
+        const apiUrl = `https://apis.xyrezz.online-server.biz.id/api/profile?background=${encodeURIComponent(background)}&ppuser=${encodeURIComponent(ppuser)}&sender=${encodeURIComponent(sender)}&name=${encodeURIComponent(name)}&level=${encodeURIComponent(level)}&exp=${encodeURIComponent(exp)}&requireExp=${encodeURIComponent(requireExp)}&rankName=${encodeURIComponent(rankName)}&rankId=${encodeURIComponent(rankId)}`;
+        const imageData = await fetchImage(apiUrl);
+        res.setHeader("Content-Type", "image/png");
+        res.send(imageData);
+
+    } catch (error) {
+        console.error("Gagal memproses gambar:", error.message);
         res.status(500).json({ error: "Gagal memproses gambar." });
     }
 });
