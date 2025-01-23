@@ -105,15 +105,13 @@ app.get('/api/profile', async (req, res) => {
     }
 });
 
-app.get('/api/levelup', async (req, res) => {   
+app.get('/api/levelup', async (req, res) => {
     try {
-      const { background, foto, fromLevel, toLevel, name } = req.query;
-  
+        const { background, foto, fromLevel, toLevel, name } = req.query;
       if (!background || !foto || !fromLevel || !toLevel || !name) {
         return res.status(400).json({ error: "Semua parameter harus diisi." });
       }
-        const apiUrl = `https://apis.xyrezz.online-server.biz.id/api/levelup?background=${encodeURIComponent(background)}&foto=${encodeURIComponent(foto)}&fromLevel=${encodeURIComponent(fromlevel)}&toLevel=${encodeURIComponent(tolevel)}&name=${encodeURIComponent(name)}`;
-        console.log("API URL: ", apiUrl);
+	const apiUrl = `https://apis.xyrezz.online-server.biz.id/api/levelup?background=${background}&foto=${foto}&fromLevel=${fromlevel}&toLevel=${tolevel}&name=${name}`;
         const imageData = await fetchImage(apiUrl);
         res.setHeader("Content-Type", "image/png");
         res.send(imageData);
