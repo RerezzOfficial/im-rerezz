@@ -67,6 +67,8 @@ async function fetchImage(url) {
         throw error;
     }
 }
+
+// Endpoint API
 app.get("/api/fotomenu", async (req, res) => {
     try {
         const {
@@ -145,7 +147,7 @@ app.get("/api/fotomenu", async (req, res) => {
 
         // Nama pengguna
         const nameY = avatarY + avatarSize + 30;
-        ctx.font = "bold 20px MyFont";  // Menggunakan font yang baru didaftarkan
+        ctx.font = "bold 20px 'MyFont'";  // Menggunakan font yang baru didaftarkan
         ctx.fillStyle = "#00FFFF";
         ctx.textAlign = "center";
         ctx.fillText(name, size / 2, nameY);
@@ -171,7 +173,7 @@ app.get("/api/fotomenu", async (req, res) => {
         ctx.fill();
 
         // Judul
-        ctx.font = "bold 22px MyFont";  // Menggunakan font yang baru didaftarkan
+        ctx.font = "bold 22px 'MyFont'";  // Menggunakan font yang baru didaftarkan
         ctx.fillStyle = "#2C2F33";
         ctx.textAlign = "center";
         ctx.fillText(title, size / 2, textBoxY + 25);
@@ -180,7 +182,7 @@ app.get("/api/fotomenu", async (req, res) => {
         const textLines = [text1, text2, text3];
         const lineHeight = 18;
         const textStartY = textBoxY + 70;
-        ctx.font = "16px MyFont";  // Menggunakan font yang baru didaftarkan
+        ctx.font = "16px 'MyFont'";  // Menggunakan font yang baru didaftarkan
         ctx.textAlign = "left";
         const textX = 40;
 
