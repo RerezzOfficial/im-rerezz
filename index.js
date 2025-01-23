@@ -12,8 +12,7 @@ const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const qs = require("qs");
 const { ytdlv2, search } = require('@vreden/youtube_scraper')
-const { createCanvas, loadImage } = require("@napi-rs/canvas");
-const { registerFont } = require('canvas');
+const { createCanvas, loadImage, registerFont } = require("@napi-rs/canvas");
 
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
