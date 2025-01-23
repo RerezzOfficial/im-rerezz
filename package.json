@@ -43,6 +43,6 @@
     "chalk": "^4.1.2",
     "monk": "^7.3.3",
     "yt-search": "^2.12.1",
-    "camvas": "latest"
+    "@napi-rs/canvas": "latest"
   }
 }
