@@ -35,11 +35,6 @@ const mediafire = require('./lib/mediafire')
 const metaaii = require('./lib/metaai')
 const app = express();
 
-const fontPath = path.join(__dirname, "fonts", "font.ttf");
-if (fs.existsSync(fontPath)) {
-    registerFont(fontPath, { family: "CustomFont" });
-}
-
 
 const PORT = process.env.PORT || 3000;
 app.enable("trust proxy");
@@ -101,6 +96,14 @@ app.get("/api/fotomenu", async (req, res) => {
             return res.status(400).json({ error: "Parameter tidak lengkap atau salah format." });
         }
 
+        // Daftarkan font lokal
+        const fontPath = path.join(__dirname, "fonts", "font.ttf");  // Ganti dengan lokasi file font Anda
+        if (fs.existsSync(fontPath)) {
+            registerFont(fontPath, { family: "MyFont" });
+        } else {
+            return res.status(400).json({ error: "Font tidak ditemukan." });
+        }
+
         // Ukuran canvas
         const size = 400;
         const canvas = createCanvas(size, size);
@@ -142,7 +145,7 @@ app.get("/api/fotomenu", async (req, res) => {
 
         // Nama pengguna
         const nameY = avatarY + avatarSize + 30;
-        ctx.font = "bold 20px CustomFont";
+        ctx.font = "bold 20px MyFont";  // Menggunakan font yang baru didaftarkan
         ctx.fillStyle = "#00FFFF";
         ctx.textAlign = "center";
         ctx.fillText(name, size / 2, nameY);
@@ -168,7 +171,7 @@ app.get("/api/fotomenu", async (req, res) => {
         ctx.fill();
 
         // Judul
-        ctx.font = "bold 22px CustomFont";
+        ctx.font = "bold 22px MyFont";  // Menggunakan font yang baru didaftarkan
         ctx.fillStyle = "#2C2F33";
         ctx.textAlign = "center";
         ctx.fillText(title, size / 2, textBoxY + 25);
@@ -177,7 +180,7 @@ app.get("/api/fotomenu", async (req, res) => {
         const textLines = [text1, text2, text3];
         const lineHeight = 18;
         const textStartY = textBoxY + 70;
-        ctx.font = "16px CustomFont";
+        ctx.font = "16px MyFont";  // Menggunakan font yang baru didaftarkan
         ctx.textAlign = "left";
         const textX = 40;
 
@@ -206,6 +209,7 @@ app.get("/api/fotomenu", async (req, res) => {
         res.status(500).json({ error: "Terjadi kesalahan pada server." });
     }
 });
+
 global.creator = "@IM-REREZZ"
 
 app.use(cors());
