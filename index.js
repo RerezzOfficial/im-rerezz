@@ -12,7 +12,6 @@ const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const qs = require("qs");
 const { ytdlv2, search } = require('@vreden/youtube_scraper')
-const { createCanvas, loadImage, registerFont } = require("@napi-rs/canvas");
 
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
@@ -57,159 +56,9 @@ app.get('/doc/download', (req, res) => {
 });
 
 //====[ API CANVAS ]=====//
-async function fetchImage(url) {
-    try {
-        const response = await axios.get(url, { responseType: "arraybuffer" });
-        return loadImage(response.data);
-    } catch (error) {
-        console.error("Gagal memuat gambar:", error);
-        throw error;
-    }
-}
 
 // Endpoint API
-app.get("/api/fotomenu", async (req, res) => {
-    try {
-        const {
-            background,
-            ppuser,
-            name,
-            botname,
-            ownername,
-            title,
-            text1,
-            text2,
-            text3,
-        } = req.query;
 
-        // Validasi input
-        if (
-            !background ||
-            !ppuser ||
-            !name ||
-            !botname ||
-            !ownername ||
-            !title ||
-            !text1 ||
-            !text2 ||
-            !text3
-        ) {
-            return res.status(400).json({ error: "Parameter tidak lengkap atau salah format." });
-        }
-
-        // Daftarkan font lokal
-        const fontPath = path.join(__dirname, "fonts", "font.ttf");  // Ganti dengan lokasi file font Anda
-        if (fs.existsSync(fontPath)) {
-            registerFont(fontPath, { family: "MyFont" });
-        } else {
-            return res.status(400).json({ error: "Font tidak ditemukan." });
-        }
-
-        // Ukuran canvas
-        const size = 400;
-        const canvas = createCanvas(size, size);
-        const ctx = canvas.getContext("2d");
-
-        // Gambar latar belakang
-        try {
-            const backgroundImage = await fetchImage(background);
-            ctx.drawImage(backgroundImage, 0, 0, size, size);
-        } catch {
-            ctx.fillStyle = "#2C2F33";
-            ctx.fillRect(0, 0, size, size);
-        }
-
-        // Foto profil pengguna
-        const avatarSize = 150;
-        const avatarX = size / 2 - avatarSize / 2;
-        const avatarY = 30;
-
-        try {
-            const avatar = await fetchImage(ppuser);
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(avatarX + avatarSize / 2, avatarY + avatarSize / 2, avatarSize / 2, 0, Math.PI * 2);
-            ctx.closePath();
-            ctx.clip();
-            ctx.drawImage(avatar, avatarX, avatarY, avatarSize, avatarSize);
-            ctx.restore();
-        } catch {
-            console.error("Gagal memuat foto profil pengguna.");
-        }
-
-        // Lingkaran border foto profil
-        ctx.beginPath();
-        ctx.arc(avatarX + avatarSize / 2, avatarY + avatarSize / 2, avatarSize / 2 + 5, 0, Math.PI * 2);
-        ctx.strokeStyle = "#00FFFF";
-        ctx.lineWidth = 6;
-        ctx.stroke();
-
-        // Nama pengguna
-        const nameY = avatarY + avatarSize + 30;
-        ctx.font = "bold 20px 'MyFont'";  // Menggunakan font yang baru didaftarkan
-        ctx.fillStyle = "#00FFFF";
-        ctx.textAlign = "center";
-        ctx.fillText(name, size / 2, nameY);
-
-        // Kolom teks tambahan
-        const textBoxHeight = 120;
-        const textBoxY = size - textBoxHeight - 20;
-        const textBoxRadius = 20;
-
-        // Kolom teks
-        ctx.fillStyle = "#00FFFF";
-        ctx.beginPath();
-        ctx.moveTo(20 + textBoxRadius, textBoxY);
-        ctx.lineTo(size - 20 - textBoxRadius, textBoxY);
-        ctx.quadraticCurveTo(size - 20, textBoxY, size - 20, textBoxY + textBoxRadius);
-        ctx.lineTo(size - 20, textBoxY + textBoxHeight - textBoxRadius);
-        ctx.quadraticCurveTo(size - 20, textBoxY + textBoxHeight, size - 20 - textBoxRadius, textBoxY + textBoxHeight);
-        ctx.lineTo(20 + textBoxRadius, textBoxY + textBoxHeight);
-        ctx.quadraticCurveTo(20, textBoxY + textBoxHeight, 20, textBoxY + textBoxHeight - textBoxRadius);
-        ctx.lineTo(20, textBoxY + textBoxRadius);
-        ctx.quadraticCurveTo(20, textBoxY, 20 + textBoxRadius, textBoxY);
-        ctx.closePath();
-        ctx.fill();
-
-        // Judul
-        ctx.font = "bold 22px 'MyFont'";  // Menggunakan font yang baru didaftarkan
-        ctx.fillStyle = "#2C2F33";
-        ctx.textAlign = "center";
-        ctx.fillText(title, size / 2, textBoxY + 25);
-
-        // Teks tambahan
-        const textLines = [text1, text2, text3];
-        const lineHeight = 18;
-        const textStartY = textBoxY + 70;
-        ctx.font = "16px 'MyFont'";  // Menggunakan font yang baru didaftarkan
-        ctx.textAlign = "left";
-        const textX = 40;
-
-        textLines.forEach((line, index) => {
-            ctx.fillText(line, textX, textStartY + index * lineHeight);
-        });
-
-        // Bingkai luar
-        const borderRadius = 20;
-        ctx.strokeStyle = "#00FFFF";
-        ctx.lineWidth = 6;
-        ctx.beginPath();
-        ctx.moveTo(borderRadius, 0);
-        ctx.arcTo(size, 0, size, size, borderRadius);
-        ctx.arcTo(size, size, 0, size, borderRadius);
-        ctx.arcTo(0, size, 0, 0, borderRadius);
-        ctx.arcTo(0, 0, size, 0, borderRadius);
-        ctx.closePath();
-        ctx.stroke();
-
-        // Mengembalikan gambar sebagai respons
-        res.setHeader("Content-Type", "image/png");
-        res.send(canvas.toBuffer());
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Terjadi kesalahan pada server." });
-    }
-});
 
 global.creator = "@IM-REREZZ"
 
