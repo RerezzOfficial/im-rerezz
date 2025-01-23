@@ -56,7 +56,48 @@ app.get('/doc/download', (req, res) => {
 });
 
 //====[ API CANVAS ]=====//
+app.get('/api/proses-fotomenu', async (req, res) => {
+    const {
+        background,
+        ppuser,
+        name,
+        botname,
+        ownername,
+        title,
+        text1,
+        text2,
+        text3
+    } = req.query; // Ambil parameter dari query string
 
+    // Validasi input
+    if (
+        !background ||
+        !ppuser ||
+        !name ||
+        !botname ||
+        !ownername ||
+        !title ||
+        !text1 ||
+        !text2 ||
+        !text3
+    ) {
+        return res.status(400).json({ error: "Parameter tidak lengkap atau salah format." });
+    }
+
+    try {
+        // Kirim request ke API eksternal untuk mendapatkan data
+        const apiUrl = `https://apis.xyrezz.online-server.biz.id/api/fotomenu?background=${encodeURIComponent(background)}&ppuser=${encodeURIComponent(ppuser)}&name=${encodeURIComponent(name)}&botname=${encodeURIComponent(botname)}&ownername=${encodeURIComponent(ownername)}&title=${encodeURIComponent(title)}&text1=${encodeURIComponent(text1)}&text2=${encodeURIComponent(text2)}&text3=${encodeURIComponent(text3)}`;
+
+        const response = await axios.get(apiUrl);
+
+        // Kirimkan response dari API eksternal ke client
+        res.setHeader("Content-Type", "image/png");
+        res.send(response.data); // Mengirim data gambar ke client
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Gagal mengambil data dari API eksternal." });
+    }
+});
 // Endpoint API
 
 
