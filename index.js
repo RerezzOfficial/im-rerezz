@@ -56,46 +56,32 @@ app.get('/doc/download', (req, res) => {
 });
 
 //====[ API CANVAS ]=====//
-app.get('/api/proses-fotomenu', async (req, res) => {
-    const {
-        background,
-        ppuser,
-        name,
-        botname,
-        ownername,
-        title,
-        text1,
-        text2,
-        text3
-    } = req.query; // Ambil parameter dari query string
+async function fetchImage(url) {
+    const response = await axios.get(url, { responseType: 'arraybuffer' });
+    return response.data;  // Mengembalikan data gambar
+}
 
-    // Validasi input
-    if (
-        !background ||
-        !ppuser ||
-        !name ||
-        !botname ||
-        !ownername ||
-        !title ||
-        !text1 ||
-        !text2 ||
-        !text3
-    ) {
-        return res.status(400).json({ error: "Parameter tidak lengkap atau salah format." });
-    }
-
+app.get("/api/fotomenu", async (req, res) => {
     try {
-        // Kirim request ke API eksternal untuk mendapatkan data
+        const { background, ppuser, name, botname, ownername, title, text1, text2, text3 } = req.query;
+
+        // Validasi parameter
+        if (!background || !ppuser || !name || !botname || !ownername || !title || !text1 || !text2 || !text3) {
+            return res.status(400).json({ error: "Parameter tidak lengkap atau salah format." });
+        }
+
+        // Bangun URL API untuk mengambil gambar
         const apiUrl = `https://apis.xyrezz.online-server.biz.id/api/fotomenu?background=${encodeURIComponent(background)}&ppuser=${encodeURIComponent(ppuser)}&name=${encodeURIComponent(name)}&botname=${encodeURIComponent(botname)}&ownername=${encodeURIComponent(ownername)}&title=${encodeURIComponent(title)}&text1=${encodeURIComponent(text1)}&text2=${encodeURIComponent(text2)}&text3=${encodeURIComponent(text3)}`;
 
-        const response = await axios.get(apiUrl);
+        // Ambil gambar dari API eksternal
+        const imageData = await fetchImage(apiUrl);
 
-        // Kirimkan response dari API eksternal ke client
+        // Kirim gambar sebagai respons
         res.setHeader("Content-Type", "image/png");
-        res.send(response.data); // Mengirim data gambar ke client
+        res.send(imageData);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Gagal mengambil data dari API eksternal." });
+        res.status(500).json({ error: "Gagal memproses gambar." });
     }
 });
 // Endpoint API
