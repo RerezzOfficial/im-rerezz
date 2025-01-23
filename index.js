@@ -108,11 +108,22 @@ app.get('/api/profile', async (req, res) => {
 app.get('/api/levelup', async (req, res) => {
     try {
         const { background, foto, fromLevel, toLevel, name } = req.query;
-      if (!background || !foto || !fromLevel || !toLevel || !name) {
-        return res.status(400).json({ error: "Semua parameter harus diisi." });
-      }
-	const apiUrl = `https://apis.xyrezz.online-server.biz.id/api/levelup?background=${background}&foto=${foto}&fromLevel=${fromlevel}&toLevel=${tolevel}&name=${name}`;
+
+        // Validasi parameter
+        if (!background || !foto || !fromLevel || !toLevel || !name) {
+            return res.status(400).json({ error: "Semua parameter harus diisi." });
+        }
+
+        // Membuat URL untuk request ke API eksternal
+        const apiUrl = `https://apis.xyrezz.online-server.biz.id/api/levelup?background=${encodeURIComponent(background)}&foto=${encodeURIComponent(foto)}&fromLevel=${encodeURIComponent(fromLevel)}&toLevel=${encodeURIComponent(toLevel)}&name=${encodeURIComponent(name)}`;
+        
+        // Log URL untuk debugging
+        console.log("API URL: ", apiUrl);
+
+        // Ambil gambar dari API eksternal
         const imageData = await fetchImage(apiUrl);
+
+        // Kirim gambar sebagai respons dengan header PNG
         res.setHeader("Content-Type", "image/png");
         res.send(imageData);
 
