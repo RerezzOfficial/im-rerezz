@@ -28,8 +28,6 @@ const Used_Apikey = "AIzaSyB88NfVhPnuCKWo8mx0Q5hub52m5Vklt2o"
 const genAI = new GoogleGenerativeAI(Used_Apikey);
 const https = require('https');
 
-const request = require('request');
-const dylux = require('api-dylux');
 
 const jsobfus = require('javascript-obfuscator')
 const mediafire = require('./lib/mediafire')
