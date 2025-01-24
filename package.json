@@ -44,7 +44,7 @@
     "monk": "^7.3.3",
     "yt-search": "^2.12.1",
     "@napi-rs/canvas": "latest",
-    "request": "latest",
-    "api-dylux": "latest"
+    "api-dylux": "^1.0.0",
+    "request": "^2.88.2"
   }
 }
