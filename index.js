@@ -12,7 +12,7 @@ const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const qs = require("qs");
 const { ytdlv2, search } = require('@vreden/youtube_scraper')
-
+const dylux = require('xylux');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 const { chromium } = require('playwright');
@@ -55,6 +55,44 @@ app.get('/doc/download', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "download.html"));
 });
 
+//====[ new api ]======//
+app.get('/api/xnxxsearch', async (req, res) => {
+    const query = req.query.q; // Mendapatkan parameter pencarian (q)
+    if (!query) {
+        return res.status(400).json({
+            success: false,
+            message: 'Query parameter "q" is required. Example: /api/xnxxsearch?q=japanese'
+        });
+    }
+
+    try {
+        // Mengambil data dari module xylux
+        const response = await dylux.xnxxSearch(query);
+
+        // Cek jika hasil pencarian kosong
+        if (!response.result || response.result.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: 'No results found for your search query.'
+            });
+        }
+
+        // Berhasil, kembalikan hasil pencarian
+        return res.status(200).json({
+            success: true,
+            query,
+            results: response.result // Hasil pencarian dari module xylux
+        });
+    } catch (error) {
+        console.error('Error fetching data from xylux module:', error.message);
+
+        // Tangani error jika terjadi
+        return res.status(500).json({
+            success: false,
+            message: 'An error occurred while processing your request. Please try again later.'
+        });
+    }
+});
 //====[ API CANVAS ]=====//
 async function fetchImage(url) {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
