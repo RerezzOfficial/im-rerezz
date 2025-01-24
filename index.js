@@ -34,7 +34,6 @@ const mediafire = require('./lib/mediafire')
 const metaaii = require('./lib/metaai')
 const app = express();
 
-const FormData = require('form-data');
 
 const PORT = process.env.PORT || 3000;
 app.enable("trust proxy");
