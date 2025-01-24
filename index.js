@@ -57,43 +57,49 @@ app.get('/doc/download', (req, res) => {
 });
 
 //====[ new api ]======//
-app.get('/api/xnxxsearch', async (req, res) => {
-    const query = req.query.q; // Mendapatkan parameter pencarian (q)
+app.get('/xnxxsearch', async (req, res) => {
+    const query = req.query.query; // ambil parameter pencarian dari query string
+
     if (!query) {
-        return res.status(400).json({
-            success: false,
-            message: 'Query parameter "q" is required. Example: /api/xnxxsearch?q=japanese'
-        });
+        return res.status(400).send({ error: 'Query parameter "query" is required' });
     }
 
     try {
-        // Mengambil data dari module xylux
-        const response = await dylux.xnxxSearch(query);
-
-        // Cek jika hasil pencarian kosong
-        if (!response.result || response.result.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: 'No results found for your search query.'
-            });
-        }
-
-        // Berhasil, kembalikan hasil pencarian
-        return res.status(200).json({
-            success: true,
-            query,
-            results: response.result // Hasil pencarian dari module xylux
+        // Menggunakan axios untuk mengambil data dari API pencarian (atau sumber lain)
+        const response = await axios.get(`https://www.xnxx.com/search`, {
+            params: {
+                search: query,
+            }
         });
+
+        // Proses data yang didapat (misalnya mengextract hasil pencarian)
+        const results = extractSearchResults(response.data);
+
+        return res.json({
+            status: 'success',
+            results: results
+        });
+
     } catch (error) {
-        console.error('Error fetching data from xylux module:', error.message);
-
-        // Tangani error jika terjadi
-        return res.status(500).json({
-            success: false,
-            message: 'An error occurred while processing your request. Please try again later.'
-        });
+        console.error('Error during search:', error);
+        return res.status(500).send({ error: 'An error occurred while searching' });
     }
 });
+
+function extractSearchResults(html) {
+    const results = [];
+    const regex = /<a href="(\/video.*?)".*?title="(.*?)".*?>/g;
+    let match;
+
+    while ((match = regex.exec(html)) !== null) {
+        results.push({
+            title: match[2],
+            link: `https://www.xnxx.com${match[1]}`
+        });
+    }
+
+    return results;
+}
 //====[ API CANVAS ]=====//
 async function fetchImage(url) {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
