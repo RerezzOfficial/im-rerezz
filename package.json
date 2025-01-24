@@ -46,6 +46,5 @@
     "@napi-rs/canvas": "latest",
     "form-data": "^4.0.0",
     "multer": "^1.4.5",
-    "express": "^4.18.2"
   }
 }
