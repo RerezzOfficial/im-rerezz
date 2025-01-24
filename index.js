@@ -57,7 +57,7 @@ app.get('/doc/download', (req, res) => {
 });
 
 //====[ new api ]======//
-app.post('/upload', async (req, res) => {
+app.get('/upload', async (req, res) => {
     try {
         const { fileBuffer, originalName } = req.body;
 
