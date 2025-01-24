@@ -42,8 +42,6 @@
     "fs": "0.0.1-security",
     "chalk": "^4.1.2",
     "monk": "^7.3.3",
-    "yt-search": "^2.12.1",
-    "form-data": "^4.0.0",
-    "multer": "^1.4.5"
+    "yt-search": "^2.12.1"
   }
 }
