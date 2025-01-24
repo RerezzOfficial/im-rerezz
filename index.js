@@ -56,42 +56,6 @@ app.get('/doc/download', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "download.html"));
 });
 
-//====[ new api ]======//
-app.get('/upload', async (req, res) => {
-    try {
-        const { fileBuffer, originalName } = req.query;
-
-        if (!fileBuffer || !originalName) {
-            return res.status(400).json({ error: 'Parameter fileBuffer dan originalName diperlukan.' });
-        }
-
-        // Konversi base64 ke Buffer
-        const buffer = Buffer.from(fileBuffer, 'base64');
-
-        // Konfigurasi FormData untuk CatBox
-        const data = new FormData();
-        data.append('reqtype', 'fileupload');
-        data.append('userhash', ''); // Opsional: tambahkan jika diperlukan
-        data.append('fileToUpload', buffer, originalName);
-
-        const config = {
-            method: 'POST',
-            url: 'https://catbox.moe/user/api.php',
-            headers: {
-                ...data.getHeaders(),
-                'User-Agent': 'Mozilla/5.0 (Android 10; Mobile; rv:131.0) Gecko/131.0 Firefox/131.0',
-            },
-            data: data
-        };
-
-        // Kirim permintaan ke CatBox
-        const response = await axios.request(config);
-        return res.json({ url: response.data }); // Mengembalikan URL hasil upload
-    } catch (error) {
-        console.error('Error uploading to CatBox:', error.response?.data || error.message);
-        res.status(500).json({ error: 'Gagal mengunggah file ke CatBox.' });
-    }
-});
 //====[ API CANVAS ]=====//
 async function fetchImage(url) {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
