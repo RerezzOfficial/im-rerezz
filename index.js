@@ -12,6 +12,7 @@ const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const qs = require("qs");
 const { ytdlv2, search } = require('@vreden/youtube_scraper')
+const request = require('request');
 const dylux = require('api-dylux');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
