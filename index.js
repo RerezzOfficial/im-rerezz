@@ -35,10 +35,6 @@ const metaaii = require('./lib/metaai')
 const app = express();
 
 const FormData = require('form-data');
-const multer = require('multer');
-const stream = require('stream');
-const upload = multer();
-
 
 const PORT = process.env.PORT || 3000;
 app.enable("trust proxy");
@@ -62,44 +58,35 @@ app.get('/doc/download', (req, res) => {
 });
 
 //====[ new api ]======//
-async function CatBox(fileBuffer, originalName) {
-    const data = new FormData();
-    data.append('reqtype', 'fileupload');
-    data.append('userhash', '');  // Jika diperlukan, masukkan userhash yang valid
-    data.append('fileToUpload', fileBuffer, originalName);  // Menambahkan buffer file langsung
-
-    const config = {
-        method: 'POST',
-        url: 'https://catbox.moe/user/api.php',
-        headers: {
-            ...data.getHeaders(),  // Menambahkan header yang diperlukan oleh form-data
-            'User-Agent': 'Mozilla/5.0 (Android 10; Mobile; rv:131.0) Gecko/131.0 Firefox/131.0',
-        },
-        data: data
-    };
-
+app.post('/upload', async (req, res) => {
     try {
+        const { fileBuffer, originalName } = req.body;
+
+        if (!fileBuffer || !originalName) {
+            return res.status(400).json({ error: 'fileBuffer dan originalName diperlukan.' });
+        }
+
+        const buffer = Buffer.from(fileBuffer, 'base64'); // Decode buffer dari base64
+        const data = new FormData();
+        data.append('reqtype', 'fileupload');
+        data.append('userhash', ''); // Opsional: tambahkan jika diperlukan
+        data.append('fileToUpload', buffer, originalName);
+
+        const config = {
+            method: 'POST',
+            url: 'https://catbox.moe/user/api.php',
+            headers: {
+                ...data.getHeaders(),
+                'User-Agent': 'Mozilla/5.0 (Android 10; Mobile; rv:131.0) Gecko/131.0 Firefox/131.0',
+            },
+            data: data
+        };
+
         const response = await axios.request(config);
-        return response.data;  // Mengembalikan data yang diterima dari CatBox
+        return res.json({ url: response.data });
     } catch (error) {
-        console.error('Error uploading to CatBox:', error);
-        throw error;  // Melemparkan error jika terjadi masalah
-    }
-}
-
-// API Endpoint untuk menerima upload file dan langsung mengirimkannya ke CatBox
-app.post('/api/tourl', upload.single('file'), async (req, res) => {
-    if (!req.file) {
-        return res.status(400).send({ error: 'No file uploaded.' });  // Validasi file upload
-    }
-
-    try {
-        // Mengonversi buffer file ke dalam format yang bisa dikirim ke CatBox
-        const fileBuffer = Buffer.from(req.file.buffer);
-        const result = await CatBox(fileBuffer, req.file.originalname);  // Kirim file ke CatBox
-        res.json(result);  // Mengirimkan hasil response dari CatBox ke client
-    } catch (error) {
-        res.status(500).send({ error: 'Failed to upload to CatBox' });  // Mengirimkan error jika upload gagal
+        console.error('Error uploading to CatBox:', error.response?.data || error.message);
+        res.status(500).json({ error: 'Gagal mengunggah file ke CatBox.' });
     }
 });
 //====[ API CANVAS ]=====//
