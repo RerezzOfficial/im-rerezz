@@ -59,13 +59,16 @@ app.get('/doc/download', (req, res) => {
 //====[ new api ]======//
 app.get('/upload', async (req, res) => {
     try {
-        const { fileBuffer, originalName } = req.body;
+        const { fileBuffer, originalName } = req.query;
 
         if (!fileBuffer || !originalName) {
-            return res.status(400).json({ error: 'fileBuffer dan originalName diperlukan.' });
+            return res.status(400).json({ error: 'Parameter fileBuffer dan originalName diperlukan.' });
         }
 
-        const buffer = Buffer.from(fileBuffer, 'base64'); // Decode buffer dari base64
+        // Konversi base64 ke Buffer
+        const buffer = Buffer.from(fileBuffer, 'base64');
+
+        // Konfigurasi FormData untuk CatBox
         const data = new FormData();
         data.append('reqtype', 'fileupload');
         data.append('userhash', ''); // Opsional: tambahkan jika diperlukan
@@ -81,8 +84,9 @@ app.get('/upload', async (req, res) => {
             data: data
         };
 
+        // Kirim permintaan ke CatBox
         const response = await axios.request(config);
-        return res.json({ url: response.data });
+        return res.json({ url: response.data }); // Mengembalikan URL hasil upload
     } catch (error) {
         console.error('Error uploading to CatBox:', error.response?.data || error.message);
         res.status(500).json({ error: 'Gagal mengunggah file ke CatBox.' });
