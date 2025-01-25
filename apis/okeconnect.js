@@ -85,7 +85,7 @@ const getByuPulsa = async (req, res) => {
   }
 };
 
-const allowedProductsIndosat = [
+const allowedProductsIndosat1 = [
   'IA5', 'I5', 'IA10', 'I10', 'I12', 'I15', 'I20', 'I25', 'I30', 'I40', 'I50', 'I60', 
   'I70', 'I80', 'I90', 'I100', 'I150', 'I200', 'I500'
 ];
@@ -93,7 +93,7 @@ const getIndosatPulsa = async (req, res) => {
   try {
     const apiUrl = `https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=pulsa`;
     const response = await axios.get(apiUrl);
-    const filteredData = response.data.filter(item => allowedProductsIndosat.includes(item.kode));
+    const filteredData = response.data.filter(item => allowedProductsIndosat1.includes(item.kode));
 
     if (filteredData.length === 0) {
       return res.status(404).json({ message: 'Tidak ada produk yang ditemukan.' });
@@ -164,14 +164,14 @@ const getThreePulsa = async (req, res) => {
   }
 };
 
-const allowedProductsXL = [
+const allowedProductsXL1 = [
   'X5', 'X10', 'X15', 'X25', 'X30', 'X40', 'X50', 'X60', 'X70', 'X80', 'X90', 'X100', 'X150', 'X200'
 ];
 const getXLPulsa = async (req, res) => {
   try {
     const apiUrl = `https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=pulsa`;
     const response = await axios.get(apiUrl);
-    const filteredData = response.data.filter(item => allowedProductsXL.includes(item.kode));
+    const filteredData = response.data.filter(item => allowedProductsXL1.includes(item.kode));
     if (filteredData.length === 0) {
       return res.status(404).json({ message: 'Tidak ada produk yang ditemukan.' });
     }
@@ -201,7 +201,7 @@ const getAxisPulsa2 = async (req, res) => {
 };
 
 //=====[ KUOTA TELKOMSEL ]=====//
-const allowedProductsTelkomsel = [
+const allowedProductsTelkomsel1 = [
   'CMDT3B', 'CMDT2B', 'CMDT1A', 'CEKHTDM', 'CMDT7A', 'CMDT3A', 'CMDT2A', 'CMDT15B', 
   'LISTTDM', 'CMDT5B', 'CMDT3', 'CMDT1B', 'CMDT15A', 'BMDT1B', 'BMDT15A', 'BMDT3',
   'BMDT2A', 'BMDT1A', 'BMDT3B', 'BMDT5B', 'BMDT7A', 'BMDT15B', 'BMDT3A', 'BMDT2B', 'BYRHTDM'
@@ -210,7 +210,7 @@ const getTelkomselDigipostMini = async (req, res) => {
   try {
     const apiUrl = `https://www.okeconnect.com/harga/list?id=905ccd028329b0a&produk=bulk_telkomsel`;
     const response = await axios.get(apiUrl);
-    const filteredData = response.data.filter(item => allowedProductsTelkomsel.includes(item.kode));
+    const filteredData = response.data.filter(item => allowedProductsTelkomsel1.includes(item.kode));
     if (filteredData.length === 0) {
       return res.status(404).json({ message: 'Tidak ada produk yang ditemukan.' });
     }
