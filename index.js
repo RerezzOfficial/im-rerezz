@@ -30,7 +30,8 @@ const https = require('https');
 
 const {
   createQRIS,
-  checkStatus
+  checkStatus,
+  checkBalance
 } = require('./orkut.js')
 
 
@@ -74,7 +75,6 @@ app.get('/api/orkut/deposit', async (req, res) => {
   }
 
   try {
-    // Panggil fungsi untuk membuat QRIS
     const qrData = await createQRIS(amount, codeqr); 
 
     if (!qrData.qrImageUrl) {
@@ -85,7 +85,6 @@ app.get('/api/orkut/deposit', async (req, res) => {
       });
     }
 
-    // Kirim respons dengan QR Code
     res.json({
       status: true,
       creator: "IM REREZZ",
@@ -116,7 +115,6 @@ app.get('/api/orkut/cekstatus', async (req, res) => {
   }
 
   try {
-    // Panggil fungsi untuk memeriksa status transaksi
     const transactionStatus = await checkStatus(merchant, keyorkut); 
 
     if (!transactionStatus) {
@@ -125,7 +123,6 @@ app.get('/api/orkut/cekstatus', async (req, res) => {
       });
     }
 
-    // Kirim status transaksi
     res.json(transactionStatus);
   } catch (error) {
     res.status(500).json({
@@ -164,6 +161,37 @@ app.get('/api/orkut/mutasuqr', async (req, res) => {
   }
 });
 
+app.get('/api/orkut/cekSaldo', async (req, res) => {
+  const { memberID, pin, password } = req.query;
+
+  if (!memberID || !pin || !password) {
+    return res.status(400).json({
+      status: 400,
+      message: "MemberID, PIN, dan password harus disertakan."
+    });
+  }
+
+  try {
+    const balance = await checkBalance(memberID, pin, password);
+
+    if (!balance) {
+      return res.status(404).json({
+        status: 404,
+        message: "Saldo tidak ditemukan."
+      });
+    }
+
+    res.json({
+      status: "success",
+      balance: balance,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      message: `Error: ${error.message}`,
+    });
+  }
+});
 
 
 
