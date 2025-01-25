@@ -32,14 +32,7 @@ const {
 	createQRIS,
 	checkStatus
 } = require('./orkut.js')
-const okeconnect = require('./apis/okeconnect');
-const { 
-	getTelkomProducts, getAxisProducts, getIndosatProducts, getXLProducts,
-	getByuPulsa,allowedProductsIndosat,getSmartfrenPulsa, getTelkomselPulsa,getThreePulsa,
-	getXLPulsa,getAxisPulsa2,getTelkomselDigipostMini,getTelkomselMiniHarian,getTelkomselMinimalam,
-	getTelkomselMinimingguan,getTelkomselUmkm,getTelkomselFacebook,getTelkomselInstagram,getTelkomselTiktok,
-	getTelkomselWA,getTelkomselYT,getOrbitModem,getAllZona
-} = okeconnect;
+
 
 const jsobfus = require('javascript-obfuscator')
 const mediafire = require('./lib/mediafire')
@@ -167,29 +160,6 @@ app.get('/api/orkut/mutasuqr', async (req, res) => {
   }
 });
 
-app.get('/api/masaaktif/tsel', getTelkomProducts);
-app.get('/api/masaaktif/axis', getAxisProducts);
-app.get('/api/masaaktif/isat', getIndosatProducts);
-app.get('/api/masaaktif/xl', getXLProducts);
-app.get('/api/pulsa/buy', getByuPulsa);
-app.get('/api/pulsa/isat', allowedProductsIndosat);
-app.get('/api/pulsa/smartfren', getSmartfrenPulsa);
-app.get('/api/pulsa/tsel', getTelkomselPulsa);
-app.get('/api/pulsa/tree', getThreePulsa);
-app.get('/api/pulsa/xl', getXLPulsa);
-app.get('/api/pulsa/axis2', getAxisPulsa2);
-app.get('/api/tseldata/digposmini', getTelkomselDigipostMini);
-app.get('/api/tseldata/miniday', getTelkomselMiniHarian);
-app.get('/api/tseldata/minnight', getTelkomselMinimalam);
-app.get('/api/tseldata/minguan', getTelkomselMinimingguan);
-app.get('/api/tseldata/umkm', getTelkomselUmkm);
-app.get('/api/tseldata/facebook', getTelkomselFacebook);
-app.get('/api/tseldata/instagram', getTelkomselInstagram);
-app.get('/api/tseldata/tiktok', getTelkomselTiktok);
-app.get('/api/tseldata/wa', getTelkomselWA);
-app.get('/api/tseldata/yt', getTelkomselYT);
-app.get('/api/tseldata/modem', getOrbitModem);
-app.get('/api/tseldata/allzone', getAllZona);
 
 
 //====[ API CANVAS ]=====//
