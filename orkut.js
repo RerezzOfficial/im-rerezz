@@ -108,7 +108,21 @@ function formatmoney(amount, options = {}) {
   return useSymbol ? formattedAmount : formattedAmount.replace(/[^\d.,]/g, '');
 }
 
+async function checkBalance(memberID, pin, password) {
+  try {
+    const apiUrl = `https://h2h.okeconnect.com/trx/balance?memberID=${memberID}&pin=${pin}&password=${password}`;
+    const response = await axios.get(apiUrl);
+    const result = response.data;
+
+    // Misalnya, kita menganggap response memiliki properti 'balance'
+    return result.balance;
+  } catch (e) {
+    throw new Error('Gagal menghubungi server untuk mengecek saldo');
+  }
+}
+
 module.exports = {
     createQRIS,
-    checkStatus
+    checkStatus,
+    checkBalance
 };
