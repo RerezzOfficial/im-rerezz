@@ -43,6 +43,8 @@
     "chalk": "^4.1.2",
     "monk": "^7.3.3",
     "yt-search": "^2.12.1",
-    "form-data": "latest"
+    "form-data": "latest",
+    "body-parser": "latest",
+    "qrcode": "latest"
   }
 }
