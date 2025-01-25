@@ -136,7 +136,33 @@ app.get('/api/orkut/cekstatus', async (req, res) => {
   }
 });
 
+app.get('/api/orkut/mutasuqr', async (req, res) => {
+  const { merchant, keyorkut } = req.query;
 
+  if (!merchant || !keyorkut) {
+    return res.status(400).json({
+      status: 400,
+      message: "Merchant dan keyorkut tidak boleh kosong."
+    });
+  }
+
+  try {
+    const apiUrl = `https://www.gateway.okeconnect.com/api/mutasi/qris/${merchant}/${keyorkut}`;
+    const response = await axios.get(apiUrl);
+    const result = response.data;
+
+    if (!result || result.status !== 'success') {
+      return res.status(400).json({ message: "Terjadi kesalahan saat mengambil data." });
+    }
+
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      result: `Error: ${error.message}`,
+    });
+  }
+});
 
 
 
