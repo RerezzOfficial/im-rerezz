@@ -28,6 +28,16 @@ const Used_Apikey = "AIzaSyB88NfVhPnuCKWo8mx0Q5hub52m5Vklt2o"
 const genAI = new GoogleGenerativeAI(Used_Apikey);
 const https = require('https');
 
+const {
+  convertCRC16,
+  generateTransactionId,
+  generateExpirationTime,
+  elxyzFile,
+  generateQRIS,
+  createQRIS,
+  checkQRISStatus
+} = require('./orkut.js')
+
 
 const jsobfus = require('javascript-obfuscator')
 const mediafire = require('./lib/mediafire')
@@ -55,6 +65,61 @@ app.get('/doc/search', (req, res) => {
 app.get('/doc/download', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "download.html"));
 });
+
+
+
+app.get(
+  '/api/orkut/createpayment',
+  validateInput(['amount', 'codeqr']),
+  decreaseLimit,
+  async (req, res) => {
+    const { amount, codeqr } = req.query;
+
+    try {
+      const qrData = await createQRIS(amount, codeqr);
+      res.json({ status: true, creator: "IM REREZZ", result: qrData });
+    } catch (error) {
+      res.status(500).json({
+        status: 500,
+        creator: "IM REREZZ",
+        result: `Error: ${error.message}`,
+      });
+    }
+  }
+);
+
+app.get(
+  '/api/orkut/cekstatus',
+  validateInput(['merchant', 'keyorkut']),
+  decreaseLimit, 
+  async (req, res) => {
+    const { merchant, keyorkut } = req.query;
+
+    try {
+      const apiUrl = `https://gateway.okeconnect.com/api/mutasi/qris/${merchant}/${keyorkut}`;
+      const response = await axios.get(apiUrl);
+      const result = response.data;
+
+      const latestTransaction = result.data && result.data.length > 0 ? result.data[0] : null;
+      setTimeout(() => {
+        if (latestTransaction) {
+          res.json(latestTransaction);
+        } else {
+          res.json({ message: "Tidak ada transaksi ditemukan." });
+        }
+      }, 5000);
+    } catch (error) {
+      res.status(500).json({
+        status: 500,
+        creator: "HIM REREZZ",
+        result: `Error: ${error.message}`,
+      });
+    }
+  }
+);
+
+
+
 
 //====[ API CANVAS ]=====//
 async function fetchImage(url) {
