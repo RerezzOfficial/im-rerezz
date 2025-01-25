@@ -197,14 +197,14 @@ const getXLPulsa = async (req, res) => {
   }
 };
 
-const allowedProductsAxis = [
+const allowedProductsAxis2 = [
   'XLA5', 'XLA10', 'XLA15', 'XLA25', 'XLA30', 'XLA40', 'XLA50', 'XLA60', 'XLA70', 'XLA80', 'XLA90', 'XLA100', 'XP150', 'XP200'
 ];
 const getAxisPulsa2 = async (req, res) => {
   try {
     const apiUrl = `https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=pulsa`;
     const response = await axios.get(apiUrl);
-    const filteredData = response.data.filter(item => allowedProductsAxis.includes(item.kode));
+    const filteredData = response.data.filter(item => allowedProductsAxis2.includes(item.kode));
     if (filteredData.length === 0) {
       return res.status(404).json({ message: 'Tidak ada produk yang ditemukan.' });
     }
