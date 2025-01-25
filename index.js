@@ -160,39 +160,24 @@ app.get('/api/orkut/mutasuqr', async (req, res) => {
   }
 });
 
-app.get('/api/orkut/cekSaldo', async (req, res) => {
+app.get('/api/orkut/orkutsaldo', async (req, res) => {
   const { memberID, pin, password } = req.query;
 
   if (!memberID || !pin || !password) {
-    return res.status(400).json({
-      status: 400,
-      message: "MemberID, PIN, dan password harus disertakan."
-    });
+    return res.status(400).json({ message: 'MemberID, PIN, dan Password harus disediakan.' });
   }
 
-  const apiUrl = `https://h2h.okeconnect.com/trx/balance?memberID=${memberID}&pin=${pin}&password=${password}`;
-
   try {
+    const apiUrl = `https://h2h.okeconnect.com/trx/balance?memberID=${memberID}&pin=${pin}&password=${password}`;
     const response = await axios.get(apiUrl);
-    const result = response.data;
-
-    if (result.status !== 'success') {
-      return res.status(404).json({
-        status: 404,
-        message: "Saldo tidak ditemukan."
-      });
+    
+    if (response.data.status !== 200) {
+      return res.status(response.data.status).json({ message: response.data.message });
     }
 
-    res.json({
-      status: "success",
-      balance: result.balance,  
-    });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({
-      status: 500,
-      message: `Error: ${e.message}`,
-    });
+    res.json({ status: 'success', balance: response.data.balance });
+  } catch (error) {
+    res.status(500).json({ message: `Error: ${error.message}` });
   }
 });
 
