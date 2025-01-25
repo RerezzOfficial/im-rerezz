@@ -29,13 +29,8 @@ const genAI = new GoogleGenerativeAI(Used_Apikey);
 const https = require('https');
 
 const {
-  convertCRC16,
-  generateTransactionId,
-  generateExpirationTime,
-  elxyzFile,
-  generateQRIS,
   createQRIS,
-  checkQRISStatus
+  checkStatus
 } = require('./orkut.js')
 
 
@@ -79,10 +74,18 @@ app.get('/api/orkut/deposit', async (req, res) => {
   }
 
   try {
-    // Membuat QR untuk pembayaran berdasarkan amount dan codeqr
-    const qrData = await createQRIS(amount, codeqr);
-    
-    // Kembalikan response sukses dengan QR Code dan informasi pembayaran
+    // Panggil fungsi untuk membuat QRIS
+    const qrData = await createQRIS(amount, codeqr); 
+
+    if (!qrData.qrImageUrl) {
+      return res.status(500).json({
+        status: 500,
+        creator: "IM REREZZ",
+        result: "Gagal membuat QR Code, coba lagi."
+      });
+    }
+
+    // Kirim respons dengan QR Code
     res.json({
       status: true,
       creator: "IM REREZZ",
@@ -113,19 +116,17 @@ app.get('/api/orkut/cekstatus', async (req, res) => {
   }
 
   try {
-    const apiUrl = `https://gateway.okeconnect.com/api/mutasi/qris/${merchant}/${keyorkut}`;
-    const response = await axios.get(apiUrl);
-    const result = response.data;
+    // Panggil fungsi untuk memeriksa status transaksi
+    const transactionStatus = await checkStatus(merchant, keyorkut); 
 
-    const latestTransaction = result.data && result.data.length > 0 ? result.data[0] : null;
+    if (!transactionStatus) {
+      return res.status(404).json({
+        message: "Tidak ada transaksi ditemukan."
+      });
+    }
 
-    setTimeout(() => {
-      if (latestTransaction) {
-        res.json(latestTransaction);
-      } else {
-        res.json({ message: "Tidak ada transaksi ditemukan." });
-      }
-    }, 5000);
+    // Kirim status transaksi
+    res.json(transactionStatus);
   } catch (error) {
     res.status(500).json({
       status: 500,
@@ -134,6 +135,7 @@ app.get('/api/orkut/cekstatus', async (req, res) => {
     });
   }
 });
+
 
 
 
