@@ -160,36 +160,26 @@ app.get('/api/orkut/mutasuqr', async (req, res) => {
   }
 });
 
-app.get('/api/orkut/orkutsaldo', async (req, res) => {
-  const { memberID, pin, password } = req.query;
+app.get('/api/masaaktif/telkom', async (req, res) => {
+  const { produk } = req.query;
+  const allowedProducts = ['MAST5', 'MAST10', 'MAST15', 'MAST30', 'MAST90', 'MAST180', 'MAST360'];
 
-  if (!memberID || !pin || !password) {
-    return res.status(400).json({ message: 'MemberID, PIN, dan Password harus disediakan.' });
+  if (!produk || !allowedProducts.includes(produk)) {
+    return res.status(400).json({ message: 'Produk tidak valid.' });
   }
 
   try {
-    const apiUrl = `https://h2h.okeconnect.com/trx/balance?memberID=${memberID}&pin=${pin}&password=${password}`;
+    const apiUrl = `https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=${produk}`;
     const response = await axios.get(apiUrl);
 
-    console.log(response.status);  // Cek status code
-    console.log(response.data);    // Cek data yang diterima
+    const filteredData = response.data.filter(item => allowedProducts.includes(item.kode));
 
-    if (response.status !== 200) {
-      return res.status(response.status).json({ message: `Error: ${response.statusText}` });
-    }
-
-    if (!response.data || !response.data.balance) {
-      return res.status(500).json({ message: 'Tidak ada data saldo dalam respon API.' });
-    }
-
-    res.json({ status: 'success', balance: response.data.balance });
+    res.json(filteredData);
   } catch (error) {
-    console.error('Error:', error.message);
-    res.status(500).json({ message: `Error: ${error.message}` });
+    console.error('Error fetching products:', error);
+    res.status(500).json({ message: 'Gagal mengambil data produk.' });
   }
 });
-
-
 
 
 
