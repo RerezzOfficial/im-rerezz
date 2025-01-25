@@ -33,7 +33,7 @@ const {
 	checkStatus
 } = require('./orkut.js')
 const { 
-	getTelkomProducts, getAxisProducts, getIndosatProducts, getXLProducts,getAxisPulsa,
+	getTelkomProducts, getAxisProducts, getIndosatProducts, getXLProducts,
 	getByuPulsa,allowedProductsIndosat,getSmartfrenPulsa, getTelkomselPulsa,getThreePulsa,
 	getXLPulsa,getAxisPulsa2,getTelkomselDigipostMini,getTelkomselMiniHarian,getTelkomselMinimalam,
 	getTelkomselMinimingguan,getTelkomselUmkm,getTelkomselFacebook,getTelkomselInstagram,getTelkomselTiktok,
@@ -170,7 +170,6 @@ app.get('/api/masaaktif/tsel', getTelkomProducts);
 app.get('/api/masaaktif/axis', getAxisProducts);
 app.get('/api/masaaktif/isat', getIndosatProducts);
 app.get('/api/masaaktif/xl', getXLProducts);
-app.get('/api/pulsa/axis', getAxisPulsa);
 app.get('/api/pulsa/buy', getByuPulsa);
 app.get('/api/pulsa/isat', allowedProductsIndosat);
 app.get('/api/pulsa/smartfren', getSmartfrenPulsa);
