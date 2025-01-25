@@ -68,55 +68,73 @@ app.get('/doc/download', (req, res) => {
 
 
 
-app.get(
-  '/api/orkut/createpayment',
-  validateInput(['amount', 'codeqr']),
-  decreaseLimit,
-  async (req, res) => {
-    const { amount, codeqr } = req.query;
+app.get('/api/orkut/deposit', async (req, res) => {
+  const { amount, codeqr } = req.query;
 
-    try {
-      const qrData = await createQRIS(amount, codeqr);
-      res.json({ status: true, creator: "IM REREZZ", result: qrData });
-    } catch (error) {
-      res.status(500).json({
-        status: 500,
-        creator: "IM REREZZ",
-        result: `Error: ${error.message}`,
-      });
-    }
+  if (!amount || !codeqr) {
+    return res.status(400).json({
+      status: 400,
+      message: "Jumlah dan kode QR tidak boleh kosong."
+    });
   }
-);
 
-app.get(
-  '/api/orkut/cekstatus',
-  validateInput(['merchant', 'keyorkut']),
-  decreaseLimit, 
-  async (req, res) => {
-    const { merchant, keyorkut } = req.query;
-
-    try {
-      const apiUrl = `https://gateway.okeconnect.com/api/mutasi/qris/${merchant}/${keyorkut}`;
-      const response = await axios.get(apiUrl);
-      const result = response.data;
-
-      const latestTransaction = result.data && result.data.length > 0 ? result.data[0] : null;
-      setTimeout(() => {
-        if (latestTransaction) {
-          res.json(latestTransaction);
-        } else {
-          res.json({ message: "Tidak ada transaksi ditemukan." });
-        }
-      }, 5000);
-    } catch (error) {
-      res.status(500).json({
-        status: 500,
-        creator: "HIM REREZZ",
-        result: `Error: ${error.message}`,
-      });
-    }
+  try {
+    // Membuat QR untuk pembayaran berdasarkan amount dan codeqr
+    const qrData = await createQRIS(amount, codeqr);
+    
+    // Kembalikan response sukses dengan QR Code dan informasi pembayaran
+    res.json({
+      status: true,
+      creator: "IM REREZZ",
+      result: {
+        transactionId: qrData.transactionId,
+        amount: qrData.amount,
+        qrImageUrl: qrData.qrImageUrl,
+        message: "Silakan melakukan pembayaran menggunakan QR Code di atas."
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      creator: "IM REREZZ",
+      result: `Error: ${error.message}`,
+    });
   }
-);
+});
+
+app.get('/api/orkut/cekstatus', async (req, res) => {
+  const { merchant, keyorkut } = req.query;
+
+  if (!merchant || !keyorkut) {
+    return res.status(400).json({
+      status: 400,
+      message: "Merchant dan keyorkut tidak boleh kosong."
+    });
+  }
+
+  try {
+    const apiUrl = `https://gateway.okeconnect.com/api/mutasi/qris/${merchant}/${keyorkut}`;
+    const response = await axios.get(apiUrl);
+    const result = response.data;
+
+    const latestTransaction = result.data && result.data.length > 0 ? result.data[0] : null;
+
+    setTimeout(() => {
+      if (latestTransaction) {
+        res.json(latestTransaction);
+      } else {
+        res.json({ message: "Tidak ada transaksi ditemukan." });
+      }
+    }, 5000);
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      creator: "IM REREZZ",
+      result: `Error: ${error.message}`,
+    });
+  }
+});
+
 
 
 
