@@ -161,18 +161,18 @@ app.get('/api/orkut/mutasuqr', async (req, res) => {
 });
 
 app.get('/api/masaaktif/telkom', async (req, res) => {
-  const { produk } = req.query;
   const allowedProducts = ['MAST5', 'MAST10', 'MAST15', 'MAST30', 'MAST90', 'MAST180', 'MAST360'];
 
-  if (!produk || !allowedProducts.includes(produk)) {
-    return res.status(400).json({ message: 'Produk tidak valid.' });
-  }
-
   try {
-    const apiUrl = `https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=${produk}`;
+    const apiUrl = `https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=pulsa`;
     const response = await axios.get(apiUrl);
 
+    // Filter data untuk produk yang diizinkan
     const filteredData = response.data.filter(item => allowedProducts.includes(item.kode));
+
+    if (filteredData.length === 0) {
+      return res.status(404).json({ message: 'Tidak ada produk yang ditemukan.' });
+    }
 
     res.json(filteredData);
   } catch (error) {
@@ -180,6 +180,7 @@ app.get('/api/masaaktif/telkom', async (req, res) => {
     res.status(500).json({ message: 'Gagal mengambil data produk.' });
   }
 });
+
 
 
 
