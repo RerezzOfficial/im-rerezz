@@ -64,7 +64,7 @@ const getXLProducts = async (req, res) => {
   }
 };
 
-const allowedProductsAxis = ['A5', 'A10', 'A15', 'A25', 'A30', 'A40', 'A50', 'A60', 'A70', 'A80', 'A90', 'A100', 'A150', 'A200'];
+const allowedProductsAxis = ['A5', 'A10', 'A15', 'A25', 'A30', 'A40', 'A50', 'A60', 'A80', 'A90', 'A100', 'A150', 'A200'];
 const getAxisPulsa = async (req, res) => {
   try {
     const apiUrl = `https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=pulsa`;
