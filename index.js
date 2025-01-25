@@ -170,15 +170,16 @@ app.get('/api/orkut/orkutsaldo', async (req, res) => {
   try {
     const apiUrl = `https://h2h.okeconnect.com/trx/balance?memberID=${memberID}&pin=${pin}&password=${password}`;
     const response = await axios.get(apiUrl);
-    
-    console.log(response.data);  // Cek data yang diterima
 
-    if (!response.data || response.data.status === undefined) {
-      return res.status(500).json({ message: 'Tidak ada status dalam respon API.' });
+    console.log(response.status);  // Cek status code
+    console.log(response.data);    // Cek data yang diterima
+
+    if (response.status !== 200) {
+      return res.status(response.status).json({ message: `Error: ${response.statusText}` });
     }
 
-    if (response.data.status !== 200) {
-      return res.status(response.data.status).json({ message: response.data.message });
+    if (!response.data || !response.data.balance) {
+      return res.status(500).json({ message: 'Tidak ada data saldo dalam respon API.' });
     }
 
     res.json({ status: 'success', balance: response.data.balance });
@@ -187,6 +188,7 @@ app.get('/api/orkut/orkutsaldo', async (req, res) => {
     res.status(500).json({ message: `Error: ${error.message}` });
   }
 });
+
 
 
 
