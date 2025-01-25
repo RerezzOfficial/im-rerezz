@@ -29,10 +29,12 @@ const genAI = new GoogleGenerativeAI(Used_Apikey);
 const https = require('https');
 
 const {
-  createQRIS,
-  checkStatus
+	createQRIS,
+	checkStatus
 } = require('./orkut.js')
-
+const { 
+	getTelkomProducts 
+} = require('./apis/okeconnect');
 
 const jsobfus = require('javascript-obfuscator')
 const mediafire = require('./lib/mediafire')
@@ -160,26 +162,7 @@ app.get('/api/orkut/mutasuqr', async (req, res) => {
   }
 });
 
-app.get('/api/masaaktif/telkom', async (req, res) => {
-  const allowedProducts = ['MAST5', 'MAST10', 'MAST15', 'MAST30', 'MAST90', 'MAST180', 'MAST360'];
-
-  try {
-    const apiUrl = `https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=pulsa`;
-    const response = await axios.get(apiUrl);
-
-    // Filter data untuk produk yang diizinkan
-    const filteredData = response.data.filter(item => allowedProducts.includes(item.kode));
-
-    if (filteredData.length === 0) {
-      return res.status(404).json({ message: 'Tidak ada produk yang ditemukan.' });
-    }
-
-    res.json(filteredData);
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    res.status(500).json({ message: 'Gagal mengambil data produk.' });
-  }
-});
+app.get('/api/masaaktif/telkom', getTelkomProducts);
 
 
 
