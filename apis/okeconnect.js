@@ -64,21 +64,6 @@ const getXLProducts = async (req, res) => {
   }
 };
 
-const allowedProductsAxis = ['A5', 'A10', 'A15', 'A25', 'A30', 'A40', 'A50', 'A60', 'A80', 'A90', 'A100', 'A150', 'A200'];
-const getAxisPulsa = async (req, res) => {
-  try {
-    const apiUrl = `https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=pulsa`;
-    const response = await axios.get(apiUrl);
-    const filteredData = response.data.filter(item => allowedProductsAxis.includes(item.kode));
-    if (filteredData.length === 0) {
-      return res.status(404).json({ message: 'Tidak ada produk yang ditemukan.' });
-    }
-    res.json(filteredData);
-  } catch (error) {
-    console.error('Error fetching Axis pulsa products:', error);
-    res.status(500).json({ message: 'Gagal mengambil data produk pulsa Axis.' });
-  }
-};
 
 const allowedProductsByu = [
   'BYU5', 'BYU10', 'BYU15', 'BYU20', 'BYU25', 'BYU30', 'BYU35', 'BYU40', 'BYU45', 
@@ -446,7 +431,6 @@ module.exports = {
   getAxisProducts, 
   getIndosatProducts, 
   getXLProducts,
-  getAxisPulsa,
   getByuPulsa,
   allowedProductsIndosat,
   getSmartfrenPulsa,
