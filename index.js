@@ -30,8 +30,7 @@ const https = require('https');
 
 const {
   createQRIS,
-  checkStatus,
-  checkBalance
+  checkStatus
 } = require('./orkut.js')
 
 
@@ -171,10 +170,13 @@ app.get('/api/orkut/cekSaldo', async (req, res) => {
     });
   }
 
-  try {
-    const balance = await checkBalance(memberID, pin, password);
+  const apiUrl = `https://h2h.okeconnect.com/trx/balance?memberID=${memberID}&pin=${pin}&password=${password}`;
 
-    if (!balance) {
+  try {
+    const response = await axios.get(apiUrl);
+    const result = response.data;
+
+    if (result.status !== 'success') {
       return res.status(404).json({
         status: 404,
         message: "Saldo tidak ditemukan."
@@ -183,15 +185,17 @@ app.get('/api/orkut/cekSaldo', async (req, res) => {
 
     res.json({
       status: "success",
-      balance: balance,
+      balance: result.balance,  
     });
-  } catch (error) {
+  } catch (e) {
+    console.error(e);
     res.status(500).json({
       status: 500,
-      message: `Error: ${error.message}`,
+      message: `Error: ${e.message}`,
     });
   }
 });
+
 
 
 
