@@ -200,7 +200,7 @@ const getXLPulsa = async (req, res) => {
 const allowedProductsAxis = [
   'XLA5', 'XLA10', 'XLA15', 'XLA25', 'XLA30', 'XLA40', 'XLA50', 'XLA60', 'XLA70', 'XLA80', 'XLA90', 'XLA100', 'XP150', 'XP200'
 ];
-const getAxisPulsa = async (req, res) => {
+const getAxisPulsa2 = async (req, res) => {
   try {
     const apiUrl = `https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=pulsa`;
     const response = await axios.get(apiUrl);
@@ -453,7 +453,7 @@ module.exports = {
   getTelkomselPulsa,
   getThreePulsa,
   getXLPulsa,
-  getAxisPulsa,
+  getAxisPulsa2,
   getTelkomselDigipostMini,
   getTelkomselMiniHarian,
   getTelkomselMinimalam,
