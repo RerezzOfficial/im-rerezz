@@ -32,13 +32,14 @@ const {
 	createQRIS,
 	checkStatus
 } = require('./orkut.js')
+const okeconnect = require('./apis/okeconnect');
 const { 
 	getTelkomProducts, getAxisProducts, getIndosatProducts, getXLProducts,
 	getByuPulsa,allowedProductsIndosat,getSmartfrenPulsa, getTelkomselPulsa,getThreePulsa,
 	getXLPulsa,getAxisPulsa2,getTelkomselDigipostMini,getTelkomselMiniHarian,getTelkomselMinimalam,
 	getTelkomselMinimingguan,getTelkomselUmkm,getTelkomselFacebook,getTelkomselInstagram,getTelkomselTiktok,
 	getTelkomselWA,getTelkomselYT,getOrbitModem,getAllZona
-} = require('./apis/okeconnect');
+} = okeconnect;
 
 const jsobfus = require('javascript-obfuscator')
 const mediafire = require('./lib/mediafire')
