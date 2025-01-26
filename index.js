@@ -169,8 +169,8 @@ app.get('/api/igdl2', async (req, res) => {
   }
 
   try {
-    // Kirim permintaan ke InstaSave
-    const response = await axios.get(`https://instasave.website`, {
+    // Kirim permintaan POST ke Snapinsta
+    const response = await axios.post('https://snapinst.app/id', null, {
       params: { url },
     });
 
@@ -178,7 +178,10 @@ app.get('/api/igdl2', async (req, res) => {
     const $ = cheerio.load(response.data);
 
     // Cari URL video di elemen tertentu
-    const videoUrl = $('a[download]').attr('href');
+    let videoUrl = $('a[download]').attr('href'); // Prioritas pertama
+    if (!videoUrl) {
+      videoUrl = $('video source').attr('src'); // Alternatif kedua
+    }
 
     if (!videoUrl) {
       return res.status(404).json({ error: "Gagal menemukan URL video." });
