@@ -161,7 +161,7 @@ app.get('/api/orkut/mutasuqr', async (req, res) => {
 });
 
 
-app.get('/api/igdl', async (req, res) => {
+app.get('/api/download', async (req, res) => {
   const { url } = req.query;
 
   if (!url) {
@@ -170,12 +170,14 @@ app.get('/api/igdl', async (req, res) => {
 
   try {
     // Kirim permintaan ke Snapinst.app
-    const response = await axios.get('https://snapinst.app/id', {
-      params: { url: url }
+    const response = await axios.post('https://snapinst.app/id', null, {
+      params: { url: url },
     });
 
-    // Parsing HTML untuk mendapatkan URL video
+    // Parsing HTML respons
     const $ = cheerio.load(response.data);
+
+    // Mencari URL video dari atribut <a>
     const videoUrl = $('a[download]').attr('href');
 
     if (!videoUrl) {
@@ -189,6 +191,7 @@ app.get('/api/igdl', async (req, res) => {
     res.status(500).json({ error: "Terjadi kesalahan saat mengambil data." });
   }
 });
+
 
 
 //====[ API CANVAS ]=====//
