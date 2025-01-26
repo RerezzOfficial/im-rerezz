@@ -161,6 +161,35 @@ app.get('/api/orkut/mutasuqr', async (req, res) => {
 });
 
 
+app.get('/api/igdl', async (req, res) => {
+  const { url } = req.query;
+
+  if (!url) {
+    return res.status(400).json({ error: "URL Instagram diperlukan." });
+  }
+
+  try {
+    // Kirim permintaan ke Snapinst.app
+    const response = await axios.get('https://snapinst.app/id', {
+      params: { url: url }
+    });
+
+    // Parsing HTML untuk mendapatkan URL video
+    const $ = cheerio.load(response.data);
+    const videoUrl = $('a[download]').attr('href');
+
+    if (!videoUrl) {
+      return res.status(404).json({ error: "Gagal menemukan URL video." });
+    }
+
+    // Kirim URL video sebagai respons
+    res.json({ videoUrl });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Terjadi kesalahan saat mengambil data." });
+  }
+});
+
 
 //====[ API CANVAS ]=====//
 async function fetchImage(url) {
