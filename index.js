@@ -344,30 +344,39 @@ app.get('/api/bukalapak', async (req, res) => {
       params: { q: query, limit: 10 }
     });
 
-    const products = response.data.products.map(product => ({
-      title: product.name,
-      rating: product.rating || 'No rating yet',
-      terjual: product.sold_count ? `Terjual ${product.sold_count}` : 'Not yet bought',
-      harga: `Rp${product.price}`,
-      image: product.image_url,
-      link: product.product_url,
-      store: {
-        lokasi: product.store.city,
-        nama: product.store.name,
-        link: product.store.store_url
-      }
-    }));
+    if (response.data && response.data.products) {
+      const products = response.data.products.map(product => ({
+        title: product.name,
+        rating: product.rating || 'No rating yet',
+        terjual: product.sold_count ? `Terjual ${product.sold_count}` : 'Not yet bought',
+        harga: `Rp${product.price}`,
+        image: product.image_url,
+        link: product.product_url,
+        store: {
+          lokasi: product.store.city,
+          nama: product.store.name,
+          link: product.store.store_url
+        }
+      }));
 
-    res.json({
-      status: true,
-      creator: 'IM REREZZ',
-      result: products
-    });
+      res.json({
+        status: true,
+        creator: 'IM REREZZ',
+        result: products
+      });
+    } else {
+      res.status(404).json({
+        status: false,
+        message: 'No products found'
+      });
+    }
   } catch (error) {
-    console.error(error);
+    console.error('Error fetching Bukalapak API:', error.response ? error.response.data : error.message);
+
     res.status(500).json({
       status: false,
-      message: 'Internal Server Error'
+      message: 'Internal Server Error',
+      error: error.response ? error.response.data : error.message
     });
   }
 });
