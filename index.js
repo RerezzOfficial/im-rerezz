@@ -337,6 +337,27 @@ app.get('/api/tebakgambar', async (req, res) => {
   }
 });
 
+app.get('/api/tebakkabupaten', async (req, res) => {
+  try {
+    const url = 'https://id.m.wikipedia.org/wiki/Kabupaten_Mappi';
+    const response = await axios.get(url);
+    const $ = cheerio.load(response.data);
+
+    const logoUrl = $('table.infobox img').attr('src'); 
+    const kabupatenTitle = $('h1').text().trim();
+    const baseUrl = 'https://id.m.wikipedia.org'; 
+
+    const result = {
+      title: kabupatenTitle,
+      url: logoUrl ? `${baseUrl}${logoUrl}` : null,
+    };
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Gagal mengambil data Kabupaten' });
+  }
+});
 
 
 global.creator = "@IM-REREZZ"
