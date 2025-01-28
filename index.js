@@ -220,7 +220,7 @@ app.get('/api/cuaca', async (req, res) => {
     // Format respon sesuai dengan yang diinginkan
     const result = {
       status: true,
-      creator: "DiiOffc",
+      creator: "IM REREZZ",
       result: {
         coord: {
           lon: data.coord.lon,
@@ -295,6 +295,44 @@ app.get('/api/cuaca', async (req, res) => {
         error: error.message
       });
     }
+  }
+});
+
+app.get('/api/appstore', async (req, res) => {
+  const query = req.query.query;
+  if (!query) {
+    return res.status(400).json({
+      status: false,
+      message: 'Query parameter is required',
+    });
+  }
+
+  try {
+    const response = await axios.get(`https://itunes.apple.com/search`, {
+      params: {
+        term: query,
+        media: 'software',
+        limit: 10,  // Jumlah aplikasi yang akan ditampilkan
+      },
+    });
+
+    const result = response.data.results.map(app => ({
+      title: app.trackName,
+      description: app.description || 'No description available',
+      image: app.artworkUrl100,
+      link: app.trackViewUrl,
+    }));
+
+    res.json({
+      status: true,
+      creator: 'IM REREZZ',
+      result: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: 'Terjadi kesalahan saat mengambil data.',
+    });
   }
 });
 //====[ API CANVAS ]=====//
