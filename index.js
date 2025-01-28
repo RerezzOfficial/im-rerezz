@@ -326,7 +326,16 @@ app.get('/api/tekateki', async (req, res) => {
     res.status(500).json({ error: 'Gagal mengambil data JSON' });
   }
 });
-
+app.get('/api/tebakgambar', async (req, res) => {
+  try {
+    const url = 'https://raw.githubusercontent.com/RerezzOfficial/media/main/tebakgambar.json';
+    const response = await axios.get(url);
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Gagal mengambil data JSON' });
+  }
+});
 
 
 
