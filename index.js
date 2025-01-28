@@ -191,7 +191,81 @@ app.get('/api/igdl2', async (req, res) => {
   }
 });
 
+app.get('/api/cuaca', async (req, res) => {
+  const query = req.query.query;
 
+  if (!query) {
+    return res.status(400).json({
+      status: false,
+      message: "Parameter 'query' tidak ditemukan."
+    });
+  }
+
+  try {
+    // Menggunakan API key yang telah diberikan
+    const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=beb7409f172c609796681fbf427ba55e&units=metric`);
+    const data = response.data;
+
+    // Format respon sesuai dengan yang diinginkan
+    const result = {
+      status: true,
+      creator: "DiiOffc",
+      result: {
+        coord: {
+          lon: data.coord.lon,
+          lat: data.coord.lat
+        },
+        weather: [
+          {
+            id: data.weather[0].id,
+            main: data.weather[0].main,
+            description: data.weather[0].description,
+            icon: data.weather[0].icon
+          }
+        ],
+        base: data.base,
+        main: {
+          temp: data.main.temp,
+          feels_like: data.main.feels_like,
+          temp_min: data.main.temp_min,
+          temp_max: data.main.temp_max,
+          pressure: data.main.pressure,
+          humidity: data.main.humidity,
+          sea_level: data.main.sea_level,
+          grnd_level: data.main.grnd_level
+        },
+        visibility: data.visibility,
+        wind: {
+          speed: data.wind.speed,
+          deg: data.wind.deg,
+          gust: data.wind.gust
+        },
+        rain: data.rain || {},
+        clouds: {
+          all: data.clouds.all
+        },
+        dt: data.dt,
+        sys: {
+          country: data.sys.country,
+          sunrise: data.sys.sunrise,
+          sunset: data.sys.sunset
+        },
+        timezone: data.timezone,
+        id: data.id,
+        name: data.name,
+        cod: data.cod
+      }
+    };
+
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: false,
+      message: "Terjadi kesalahan saat mengambil data cuaca."
+    });
+  }
+});
 //====[ API CANVAS ]=====//
 async function fetchImage(url) {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
