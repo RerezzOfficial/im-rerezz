@@ -160,7 +160,7 @@ app.get('/api/orkut/mutasuqr', async (req, res) => {
   }
 });
 
-app.get('/api/uange-digital', async (req, res) => {
+app.get('/api/okt/uang-digital', async (req, res) => {
   try {
     const url = 'https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=saldo_gojek';
     const response = await axios.get(url);
@@ -170,6 +170,27 @@ app.get('/api/uange-digital', async (req, res) => {
     res.status(500).json({ error: 'Gagal mengambil data JSON' });
   }
 });
+app.get('/api/okt/pln', async (req, res) => {
+  try {
+    const url = 'https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=token_pln';
+    const response = await axios.get(url);
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Gagal mengambil data JSON' });
+  }
+});
+app.get('/api/okt/game', async (req, res) => {
+  try {
+    const url = 'https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=digital';
+    const response = await axios.get(url);
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Gagal mengambil data JSON' });
+  }
+});
+
 
 app.get('/api/cuaca', async (req, res) => {
  const query = req.query.query;
