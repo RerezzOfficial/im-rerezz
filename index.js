@@ -169,15 +169,12 @@ app.get('/api/igdl2', async (req, res) => {
   }
 
   try {
-    // Kirim permintaan POST ke Snapinsta
     const response = await axios.post('https://snapinst.app/id', null, {
       params: { url },
     });
 
-    // Parsing HTML respons
     const $ = cheerio.load(response.data);
 
-    // Cari URL video di elemen tertentu
     let videoUrl = $('a[download]').attr('href'); // Prioritas pertama
     if (!videoUrl) {
       videoUrl = $('video source').attr('src'); // Alternatif kedua
@@ -187,7 +184,6 @@ app.get('/api/igdl2', async (req, res) => {
       return res.status(404).json({ error: "Gagal menemukan URL video." });
     }
 
-    // Kirim URL video sebagai respons
     res.json({ videoUrl });
   } catch (error) {
     console.error(error);
@@ -250,21 +246,16 @@ app.get('/api/levelup', async (req, res) => {
     try {
         const { background, foto, fromLevel, toLevel, name } = req.query;
 
-        // Validasi parameter
         if (!background || !foto || !fromLevel || !toLevel || !name) {
             return res.status(400).json({ error: "Semua parameter harus diisi." });
         }
 
-        // Membuat URL untuk request ke API eksternal
         const apiUrl = `https://apis.xyrezz.online-server.biz.id/api/levelup?background=${encodeURIComponent(background)}&foto=${encodeURIComponent(foto)}&fromLevel=${encodeURIComponent(fromLevel)}&toLevel=${encodeURIComponent(toLevel)}&name=${encodeURIComponent(name)}`;
         
-        // Log URL untuk debugging
         console.log("API URL: ", apiUrl);
 
-        // Ambil gambar dari API eksternal
         const imageData = await fetchImage(apiUrl);
 
-        // Kirim gambar sebagai respons dengan header PNG
         res.setHeader("Content-Type", "image/png");
         res.send(imageData);
 
@@ -273,7 +264,70 @@ app.get('/api/levelup', async (req, res) => {
         res.status(500).json({ error: "Gagal memproses gambar." });
     }
 });
-// Endpoint API
+
+// game api
+app.get('/api/tebakgame', async (req, res) => {
+  try {
+    const url = 'https://raw.githubusercontent.com/RerezzOfficial/media/main/tebakgame.json';
+    const response = await axios.get(url);
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Gagal mengambil data JSON' });
+  }
+});
+app.get('/api/susunkata', async (req, res) => {
+  try {
+    const url = 'https://raw.githubusercontent.com/RerezzOfficial/media/main/susunkata.json';
+    const response = await axios.get(url);
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Gagal mengambil data JSON' });
+  }
+});
+app.get('/api/tebakhewan', async (req, res) => {
+  try {
+    const url = 'https://raw.githubusercontent.com/RerezzOfficial/media/main/tebakhewan.json';
+    const response = await axios.get(url);
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Gagal mengambil data JSON' });
+  }
+});
+app.get('/api/tebaklagu', async (req, res) => {
+  try {
+    const url = 'https://raw.githubusercontent.com/RerezzOfficial/media/main/tebaklagu.json';
+    const response = await axios.get(url);
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Gagal mengambil data JSON' });
+  }
+});
+app.get('/api/tebaklogo', async (req, res) => {
+  try {
+    const url = 'https://raw.githubusercontent.com/RerezzOfficial/media/main/tebaklogo.json';
+    const response = await axios.get(url);
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Gagal mengambil data JSON' });
+  }
+});
+app.get('/api/tekateki', async (req, res) => {
+  try {
+    const url = 'https://raw.githubusercontent.com/RerezzOfficial/media/main/tekateki.json';
+    const response = await axios.get(url);
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Gagal mengambil data JSON' });
+  }
+});
+
+
 
 
 global.creator = "@IM-REREZZ"
