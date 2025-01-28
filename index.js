@@ -202,10 +202,8 @@ app.get('/api/cuaca', async (req, res) => {
   }
 
   try {
-    // Menggunakan API key yang telah diberikan
     const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=beb7409f172c609796681fbf427ba55e&units=metric`);
     
-    // Cek apakah API memberikan respons yang valid
     if (response.status !== 200) {
       return res.status(500).json({
         status: false,
@@ -217,7 +215,6 @@ app.get('/api/cuaca', async (req, res) => {
     const data = response.data;
     console.log(data); // Log respons API untuk debugging
 
-    // Format respon sesuai dengan yang diinginkan
     const result = {
       status: true,
       creator: "IM REREZZ",
@@ -270,25 +267,21 @@ app.get('/api/cuaca', async (req, res) => {
 
     res.json(result);
   } catch (error) {
-    console.error("Error fetching weather data:", error); // Log error untuk debugging
+    console.error("Error fetching weather data:", error);
 
-    // Menangani berbagai jenis error
     if (error.response) {
-      // Respons API yang gagal
       res.status(error.response.status).json({
         status: false,
         message: "Terjadi kesalahan saat mengambil data cuaca.",
         error: error.response.data
       });
     } else if (error.request) {
-      // Jika tidak ada respons dari API
       res.status(500).json({
         status: false,
         message: "Tidak ada respons dari server cuaca.",
         error: error.request
       });
     } else {
-      // Error umum lainnya
       res.status(500).json({
         status: false,
         message: "Terjadi kesalahan internal.",
@@ -312,7 +305,7 @@ app.get('/api/appstore', async (req, res) => {
       params: {
         term: query,
         media: 'software',
-        limit: 10,  // Jumlah aplikasi yang akan ditampilkan
+        limit: 10, 
       },
     });
 
@@ -332,6 +325,49 @@ app.get('/api/appstore', async (req, res) => {
     res.status(500).json({
       status: false,
       message: 'Terjadi kesalahan saat mengambil data.',
+    });
+  }
+});
+
+app.get('/api/bukalapak', async (req, res) => {
+  const query = req.query.query;
+
+  if (!query) {
+    return res.status(400).json({
+      status: false,
+      message: 'Query parameter is required'
+    });
+  }
+
+  try {
+    const response = await axios.get(`https://api.bukalapak.com/v2/products/search.json`, {
+      params: { q: query, limit: 10 }
+    });
+
+    const products = response.data.products.map(product => ({
+      title: product.name,
+      rating: product.rating || 'No rating yet',
+      terjual: product.sold_count ? `Terjual ${product.sold_count}` : 'Not yet bought',
+      harga: `Rp${product.price}`,
+      image: product.image_url,
+      link: product.product_url,
+      store: {
+        lokasi: product.store.city,
+        nama: product.store.name,
+        link: product.store.store_url
+      }
+    }));
+
+    res.json({
+      status: true,
+      creator: 'IM REREZZ',
+      result: products
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: false,
+      message: 'Internal Server Error'
     });
   }
 });
