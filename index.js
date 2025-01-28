@@ -192,7 +192,7 @@ app.get('/api/igdl2', async (req, res) => {
 });
 
 app.get('/api/cuaca', async (req, res) => {
-  const query = req.query.query;
+ const query = req.query.query;
 
   if (!query) {
     return res.status(400).json({
@@ -204,7 +204,18 @@ app.get('/api/cuaca', async (req, res) => {
   try {
     // Menggunakan API key yang telah diberikan
     const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=beb7409f172c609796681fbf427ba55e&units=metric`);
+    
+    // Cek apakah API memberikan respons yang valid
+    if (response.status !== 200) {
+      return res.status(500).json({
+        status: false,
+        message: "Gagal mengambil data cuaca.",
+        error: response.data || "Unknown error"
+      });
+    }
+
     const data = response.data;
+    console.log(data); // Log respons API untuk debugging
 
     // Format respon sesuai dengan yang diinginkan
     const result = {
@@ -259,11 +270,31 @@ app.get('/api/cuaca', async (req, res) => {
 
     res.json(result);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      status: false,
-      message: "Terjadi kesalahan saat mengambil data cuaca."
-    });
+    console.error("Error fetching weather data:", error); // Log error untuk debugging
+
+    // Menangani berbagai jenis error
+    if (error.response) {
+      // Respons API yang gagal
+      res.status(error.response.status).json({
+        status: false,
+        message: "Terjadi kesalahan saat mengambil data cuaca.",
+        error: error.response.data
+      });
+    } else if (error.request) {
+      // Jika tidak ada respons dari API
+      res.status(500).json({
+        status: false,
+        message: "Tidak ada respons dari server cuaca.",
+        error: error.request
+      });
+    } else {
+      // Error umum lainnya
+      res.status(500).json({
+        status: false,
+        message: "Terjadi kesalahan internal.",
+        error: error.message
+      });
+    }
   }
 });
 //====[ API CANVAS ]=====//
