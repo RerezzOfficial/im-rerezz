@@ -160,34 +160,14 @@ app.get('/api/orkut/mutasuqr', async (req, res) => {
   }
 });
 
-
-app.get('/api/igdl2', async (req, res) => {
-  const { url } = req.query;
-
-  if (!url) {
-    return res.status(400).json({ error: "URL Instagram diperlukan." });
-  }
-
+app.get('/api/uange-digital', async (req, res) => {
   try {
-    const response = await axios.post('https://snapinst.app/id', null, {
-      params: { url },
-    });
-
-    const $ = cheerio.load(response.data);
-
-    let videoUrl = $('a[download]').attr('href'); // Prioritas pertama
-    if (!videoUrl) {
-      videoUrl = $('video source').attr('src'); // Alternatif kedua
-    }
-
-    if (!videoUrl) {
-      return res.status(404).json({ error: "Gagal menemukan URL video." });
-    }
-
-    res.json({ videoUrl });
+    const url = 'https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=saldo_gojek';
+    const response = await axios.get(url);
+    res.status(200).json(response.data);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Terjadi kesalahan saat mengambil data." });
+    res.status(500).json({ error: 'Gagal mengambil data JSON' });
   }
 });
 
