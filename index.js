@@ -526,28 +526,66 @@ app.get('/api/tebakgambar', async (req, res) => {
   }
 });
 
-app.get('/api/tebakkabupaten', async (req, res) => {
+app.get("/api/tts2", async (req, res) => {
+  const { username } = req.query;
+  if (!username) {
+    return res.status(400).json({ status: 400, message: "Parameter username diperlukan!" });
+  }
+
   try {
-    const url = 'https://id.m.wikipedia.org/wiki/Kabupaten_Mappi';
-    const response = await axios.get(url);
-    const $ = cheerio.load(response.data);
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+    await page.goto(`https://www.tiktok.com/@${username}`, { waitUntil: "networkidle2" });
+    const data = await page.evaluate(() => {
+      return {
+        uniqueId: document.querySelector("h1")?.innerText || "Not Found",
+        nickname: document.querySelector("h2")?.innerText || "Not Found",
+        avatar: document.querySelector("img")?.src || "",
+        followers: document.querySelectorAll("strong")[1]?.innerText || "0",
+        following: document.querySelectorAll("strong")[0]?.innerText || "0",
+        likes: document.querySelectorAll("strong")[2]?.innerText || "0"
+      };
+    });
 
-    const logoUrl = $('table.infobox img').attr('src'); 
-    const kabupatenTitle = $('h1').text().trim();
-    const baseUrl = 'https://id.m.wikipedia.org'; 
+    await browser.close();
 
-    const result = {
-      title: kabupatenTitle,
-      url: logoUrl ? `${baseUrl}${logoUrl}` : null,
-    };
-
-    res.status(200).json(result);
+    res.json({
+      status: 200,
+      creator: "my-tiktok-api",
+      result: {
+        user: {
+          uniqueId: data.uniqueId,
+          nickname: data.nickname,
+          avatar: data.avatar,
+        },
+        stats: {
+          followerCount: data.followers,
+          followingCount: data.following,
+          heartCount: data.likes
+        }
+      }
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Gagal mengambil data Kabupaten' });
+    res.status(500).json({ status: 500, message: "Gagal mengambil data TikTok!", error: error.message });
   }
 });
 
+app.get("/api/ttstalk", async (req, res) => {
+  try {
+    const { username } = req.query;
+    if (!username) {
+      return res.status(400).json({ status: 400, message: "Parameter username diperlukan!" });
+    }
+    const response = await axios.get(`https://api.vreden.web.id/api/tiktokStalk?query=${username}`);
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ 
+      status: 500, 
+      message: "Gagal mengambil data TikTok!", 
+      error: error.message 
+    });
+  }
+});
 
 global.creator = "@IM-REREZZ"
 
