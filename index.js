@@ -48,6 +48,12 @@ app.set("json spaces", 2);
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+app.get('/rezzcss', (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.css"));
+});
+app.get('/rezzjs', (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.js"));
+});
 
 app.get('/doc/ai', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "ai.html"));
@@ -61,7 +67,93 @@ app.get('/doc/download', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "download.html"));
 });
 
+const apiUrl = "https://databse-apis.glitch.me/increment-visitor"
+app.get('/api/visitor-count', async (req, res) => {
+    try {
+        const response = await axios.get(apiUrl);
+        const visitorCount = response.data.visitorCount;
+        res.json({ visitorCount });
+    } catch (error) {
+        res.json({ error: 'Error retrieving visitor count' });
+    }
+});
 
+app.get('/api/asmaulhusna', checkApiKey, async (req, res) => {
+    try {
+        const response = await axios.get(`${apilol}/api/asmaulhusna?apikey=${apikeylol}`);
+        res.json(response.data);
+    } catch (error) {
+        res.status(500).json({ status: 500, message: "Error fetching data", error: error.message });
+    }
+});
+
+app.get('/api/ayatmp3', checkApiKey, async (req, res) => {
+    try {
+        const { surah, ayah } = req.query;
+        if (!surah || !ayah) {
+            return res.status(400).json({ status: 400, message: "Surah and Ayah are required" });
+        }
+        const audioUrl = `${apilol}/api/quran/audio/${surah}/${ayah}?apikey=${apikeylol}`;
+        const audioResponse = await axios.get(audioUrl, { responseType: 'stream' });
+        if (audioResponse.status === 200) {
+            res.setHeader('Content-Type', 'audio/mpeg');
+            res.setHeader('Content-Disposition', 'inline; filename="quran_audio.mp3"');
+            audioResponse.data.pipe(res);
+        } else {
+            res.status(500).json({ status: 500, message: "Audio not found for the provided Surah and Ayah" });
+        }
+    } catch (error) {
+        console.error("Error fetching audio:", error.message);
+        res.status(500).json({ status: 500, message: "Error fetching audio", error: error.message });
+    }
+});
+
+app.get('/api/surahmp3', checkApiKey, async (req, res) => {
+    try {
+        const { surah } = req.query;
+        if (!surah) {
+            return res.status(400).json({ status: 400, message: "Surah is required" });
+        }
+        const audioUrl = `${apilol}/api/quran/audio/${surah}?apikey=${apikeylol}`;
+        const audioResponse = await axios.get(audioUrl, { responseType: 'stream' });
+        if (audioResponse.status === 200) {
+            res.setHeader('Content-Type', 'audio/mpeg');
+            res.setHeader('Content-Disposition', 'inline; filename="quran_audio.mp3"');
+            audioResponse.data.pipe(res);
+        } else {
+            res.status(500).json({ status: 500, message: "Audio not found for the provided Surah" });
+        }
+    } catch (error) {
+        console.error("Error fetching audio:", error.message);
+        res.status(500).json({ status: 500, message: "Error fetching audio", error: error.message });
+    }
+});
+
+app.get('/api/ayatquran', checkApiKey, async (req, res) => {
+    const { surah, ayah } = req.query;
+        if (!surah || !ayah) {
+            return res.status(400).json({ status: 400, message: "Surah and Ayah are required" });
+        }
+    try {
+        const response = await axios.get(`${apilol}/api/quran/${surah}/${ayah}?apikey=${apikeylol}`);
+        res.json(response.data);
+    } catch (error) {
+        res.status(500).json({ status: 500, message: "Error fetching data", error: error.message });
+    }
+});
+
+app.get('/api/ayatquran2', checkApiKey, async (req, res) => {
+    const { surah, ayah } = req.query;
+        if (!surah || !ayah) {
+            return res.status(400).json({ status: 400, message: "Surah and Ayah are required" });
+        }
+    try {
+        const response = await axios.get(`${apilol}/api/quran/${surah}/${ayah}?apikey=${apikeylol}`);
+        res.json(response.data);
+    } catch (error) {
+        res.status(500).json({ status: 500, message: "Error fetching data", error: error.message });
+    }
+});
 
 app.get('/api/orkut/deposit', async (req, res) => {
   const { amount, codeqr } = req.query;
