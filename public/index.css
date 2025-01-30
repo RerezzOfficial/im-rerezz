@@ -1,0 +1,227 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    transition: background-color 0.5s ease, color 0.5s ease; /* Transisi untuk mode gelap/terang */
+}
+.container {
+    max-width: 100%;
+    margin: 15px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: background-color 0.5s ease, color 0.5s ease; /* Transisi untuk mode gelap/terang */
+}
+h1 {
+    text-align: center;
+    color: #444;
+    margin-bottom: 30px;
+    font-size: 28px;
+    transition: color 0.5s ease; /* Transisi untuk mode gelap/terang */
+}
+.menu-icon {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    color: #007BFF;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+.profile-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    color: #007BFF;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+.sidebar {
+    height: auto;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    margin: 10px;
+    left: -300px;
+    border-radius: 15px;
+    background-color: #fff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: left 1.5s ease; /* Durasi 1.5 detik */
+    z-index: 999;
+}
+.sidebar-right {
+    height: auto;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    right: -300px;
+    margin: 10px;
+    border-radius: 15px;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: right 1.5s ease; /* Durasi 1.5 detik */
+    z-index: 999;
+}
+.sidebar ul, .sidebar-right ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 60px;
+}
+.sidebar ul li, .sidebar-right ul li {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+.sidebar ul li a, .sidebar-right ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    transition: color 0.5s ease; /* Transisi untuk mode gelap/terang */
+}
+.sidebar ul li a:hover, .sidebar-right ul li a:hover {
+    color: #007BFF;
+}
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    transition: opacity 1.5s ease; /* Durasi 1.5 detik */
+}
+.stats {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.stat-item {
+    text-align: center;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.5s ease, color 0.5s ease; /* Transisi untuk mode gelap/terang */
+}
+.stat-item h2 {
+    margin: 0;
+    font-size: 26px;
+    color: #555;
+    transition: color 0.5s ease; /* Transisi untuk mode gelap/terang */
+}
+.stat-item p {
+    margin: 5px 0 0;
+    color: #777;
+    font-size: 14px;
+    transition: color 0.5s ease; /* Transisi untuk mode gelap/terang */
+}
+.stat-item i {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #007BFF;
+}
+.rules, .thanks, .contact {
+    margin-top: 40px;
+}
+.rules h2, .thanks h2, .contact h2 {
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    color: #444;
+    font-size: 22px;
+    margin-bottom: 20px;
+    transition: color 0.5s ease; /* Transisi untuk mode gelap/terang */
+}
+.rules ul, .thanks ul, .contact ul {
+    list-style-type: none;
+    padding: 0;
+}
+.rules ul li, .thanks ul li, .contact ul li {
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+    color: #555;
+    transition: color 0.5s ease; /* Transisi untuk mode gelap/terang */
+}
+.rules ul li:last-child, .thanks ul li:last-child, .contact ul li:last-child {
+    border-bottom: none;
+}
+.contact ul li a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: 500;
+}
+.contact ul li a:hover {
+    text-decoration: underline;
+}
+.contact ul li i {
+    margin-right: 10px;
+    color: #007BFF;
+}
+
+/* Animasi berputar */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.spin {
+    animation: spin 0.5s linear;
+}
+
+/* Mode Gelap */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #f4f4f9;
+}
+body.dark-mode .container {
+    background-color: #2d2d2d;
+    color: #f4f4f9;
+}
+body.dark-mode h1 {
+    color: #f4f4f9;
+}
+body.dark-mode .stat-item {
+    background-color: #3d3d3d;
+    color: #f4f4f9;
+}
+body.dark-mode .stat-item h2 {
+    color: #f4f4f9;
+}
+body.dark-mode .stat-item p {
+    color: #ccc;
+}
+body.dark-mode .rules h2,
+body.dark-mode .thanks h2,
+body.dark-mode .contact h2 {
+    color: #f4f4f9;
+}
+body.dark-mode .rules ul li,
+body.dark-mode .thanks ul li,
+body.dark-mode .contact ul li {
+    color: #ccc;
+}
+body.dark-mode .sidebar,
+body.dark-mode .sidebar-right {
+    background-color: #2d2d2d;
+    color: #f4f4f9;
+}
+body.dark-mode .sidebar ul li a,
+body.dark-mode .sidebar-right ul li a {
+    color: #f4f4f9;
+}
+body.dark-mode .sidebar ul li a:hover,
+body.dark-mode .sidebar-right ul li a:hover {
+    color: #007BFF;
+}
