@@ -1,253 +1,109 @@
-<html>
- <head>
-  <title>
-   API IM REREZZ
-  </title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <style>
-   body {
-            background-color: #000;
-            color: #00ffea;
-            font-family: 'Courier New', Courier, monospace;
-            margin: 0;
-            padding: 0;
-            transition: background-color 0.5s, color 0.5s;
-        }
-        .container {
-            width: 90%;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 2px solid #00ffea;
-            padding: 10px;
-            transition: border-color 0.5s;
-        }
-        .header img {
-            width: 50px;
-            height: 50px;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-        .header .menu {
-            font-size: 24px;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .info-box {
-            display: flex;
-            justify-content: space-between;
-            border: 2px solid #00ffea;
-            padding: 10px;
-            margin-top: 20px;
-            transition: border-color 0.5s;
-        }
-        .info-box div {
-            width: 48%;
-            border: 2px solid #00ffea;
-            padding: 10px;
-            box-sizing: border-box;
-            transition: border-color 0.5s;
-        }
-        .info-box div i {
-            font-size: 24px;
-            margin-right: 10px;
-        }
-        .api-docs {
-            margin-top: 20px;
-        }
-        .api-docs h2 {
-            margin: 0;
-            font-size: 20px;
-        }
-        .api-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 2px solid #00ffea;
-            padding: 10px;
-            margin-top: 10px;
-            transition: border-color 0.5s;
-        }
-        .api-item button {
-            background-color: #000;
-            color: #00ffea;
-            border: 2px solid #00ffea;
-            padding: 5px 10px;
-            cursor: pointer;
-            transition: border-color 0.5s;
-        }
-        .api-item button:hover {
-            background-color: #00ffea;
-            color: #000;
-        }
-        .sidebar {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            background-color: #111;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-        }
-        .sidebar a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: #00ffea;
-            display: block;
-            transition: 0.3s;
-        }
-        .sidebar a:hover {
-            color: #f1f1f1;
-        }
-        .sidebar .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-            cursor: pointer;
-        }
-        @media (max-width: 768px) {
-            .info-box {
-                flex-direction: column;
-            }
-            .info-box div {
-                width: 100%;
-                margin-bottom: 10px;
-            }
-        }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 0;
-            display: none;
-        }
-  </style>
- </head>
- <body>
-  <div class="container">
-   <div class="header">
-    <img alt="Logo" height="50" src="https://storage.googleapis.com/a1aa/image/qTUDanyc86JMPVw4DdvlDgb2vekcUpgdjtbN4XduY1UbKqDKA.jpg" width="50"/>
-    <h1>API IM REREZZ</h1>
-    <div class="menu" onclick="toggleNav()">
-     <i class="fas fa-bars" id="menu-icon"></i>
-    </div>
-   </div>
-
-   <div class="info-box">
-    <div>
-        <i class="fas fa-server"></i>
-        <strong>WEB INFORMATION</strong>
-        <p id="web-info">Pengunjung 1 Jam Terakhir: 0<br/>Hari Ini: Selasa, 21/1/2025 18:50:58.475</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard with Sidebars</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="/rezzcss" rel="stylesheet" >
+</head>
+<body>
+    <!-- Ikon Menu -->
+    <div class="menu-icon" id="menuIcon" onclick="toggleLeftSidebar()">
+        <i class="fas fa-bars" id="leftIcon"></i>
     </div>
 
-    <div>
-        <i class="fas fa-user"></i>
-        <strong>USER INFORMATION</strong>
-        <p id="user-info">IP Address: 192.2.166.211<br/>Kecepatan Jaringan: 17.18 MB/0.5s<br/>Baterai: 0%<br/>Status: Sedang mengisi daya</p>
+    <!-- Ikon Profile -->
+    <div class="profile-icon" id="profileIcon" onclick="toggleRightSidebar()">
+        <i class="fas fa-user" id="rightIcon"></i>
     </div>
 
-   </div>
-   <div class="api-docs">
-    <h2>DOKUMENTASI API</h2>
-
-    <!-- API 1 -->
-    <div class="api-item">
-      <span><i class="fas fa-robot"></i> API OPENAI</span>
-      <button onclick="openLink('/doc/ai')"><i class="fas fa-external-link-alt"></i>OPEN</button>
+    <!-- Sidebar Kiri -->
+    <div class="sidebar" id="leftSidebar">
+        <ul>
+            <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="/doc/ai"><i class="fas fa-chart-line"></i> DOC AI</a></li>
+            <li><a href="/doc/search"><i class="fas fa-cog"></i> DOC SEARCH</a></li>
+            <li><a href="/doc/download"><i class="fas fa-user"></i> DOC DOWNLOADER</a></li>
+        </ul>
     </div>
 
-    <div class="api-item">
-      <span><i class="fas fa-robot"></i> API SEARCH</span>
-      <button onclick="openLink('/doc/search')"><i class="fas fa-external-link-alt"></i>OPEN</button>
+    <!-- Sidebar Kanan -->
+    <div class="sidebar-right" id="rightSidebar">
+        <ul>
+            <li>
+                <a href="#" onclick="toggleDarkMode()">
+                    <i class="fas fa-moon" id="darkModeIcon"></i> Mode Gelap
+                </a>
+            </li>
+            <li><a href="#home"><i class="fas fa-user-circle"></i> My Profile</a></li>
+            <li><a href="https://wa.me/6285216955233"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+            <li><a href="https://t.me/rerezz_official"><i class="fab fa-telegram"></i> Telegram</a></li>
+        </ul>
     </div>
 
-    <div class="api-item">
-      <span><i class="fas fa-robot"></i> API DOWNLOAD</span>
-      <button onclick="openLink('/doc/download')"><i class="fas fa-external-link-alt"></i>OPEN</button>
+    <div class="overlay" id="overlay" onclick="closeAllSidebars()"></div>
+
+    <div class="container" id="main-content">
+        <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+        
+        <div class="stats" id="#home">
+            <div class="stat-item">
+                <i class="fas fa-users"></i>
+                <h2><span id="visitor-count">Loading...</span></h2>
+                <p>Total Number Of Visitors</p>
+            </div>
+
+            <div class="stat-item">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+                <h2 id="dateDisplay">0</h2>
+                <p>Today'S Info</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-clock"></i>
+                <h2 id="clock">00.00.00</h2>
+                <p>O'clock</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-network-wired"></i>
+                <h2 id="ip-address">Memuat...</h2>
+                <p>Your Server Info</p>
+            </div>
+        </div>
+
+        <div class="rules">
+            <h2><i class="fas fa-exclamation-circle"></i> S&K</h2>
+            <ul>
+                <li><i class="fas fa-cogs"></i> Jika Ada Fitur Erorr Silahkan Hubungi Owner.</li>
+                <li><i class="fas fa-hand-paper"></i> Dilarang Keras Untuk Melakukan DDoS Ke Server.</li>
+                <li><i class="fas fa-smile-wink"></i> Jika Website Mati Harap Tunggu.</li>
+                <li><i class="fas fa-info-circle"></i> Harap Bijak Dalam Mengunakannya</li>
+            </ul>
+        </div>
+
+        <div class="thanks">
+            <h2><i class="fas fa-heart"></i> Thanks To</h2>
+            <ul>
+                <li><i class="fas fa-star"></i> Allah SWT</li>
+                <li><i class="fas fa-star"></i> My Friends</li>
+                <li><i class="fas fa-star"></i> My parents</li>
+                <li><i class="fas fa-star"></i> Intro Dev</li>
+                <li><i class="fas fa-star"></i> Line</li>
+                <li><i class="fas fa-star"></i> Yahya</li>
+            </ul>
+        </div>
+
+        <div class="contact">
+            <h2><i class="fas fa-envelope"></i> Contact Me</h2>
+            <ul>
+                <li><a href="https://wa.me/6285216955233" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                <li><a href="https://t.me/rerezz_official" target="_blank"><i class="fab fa-telegram"></i> Telegram</a></li>
+                <li><a href="https://instagram.com/rezz_hosting.0208" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+            </ul>
+        </div>
     </div>
-    
 
-   </div>
-  </div>
+    <script src="/rezzjs"></script>
 
-  <div class="sidebar" id="mySidebar">
-    <a class="closebtn" href="javascript:void(0)" onclick="closeNav()">
-        <i class="fas fa-times"></i>
-    </a>
-
-    <a href="#"><i class="fas fa-robot"></i>API OPENAI</a>
-
-   <a href="#"><i class="fas fa-link"></i>API OKECONNEC</a>
-
-   <a href="#"><i class="fas fa-tv"></i>API ANIME</a>
-
-   <a href="#"><i class="fas fa-download"></i>API DOWNLOADER</a>
-  </div>
-
-  <div class="overlay" id="overlay" onclick="closeNav()">
-  </div>
-
-  <script>
-   function openNav() {
-            document.getElementById("mySidebar").style.width = "250px";
-            document.getElementById("overlay").style.display = "block";
-            document.getElementById("menu-icon").classList.remove("fa-bars");
-            document.getElementById("menu-icon").classList.add("fa-times");
-            document.querySelector(".menu").style.transform = "rotate(180deg)";
-        }
-
-        function closeNav() {
-            document.getElementById("mySidebar").style.width = "0";
-            document.getElementById("overlay").style.display = "none";
-            document.getElementById("menu-icon").classList.remove("fa-times");
-            document.getElementById("menu-icon").classList.add("fa-bars");
-            document.querySelector(".menu").style.transform = "rotate(0deg)";
-        }
-
-        function toggleNav() {
-            if (document.getElementById("mySidebar").style.width === "250px") {
-                closeNav();
-            } else {
-                openNav();
-            }
-        }
-
-        function updateDateTime() {
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', fractionalSecondDigits: 3 };
-            const formattedDate = now.toLocaleDateString('id-ID', options);
-            document.getElementById('web-info').innerHTML = `Pengunjung 1 Jam Terakhir: 0<br/>Hari Ini: ${formattedDate}`;
-        }
-
-        function updateUserInfo() {
-            const ip = '192.2.166.211';
-            const speed = '17.18 MB/0.5s';
-            const battery = '0%';
-            const status = 'Sedang mengisi daya';
-            document.getElementById('user-info').innerHTML = `IP Address: ${ip}<br/>Kecepatan Jaringan: ${speed}<br/>Baterai: ${battery}<br/>Status: ${status}`;
-        }
-
-        setInterval(updateDateTime, 1);
-        setInterval(updateUserInfo, 1);
-
-        function openLink(url) {
-            window.location.href = url;
-          }
-  </script>
- </body>
+</body>
 </html>
