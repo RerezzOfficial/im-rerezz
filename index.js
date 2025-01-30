@@ -39,7 +39,27 @@ const mediafire = require('./lib/mediafire')
 const metaaii = require('./lib/metaai')
 const app = express();
 
+let validApiKeys = [];
+try {
+    const apiKeyData = JSON.parse(fs.readFileSync('apikey.json', 'utf8'));
+    validApiKeys = apiKeyData.apiKeys;
+} catch (error) {
+    console.error("Error reading apikey.json:", error.message);
+}
 
+const apilol = 'https://api.lolhuman.xyz';
+const apikeylol = 'IM-Rerezz.XYZ';
+
+function checkApiKey(req, res, next) {
+    const userApiKey = req.query.apikey;
+    if (!userApiKey) {
+        return res.status(400).json({ status: 400, message: "APIKEY TIDAK DI SERTAKAN! EXAMPLE ?apikey=YOUR_KEY" });
+    }
+    if (!validApiKeys.includes(userApiKey)) {
+        return res.status(401).json({ status: 401, message: "Invalid API key" });
+    }
+    next();
+}
 const PORT = process.env.PORT || 3000;
 app.enable("trust proxy");
 app.set("json spaces", 2);
