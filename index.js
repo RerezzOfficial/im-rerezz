@@ -122,16 +122,7 @@ app.get('/doc/download', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "download.html"));
 });
 
-const apiUrl = "https://databse-apis.glitch.me/increment-visitor"
-app.get('/api/visitor-count', async (req, res) => {
-    try {
-        const response = await axios.get(apiUrl);
-        const visitorCount = response.data.visitorCount;
-        res.json({ visitorCount });
-    } catch (error) {
-        res.json({ error: 'Error retrieving visitor count' });
-    }
-});
+
 
 app.get('/api/asmaulhusna', checkApiKey, async (req, res) => {
     try {
