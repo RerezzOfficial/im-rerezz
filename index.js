@@ -65,15 +65,14 @@ const PORT = process.env.PORT || 3000;
 app.enable("trust proxy");
 app.set("json spaces", 2);
 
-const apiUrl = "https://databse-apis.glitch.me/increment-visitor"
-app.get('/api/visitor-count', async (req, res) => {
-    try {
-        const response = await axios.get(apiUrl);
-        const visitorCount = response.data.visitorCount;
-        res.json({ visitorCount });
-    } catch (error) {
-        res.json({ error: 'Error retrieving visitor count' });
-    }
+app.get('/api/visitor', async (req, res) => {
+  try {
+    const response = await axios.get('https://your-glitch-app.glitch.me/increment-visitor');
+    const visitorCount = response.data.count;
+    res.status(200).send(visitorCount.toString());
+  } catch (error) {
+    res.status(500).send('Failed to fetch visitor data');
+  }
 });
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
