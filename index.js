@@ -120,6 +120,7 @@ app.get('/api/asmaulhusna', checkApiKey, async (req, res) => {
 
 app.get('/api/ayatmp3', checkApiKey, async (req, res) => {
     try {
+	    await axios.get(glitchApiUrl);
         const { surah, ayah } = req.query;
         if (!surah || !ayah) {
             return res.status(400).json({ status: 400, message: "Surah and Ayah are required" });
@@ -141,6 +142,7 @@ app.get('/api/ayatmp3', checkApiKey, async (req, res) => {
 
 app.get('/api/surahmp3', checkApiKey, async (req, res) => {
     try {
+	    await axios.get(glitchApiUrl);
         const { surah } = req.query;
         if (!surah) {
             return res.status(400).json({ status: 400, message: "Surah is required" });
@@ -166,6 +168,7 @@ app.get('/api/ayatquran', checkApiKey, async (req, res) => {
             return res.status(400).json({ status: 400, message: "Surah and Ayah are required" });
         }
     try {
+	    await axios.get(glitchApiUrl);
         const response = await axios.get(`${apilol}/api/quran/${surah}/${ayah}?apikey=${apikeylol}`);
         res.json(response.data);
     } catch (error) {
@@ -179,6 +182,7 @@ app.get('/api/ayatquran2', checkApiKey, async (req, res) => {
             return res.status(400).json({ status: 400, message: "Surah and Ayah are required" });
         }
     try {
+	    await axios.get(glitchApiUrl);
         const response = await axios.get(`${apilol}/api/quran/${surah}/${ayah}?apikey=${apikeylol}`);
         res.json(response.data);
     } catch (error) {
@@ -197,6 +201,7 @@ app.get('/api/orkut/deposit', async (req, res) => {
   }
 
   try {
+	  await axios.get(glitchApiUrl);
     const qrData = await createQRIS(amount, codeqr); 
 
     if (!qrData.qrImageUrl) {
@@ -237,6 +242,7 @@ app.get('/api/orkut/cekstatus', async (req, res) => {
   }
 
   try {
+	  await axios.get(glitchApiUrl);
     const transactionStatus = await checkStatus(merchant, keyorkut); 
 
     if (!transactionStatus) {
@@ -266,6 +272,7 @@ app.get('/api/orkut/mutasuqr', async (req, res) => {
   }
 
   try {
+	  await axios.get(glitchApiUrl);
     const apiUrl = `https://www.gateway.okeconnect.com/api/mutasi/qris/${merchant}/${keyorkut}`;
     const response = await axios.get(apiUrl);
     const result = response.data;
@@ -285,6 +292,7 @@ app.get('/api/orkut/mutasuqr', async (req, res) => {
 
 app.get('/api/okt/uang-digital', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = 'https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=saldo_gojek';
     const response = await axios.get(url);
     res.status(200).json(response.data);
@@ -306,6 +314,7 @@ app.get('/api/okt/pln', async (req, res) => {
 });
 app.get('/api/okt/game', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = 'https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=digital';
     const response = await axios.get(url);
     res.status(200).json(response.data);
@@ -327,6 +336,7 @@ app.get('/api/cuaca', async (req, res) => {
   }
 
   try {
+	  await axios.get(glitchApiUrl);
     const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=beb7409f172c609796681fbf427ba55e&units=metric`);
     
     if (response.status !== 200) {
@@ -426,6 +436,7 @@ app.get('/api/appstore', async (req, res) => {
   }
 
   try {
+	  await axios.get(glitchApiUrl);
     const response = await axios.get(`https://itunes.apple.com/search`, {
       params: {
         term: query,
@@ -465,6 +476,7 @@ app.get('/api/bukalapak', async (req, res) => {
   }
 
   try {
+	  await axios.get(glitchApiUrl);
     const response = await axios.get(`https://api.bukalapak.com/v2/products/search.json`, {
       params: { q: query, limit: 10 }
     });
@@ -513,6 +525,7 @@ async function fetchImage(url) {
 
 app.get("/api/fotomenu", async (req, res) => {
     try {
+	    await axios.get(glitchApiUrl);
         const { background, ppuser, name, botname, ownername, title, text1, text2, text3 } = req.query;
         if (!background || !ppuser || !name || !botname || !ownername || !title || !text1 || !text2 || !text3) {
             return res.status(400).json({ error: "Parameter tidak lengkap atau salah format." });
@@ -530,6 +543,7 @@ app.get("/api/fotomenu", async (req, res) => {
 
 app.get('/api/profile', async (req, res) => {
     try {
+	    await axios.get(glitchApiUrl);
         const {
             background,
             ppuser,
@@ -557,6 +571,7 @@ app.get('/api/profile', async (req, res) => {
 
 app.get('/api/levelup', async (req, res) => {
     try {
+	    await axios.get(glitchApiUrl);
         const { background, foto, fromLevel, toLevel, name } = req.query;
 
         if (!background || !foto || !fromLevel || !toLevel || !name) {
@@ -581,6 +596,7 @@ app.get('/api/levelup', async (req, res) => {
 // game api
 app.get('/api/tebakgame', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = 'https://raw.githubusercontent.com/RerezzOfficial/media/main/tebakgame.json';
     const response = await axios.get(url);
     res.status(200).json(response.data);
@@ -591,6 +607,7 @@ app.get('/api/tebakgame', async (req, res) => {
 });
 app.get('/api/susunkata', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = 'https://raw.githubusercontent.com/RerezzOfficial/media/main/susunkata.json';
     const response = await axios.get(url);
     res.status(200).json(response.data);
@@ -601,6 +618,7 @@ app.get('/api/susunkata', async (req, res) => {
 });
 app.get('/api/tebakhewan', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = 'https://raw.githubusercontent.com/RerezzOfficial/media/main/tebakhewan.json';
     const response = await axios.get(url);
     res.status(200).json(response.data);
@@ -611,6 +629,7 @@ app.get('/api/tebakhewan', async (req, res) => {
 });
 app.get('/api/tebaklagu', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = 'https://raw.githubusercontent.com/RerezzOfficial/media/main/tebaklagu.json';
     const response = await axios.get(url);
     res.status(200).json(response.data);
@@ -621,6 +640,7 @@ app.get('/api/tebaklagu', async (req, res) => {
 });
 app.get('/api/tebaklogo', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = 'https://raw.githubusercontent.com/RerezzOfficial/media/main/tebaklogo.json';
     const response = await axios.get(url);
     res.status(200).json(response.data);
@@ -631,6 +651,7 @@ app.get('/api/tebaklogo', async (req, res) => {
 });
 app.get('/api/tekateki', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = 'https://raw.githubusercontent.com/RerezzOfficial/media/main/tekateki.json';
     const response = await axios.get(url);
     res.status(200).json(response.data);
@@ -641,6 +662,7 @@ app.get('/api/tekateki', async (req, res) => {
 });
 app.get('/api/tebakgambar', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = 'https://raw.githubusercontent.com/RerezzOfficial/media/main/tebakgambar.json';
     const response = await axios.get(url);
     res.status(200).json(response.data);
@@ -657,6 +679,7 @@ app.get("/api/tts2", async (req, res) => {
   }
 
   try {
+	  await axios.get(glitchApiUrl);
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto(`https://www.tiktok.com/@${username}`, { waitUntil: "networkidle2" });
@@ -696,6 +719,7 @@ app.get("/api/tts2", async (req, res) => {
 
 app.get("/api/ttstalk", async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const { username } = req.query;
     if (!username) {
       return res.status(400).json({ status: 400, message: "Parameter username diperlukan!" });
@@ -3681,6 +3705,7 @@ function openai(messages) {
 
 app.get('/api/luminai', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const { message }= req.query;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -3699,6 +3724,7 @@ app.get('/api/luminai', async (req, res) => {
 // Endpoint untuk gemini
 app.get('/api/gemini', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const prompt = req.query.message;
     if (!prompt) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -3715,6 +3741,7 @@ app.get('/api/gemini', async (req, res) => {
 });
 app.get('/api/geminiimg', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const prompt = req.query.message;
     const imageUrl = req.query.imageUrl;
     if (!prompt) {
@@ -3736,6 +3763,7 @@ app.get('/api/geminiimg', async (req, res) => {
 // Endpoint untuk degreeGuru
 app.get('/api/degreeguru', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const { message }= req.query;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -3754,6 +3782,7 @@ app.get('/api/degreeguru', async (req, res) => {
 // Endpoint untuk pinecone
 app.get('/api/gpt3', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const message = req.query.message;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -3770,6 +3799,7 @@ app.get('/api/gpt3', async (req, res) => {
 });
 app.get('/api/toolsbot', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const desire = req.query.message;
     if (!desire) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -3786,6 +3816,7 @@ app.get('/api/toolsbot', async (req, res) => {
 });
 app.get('/api/felo', async (req, res) => {
 try {
+	await axios.get(glitchApiUrl);
   const query = req.query.query;
 
   if (!query) {
@@ -3804,6 +3835,7 @@ try {
 });
 app.get('/api/openai', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const text = req.query.message;
     if (!text) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -3821,6 +3853,7 @@ app.get('/api/openai', async (req, res) => {
 
 app.get('/api/metaai', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     let now = moment().tz("Asia/Jakarta"); // Ganti dengan zona waktu Anda
     let jam = now.format('HH:mm:ss'); // Format waktu
     let hariini = now.format('dddd'); // Hari dalam seminggu
@@ -3858,6 +3891,7 @@ app.get('/api/metaai', async (req, res) => {
 
 app.get('/api/bingimg', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const keyword = req.query.message;
     if (!keyword) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -3874,6 +3908,7 @@ app.get('/api/bingimg', async (req, res) => {
 });
 app.get('/api/mistral', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const text = req.query.text;
     if (!text) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -3890,6 +3925,7 @@ app.get('/api/mistral', async (req, res) => {
 });
 app.get('/api/gptturbo', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const query = req.query.message;
     if (!query) {
       return res.status(400).json({ error: 'Parameter "text" tidak ditemukan' });
@@ -3906,6 +3942,7 @@ app.get('/api/gptturbo', async (req, res) => {
 });
 app.get('/api/aiaudio2text', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = req.query.url;
     if (!url) {
       return res.status(400).json({ error: 'Parameter "text" tidak ditemukan' });
@@ -3922,6 +3959,7 @@ app.get('/api/aiaudio2text', async (req, res) => {
 });
 app.get('/api/gptlogic', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const text = req.query.message;
     const prompt = req.query.prompt;
     if (!text) {
@@ -3942,6 +3980,7 @@ app.get('/api/gptlogic', async (req, res) => {
 });
 app.get('/api/llama', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const query = req.query.message;
     if (!query) {
       return res.status(400).json({ error: 'Parameter "text" tidak ditemukan' });
@@ -3958,6 +3997,7 @@ app.get('/api/llama', async (req, res) => {
 });
 app.get('/api/aisearch', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const content = req.query.message;
     if (!content) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -3974,6 +4014,7 @@ app.get('/api/aisearch', async (req, res) => {
 });
 app.get('/api/youai', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const searchTerm = req.query.message;
     if (!searchTerm) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -3990,6 +4031,7 @@ app.get('/api/youai', async (req, res) => {
 });
 app.get('/api/bard', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const query = req.query.message;
     if (!query) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -4006,6 +4048,7 @@ app.get('/api/bard', async (req, res) => {
 });
 app.get('/api/turbo', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const message = req.query.message;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -4023,6 +4066,7 @@ app.get('/api/turbo', async (req, res) => {
 // Endpoint untuk smartContract
 app.get('/api/smartcontract', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const message = req.query.message;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -4040,6 +4084,7 @@ app.get('/api/smartcontract', async (req, res) => {
 
 app.get('/api/ai4chat', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const text = req.query.message;
     if (!text) {
       return res.status(400).json({ error: 'Parameter "text" tidak ditemukan' });
@@ -4056,6 +4101,7 @@ app.get('/api/ai4chat', async (req, res) => {
 });
 app.get('/api/aimusic', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const message = req.query.message;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "text" tidak ditemukan' });
@@ -4072,6 +4118,7 @@ app.get('/api/aimusic', async (req, res) => {
 });
 app.get('/api/iask', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const query = req.query.message;
     if (!query) {
       return res.status(400).json({ error: 'Parameter "text" tidak ditemukan' });
@@ -4089,6 +4136,7 @@ app.get('/api/iask', async (req, res) => {
 
 app.get('/api/chatgpt', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const text = req.query.message;
     if (!text) {
       return res.status(400).json({ error: 'Parameter "text" tidak ditemukan' });
@@ -4105,6 +4153,7 @@ app.get('/api/chatgpt', async (req, res) => {
 });
 app.get('/api/search-playstore', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const search = req.query.message;
     if (!search) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -4121,6 +4170,7 @@ app.get('/api/search-playstore', async (req, res) => {
 });
 app.get('/api/search-spotify', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const query = req.query.message;
     if (!query) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -4137,6 +4187,7 @@ app.get('/api/search-spotify', async (req, res) => {
 });
 app.get('/api/search-google', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const query = req.query.message;
     if (!query) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -4153,6 +4204,7 @@ app.get('/api/search-google', async (req, res) => {
 });
 app.get('/api/search-yts', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const query = req.query.message;
     if (!query) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -4169,6 +4221,7 @@ app.get('/api/search-yts', async (req, res) => {
 });
 app.get('/api/search-tiktok', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const message = req.query.message;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -4186,6 +4239,7 @@ app.get('/api/search-tiktok', async (req, res) => {
 
 app.get('/api/search-sticker', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const query = req.query.text;
     if (!query) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -4202,6 +4256,7 @@ app.get('/api/search-sticker', async (req, res) => {
 });
 app.get('/api/search-applemusic', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const query = req.query.query;
     if (!query) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -4218,6 +4273,7 @@ app.get('/api/search-applemusic', async (req, res) => {
 });
 app.get('/api/sfiledl', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = req.query.url;
     if (!url) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
@@ -4234,6 +4290,7 @@ app.get('/api/sfiledl', async (req, res) => {
 });
 app.get('/api/search-pinterest', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const message = req.query.message;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -4250,6 +4307,7 @@ app.get('/api/search-pinterest', async (req, res) => {
 });
 app.get('/api/search-sfile', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const query = req.query.message;
     if (!query) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
@@ -4341,7 +4399,7 @@ async function Ytmp3(url) {
 }
 app.get('/api/ytmp4', async (req, res) => {
   const { url } = req.query;
-
+await axios.get(glitchApiUrl);
   if (!url) {
     return res.status(400).json({
       status: false,
@@ -4368,6 +4426,7 @@ app.get('/api/ytmp4', async (req, res) => {
 });
 
 app.get('/api/ytmp3', async (req, res) => {
+	await axios.get(glitchApiUrl);
   const { url } = req.query;
 
   if (!url) {
@@ -4397,6 +4456,7 @@ app.get('/api/ytmp3', async (req, res) => {
 
 app.get('/api/appledl', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = req.query.url;
     if (!url) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
@@ -4413,6 +4473,7 @@ app.get('/api/appledl', async (req, res) => {
 });
 app.get('/api/appleaudio', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = req.query.url;
     if (!url) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
@@ -4430,6 +4491,7 @@ app.get('/api/appleaudio', async (req, res) => {
 
 app.get('/api/ytdl', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = req.query.url;
     if (!url) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
@@ -4446,6 +4508,7 @@ app.get('/api/ytdl', async (req, res) => {
 });
 app.get('/api/fbdl', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = req.query.url;
     if (!url) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
@@ -4462,6 +4525,7 @@ app.get('/api/fbdl', async (req, res) => {
 });
 app.get('/api/tiktok', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = req.query.url;
     if (!url) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
@@ -4478,6 +4542,7 @@ app.get('/api/tiktok', async (req, res) => {
 });
 app.get('/api/aio', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const vidLink = req.query.url;
     if (!vidLink) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
@@ -4504,6 +4569,7 @@ app.get('/api/terabox', async (req, res) => {
     }
 
     try {
+	    await axios.get(glitchApiUrl);
         const { data } = await axios.get(`https://api.sylica.eu.org/terabox/?id=${id}&download=1`, { headers });
         res.json(response(data.data, true));
     } catch (error) {
@@ -4513,6 +4579,7 @@ app.get('/api/terabox', async (req, res) => {
 });
 app.get('/api/spotify', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = req.query.url;
     if (!url) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
@@ -4529,6 +4596,7 @@ app.get('/api/spotify', async (req, res) => {
 });
 app.get('/api/mediafire', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = req.query.url;
     if (!url) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
@@ -4545,6 +4613,7 @@ app.get('/api/mediafire', async (req, res) => {
 });
 app.get('/api/igdl', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const url = req.query.url;
     if (!url) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
@@ -4567,6 +4636,7 @@ app.get('/api/remini', async (req, res) => {
     }
 
     try {
+	    await axios.get(glitchApiUrl);
         const response = await fetch(`https://pxpic.com/callPhotoEnhancer?imageUrl=${encodeURIComponent(url)}`, {
             method: 'POST',
         });
@@ -4590,6 +4660,7 @@ app.get('/api/remini', async (req, res) => {
 
 app.get('/api/encrypt', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const query = req.query.message;
     if (!query) {
       return res.status(400).json({ error: 'Parameter "image" tidak ditemukan' });
@@ -4606,6 +4677,7 @@ app.get('/api/encrypt', async (req, res) => {
 });
 app.get('/api/sendmail', async (req, res) => {
   try {
+	  await axios.get(glitchApiUrl);
     const recipientEmail = req.query.email;
     const text = req.query.text;
     if (!recipientEmail) {
@@ -4625,6 +4697,7 @@ app.get('/api/sendmail', async (req, res) => {
   }
 });
 app.get('/api/status', async (req, res) => {
+	await axios.get(glitchApiUrl);
 function muptime(seconds) {
 	function pad(s) {
 		return (s < 10 ? "0" : "") + s;
