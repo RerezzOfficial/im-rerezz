@@ -64,7 +64,17 @@ function checkApiKey(req, res, next) {
 const PORT = process.env.PORT || 3000;
 app.enable("trust proxy");
 app.set("json spaces", 2);
+const glitchApiUrl = 'https://databse-apis.glitch.me/api/usage-count'; 
+app.get('/api/usage', async (req, res) => {
+  try {
+    const response = await axios.get(glitchApiUrl);
+    const usageCount = response.data.usageCount;
 
+    res.status(200).send(`API Usage Count: ${usageCount}`);
+  } catch (error) {
+    res.status(500).send('Failed to fetch usage data');
+  }
+});
 app.get('/api/visitor', async (req, res) => {
   try {
     const response = await axios.get('https://databse-apis.glitch.me/increment-visitor');
