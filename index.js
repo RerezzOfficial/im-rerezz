@@ -65,66 +65,16 @@ const PORT = process.env.PORT || 3000;
 app.enable("trust proxy");
 app.set("json spaces", 2);
 
-const token = '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'; // GitHub token
-const repoOwner = 'RerezzOfficial';
-const repoName = 'im-rerezz';
-const fileName = 'visitorCount.json';
-const filePath = path.join(__dirname, fileName); // Local path to the JSON file
-
-// Read visitor count, increment it and update the file
+const apiUrl = "https://databse-apis.glitch.me/increment-visitor"
 app.get('/api/visitor-count', async (req, res) => {
-  try {
-    const visitorData = await getVisitorDataFromFile(); // Increment the visit count
-
-    // Update the content on GitHub repository
-    const { data: fileData } = await axios.get(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${fileName}`, {
-      headers: {
-        'Authorization': `token ${token}`,
-        'Accept': 'application/vnd.github.v3+json'
-      }
-    });
-
-    const sha = fileData.sha;
-
-    await axios.put(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${fileName}`, {
-      message: 'Update visitor count',
-      content: Buffer.from(JSON.stringify(visitorData)).toString('base64'),
-      sha: sha
-    }, {
-      headers: {
-        'Authorization': `token ${token}`,
-        'Accept': 'application/vnd.github.v3+json'
-      }
-    });
-
-    // Send the updated visit count back as a JSON response
-    res.json({ visitCount: visitorData.visitCount });
-  } catch (error) {
-    console.error('Error:', error.message || error.response.data);
-    res.status(500).send(`Error updating repository: ${error.message || error.response.data}`);
-  }
+    try {
+        const response = await axios.get(apiUrl);
+        const visitorCount = response.data.visitorCount;
+        res.json({ visitorCount });
+    } catch (error) {
+        res.json({ error: 'Error retrieving visitor count' });
+    }
 });
-
-// Helper function to read and increment visitor count
-function getVisitorDataFromFile() {
-  return new Promise((resolve, reject) => {
-    fs.readFile(filePath, 'utf8', (err, data) => {
-      if (err) {
-        reject('Error reading visitorCount.json file');
-      } else {
-        let visitorData = JSON.parse(data);
-        visitorData.visitCount += 1; // Increment the visitor count
-        fs.writeFile(filePath, JSON.stringify(visitorData, null, 2), (writeErr) => {
-          if (writeErr) {
-            reject('Error writing to visitorCount.json');
-          } else {
-            resolve(visitorData);
-          }
-        });
-      }
-    });
-  });
-}
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
