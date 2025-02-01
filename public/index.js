@@ -176,20 +176,12 @@
         getIPDetails();
         
     
-window.onload = async function() {
-            try {
-                const response = await fetch('/api/visitor-count');
-                const data = await response.json();
-                
-                // Menampilkan jumlah pengunjung yang diambil dari API
-                if (data.visitorCount) {
-                    document.getElementById('visitor-count').textContent = data.visitorCount;
-                } else {
-                    document.getElementById('visitor-count').textContent = 'Error retrieving data';
-                }
-            } catch (error) {
-                // Menangani error jika API tidak dapat diakses
-                console.error('Error fetching visitor count:', error);
-                document.getElementById('visitor-count').textContent = 'Error retrieving data';
-            }
-        };
+async function fetchVisitorCount() {
+    try {
+        const response = await fetch('https://databse-apis.glitch.me/increment-visitor');
+        const data = await response.text();
+        document.getElementById('visitor-count').innerText = `Visitor Count: ${data}`;
+    } catch (error) {
+        console.error('Error fetching visitor count:', error);
+    }
+}
