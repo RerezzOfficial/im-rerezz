@@ -64,17 +64,8 @@ function checkApiKey(req, res, next) {
 const PORT = process.env.PORT || 3000;
 app.enable("trust proxy");
 app.set("json spaces", 2);
-const glitchApiUrl = 'https://databse-apis.glitch.me/api/usage-count'; 
-app.get('/api/usage', async (req, res) => {
-  try {
-    const response = await axios.get(glitchApiUrl);
-    const usageCount = response.data.usageCount;
 
-    res.status(200).send(`API Usage Count: ${usageCount}`);
-  } catch (error) {
-    res.status(500).send('Failed to fetch usage data');
-  }
-});
+const glitchApiUrl = 'https://databse-apis.glitch.me/api/increment-usage';
 app.get('/api/visitor', async (req, res) => {
   try {
     const response = await axios.get('https://databse-apis.glitch.me/increment-visitor');
@@ -109,12 +100,13 @@ app.get('/doc/download', (req, res) => {
 
 
 app.get('/api/asmaulhusna', checkApiKey, async (req, res) => {
-    try {
-        const response = await axios.get(`${apilol}/api/asmaulhusna?apikey=${apikeylol}`);
-        res.json(response.data);
-    } catch (error) {
-        res.status(500).json({ status: 500, message: "Error fetching data", error: error.message });
-    }
+  try {
+    await axios.get(glitchApiUrl);
+    const response = await axios.get(`${apilol}/api/asmaulhusna?apikey=${apikeylol}`);
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ status: 500, message: "Error fetching data", error: error.message });
+  }
 });
 
 app.get('/api/ayatmp3', checkApiKey, async (req, res) => {
