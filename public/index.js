@@ -180,7 +180,7 @@ async function fetchVisitorCount() {
       try {
         const response = await fetch('/api/visitor');
         const data = await response.text();
-        document.getElementById('visitor-count').innerText = `Visitor Count: ${data}`;
+        document.getElementById('visitor-count').innerText = `${data}`;
       } catch (error) {
         console.error('Error fetching visitor count:', error);
         document.getElementById('visitor-count').innerText = 'Failed to load visitor count';
