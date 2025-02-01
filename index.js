@@ -66,6 +66,15 @@ app.enable("trust proxy");
 app.set("json spaces", 2);
 
 const glitchApiUrl = 'https://databse-apis.glitch.me/api/increment-usage';
+app.get('/api/get-usage-count', async (req, res) => {
+  try {
+    const response = await fetch('https://databse-apis.glitch.me/api/usage-count');
+    const data = await response.json();
+    res.status(200).json({ usageCount: data.usageCount });
+  } catch (error) {
+    res.status(500).json({ status: 500, message: 'Failed to fetch usage count from Glitch', error: error.message });
+  }
+});
 app.get('/api/visitor', async (req, res) => {
   try {
     const response = await axios.get('https://databse-apis.glitch.me/increment-visitor');
