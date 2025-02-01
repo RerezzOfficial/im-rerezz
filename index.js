@@ -69,7 +69,7 @@ const token = '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';
 const repoOwner = 'RerezzOfficial';
 const repoName = 'im-rerezz';
 const fileName = 'visitorCount.json';
-const filePath = path.join(__dirname, 'visitorCount.json');
+const filePath = path.join(__dirname, fileName);
 
 app.get('/api/visitor-count', async (req, res) => {
   try {
@@ -96,7 +96,7 @@ app.get('/api/visitor-count', async (req, res) => {
 
     res.json({ visitCount: visitorData.visitCount });
   } catch (error) {
-    console.error(error);
+    console.error('Error:', error.response ? error.response.data : error.message);
     res.status(500).send('Error updating repository');
   }
 });
