@@ -176,24 +176,14 @@
         getIPDetails();
         
     
-       async function fetchVisitorCount() {
-      try {
-        // Mengambil data dari API /api/visitor-count
-        const response = await fetch('/api/visitor-count');
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch visitor count');
+async function fetchVisitorCount() {
+            try {
+                const response = await fetch('https://apiim-rerezz.vercel.app/api/visitor-count');
+                const data = await response.json();
+                document.getElementById('visitor-count').textContent = data.visitorCount;
+            } catch (error) {
+                console.error('Error fetching visitor count:', error);
+                document.getElementById('visitor-count').textContent = 'Error retrieving data';
+            }
         }
-        
-        const data = await response.json();
-        // Menampilkan visitor count ke dalam elemen dengan ID 'visitorCount'
-        document.getElementById('visitorCount').innerText = `Visitor Count: ${data.visitCount}`;
-      } catch (error) {
-        console.error('Error fetching visitor count:', error);
-        document.getElementById('visitorCount').innerText = 'Error loading visitor count';
-      }
-    }
-
-    // Memanggil fungsi fetchVisitorCount ketika halaman dimuat
-    window.onload = fetchVisitorCount;
-        
+window.onload = fetchVisitorCount;
