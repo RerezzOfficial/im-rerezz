@@ -176,12 +176,24 @@
         getIPDetails();
         
     
-        fetch('/api/visitor-count')
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('visitor-count').textContent = data.visitorCount;
-        })
-        .catch(error => {
-            document.getElementById('visitor-count').textContent = 'Error retrieving visitor count';
-        });
+       async function fetchVisitorCount() {
+      try {
+        // Mengambil data dari API /api/visitor-count
+        const response = await fetch('/api/visitor-count');
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch visitor count');
+        }
+        
+        const data = await response.json();
+        // Menampilkan visitor count ke dalam elemen dengan ID 'visitorCount'
+        document.getElementById('visitorCount').innerText = `Visitor Count: ${data.visitCount}`;
+      } catch (error) {
+        console.error('Error fetching visitor count:', error);
+        document.getElementById('visitorCount').innerText = 'Error loading visitor count';
+      }
+    }
+
+    // Memanggil fungsi fetchVisitorCount ketika halaman dimuat
+    window.onload = fetchVisitorCount;
         
