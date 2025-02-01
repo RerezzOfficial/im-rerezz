@@ -65,15 +65,15 @@ const PORT = process.env.PORT || 3000;
 app.enable("trust proxy");
 app.set("json spaces", 2);
 
-const token = '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';
+const token = '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'; // Your GitHub token
 const repoOwner = 'RerezzOfficial';
 const repoName = 'im-rerezz';
 const fileName = 'visitorCount.json';
-const filePath = path.join(__dirname, fileName);
+const filePath = path.join(__dirname, fileName); // Local file path to store the JSON data
 
 app.get('/api/visitor-count', async (req, res) => {
   try {
-    const visitorData = await getVisitorDataFromFile();
+    const visitorData = await getVisitorDataFromFile(); // Increment the visitor count
     const response = await axios.get(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${fileName}`, {
       headers: {
         'Authorization': `token ${token}`,
@@ -94,10 +94,11 @@ app.get('/api/visitor-count', async (req, res) => {
       }
     });
 
+    // Return the updated visitor count
     res.json({ visitCount: visitorData.visitCount });
   } catch (error) {
     console.error('Error:', error.response ? error.response.data : error.message);
-    res.status(500).send('Error updating repository');
+    res.status(500).send(`Error updating repository: ${error.response ? error.response.data : error.message}`);
   }
 });
 
@@ -108,7 +109,7 @@ function getVisitorDataFromFile() {
         reject('Error reading visitorCount.json file');
       } else {
         let visitorData = JSON.parse(data);
-        visitorData.visitCount += 1;
+        visitorData.visitCount += 1; // Increment the visit count
         fs.writeFile(filePath, JSON.stringify(visitorData, null, 2), (writeErr) => {
           if (writeErr) {
             reject('Error writing to visitorCount.json');
