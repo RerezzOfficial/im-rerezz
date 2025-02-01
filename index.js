@@ -27,14 +27,7 @@ const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } = require('@googl
 const Used_Apikey = "AIzaSyB88NfVhPnuCKWo8mx0Q5hub52m5Vklt2o"
 const genAI = new GoogleGenerativeAI(Used_Apikey);
 const https = require('https');
-let Octokit;
 
-async function initializeOctokit() {
-  const { Octokit: OctokitImport } = await import('@octokit/rest');
-  Octokit = OctokitImport;
-}
-
-initializeOctokit();
 const filePath = path.join(__dirname, 'visitorCount.json');
 const {
 	createQRIS,
@@ -72,41 +65,61 @@ const PORT = process.env.PORT || 3000;
 app.enable("trust proxy");
 app.set("json spaces", 2);
 
-const octokit = new Octokit({
-  auth:  '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'
-});
+const token = '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';
 const repoOwner = 'RerezzOfficial';
 const repoName = 'im-rerezz';
 const fileName = 'visitorCount.json';
-app.get('/api/visitor-count', (req, res) => {
-  fs.readFile(filePath, 'utf8', async (err, data) => {
-    if (err) {
-      return res.status(500).send('Internal Server Error');
-    }
-    const visitorData = JSON.parse(data);
-    try {
-      const { data: fileData } = await octokit.repos.getContent({
-        owner: repoOwner,
-        repo: repoName,
-        path: fileName
-      });
-      const sha = fileData.sha; 
-      await octokit.repos.createOrUpdateFileContents({
-        owner: repoOwner,
-        repo: repoName,
-        path: fileName,
-        message: 'Update visitor count',
-        content: Buffer.from(JSON.stringify(visitorData)).toString('base64'),
-        sha: sha 
-      });
-      res.json({ visitCount: visitorData.visitCount });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error updating repository');
-    }
-  });
+const filePath = path.join(__dirname, fileName);
+
+app.get('/api/visitor-count', async (req, res) => {
+  try {
+    const visitorData = await getVisitorDataFromFile();
+    const response = await axios.get(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${fileName}`, {
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+
+    const sha = response.data.sha;
+
+    await axios.put(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${fileName}`, {
+      message: 'Update visitor count',
+      content: Buffer.from(JSON.stringify(visitorData)).toString('base64'),
+      sha: sha
+    }, {
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+
+    res.json({ visitCount: visitorData.visitCount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error updating repository');
+  }
 });
 
+function getVisitorDataFromFile() {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) {
+        reject('Error reading visitorCount.json file');
+      } else {
+        let visitorData = JSON.parse(data);
+        visitorData.visitCount += 1;
+        fs.writeFile(filePath, JSON.stringify(visitorData, null, 2), (writeErr) => {
+          if (writeErr) {
+            reject('Error writing to visitorCount.json');
+          } else {
+            resolve(visitorData);
+          }
+        });
+      }
+    });
+  });
+}
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
