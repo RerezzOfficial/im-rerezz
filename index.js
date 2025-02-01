@@ -67,7 +67,7 @@ app.set("json spaces", 2);
 
 app.get('/api/visitor', async (req, res) => {
   try {
-    const response = await axios.get('https://your-glitch-app.glitch.me/increment-visitor');
+    const response = await axios.get('https://databse-apis.glitch.me/increment-visitor');
     const visitorCount = response.data.count;
     res.status(200).send(visitorCount.toString());
   } catch (error) {
