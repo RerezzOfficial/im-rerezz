@@ -28,7 +28,7 @@ const Used_Apikey = "AIzaSyB88NfVhPnuCKWo8mx0Q5hub52m5Vklt2o"
 const genAI = new GoogleGenerativeAI(Used_Apikey);
 const https = require('https');
 
-const filePath = path.join(__dirname, 'visitorCount.json');
+
 const {
 	createQRIS,
 	checkStatus
@@ -69,7 +69,7 @@ const token = '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';
 const repoOwner = 'RerezzOfficial';
 const repoName = 'im-rerezz';
 const fileName = 'visitorCount.json';
-const filePath = path.join(__dirname, fileName);
+const filePath = path.join(__dirname, 'visitorCount.json');
 
 app.get('/api/visitor-count', async (req, res) => {
   try {
