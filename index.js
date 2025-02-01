@@ -27,7 +27,8 @@ const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } = require('@googl
 const Used_Apikey = "AIzaSyB88NfVhPnuCKWo8mx0Q5hub52m5Vklt2o"
 const genAI = new GoogleGenerativeAI(Used_Apikey);
 const https = require('https');
-
+const { Octokit } = require('@octokit/rest');
+const filePath = path.join(__dirname, 'visitorCount.json');
 const {
 	createQRIS,
 	checkStatus
@@ -64,6 +65,40 @@ const PORT = process.env.PORT || 3000;
 app.enable("trust proxy");
 app.set("json spaces", 2);
 
+const octokit = new Octokit({
+  auth:  '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'
+});
+const repoOwner = 'RerezzOfficial';
+const repoName = 'im-rerezz';
+const fileName = 'visitorCount.json';
+app.get('/api/visitor-count', (req, res) => {
+  fs.readFile(filePath, 'utf8', async (err, data) => {
+    if (err) {
+      return res.status(500).send('Internal Server Error');
+    }
+    const visitorData = JSON.parse(data);
+    try {
+      const { data: fileData } = await octokit.repos.getContent({
+        owner: repoOwner,
+        repo: repoName,
+        path: fileName
+      });
+      const sha = fileData.sha; 
+      await octokit.repos.createOrUpdateFileContents({
+        owner: repoOwner,
+        repo: repoName,
+        path: fileName,
+        message: 'Update visitor count',
+        content: Buffer.from(JSON.stringify(visitorData)).toString('base64'),
+        sha: sha 
+      });
+      res.json({ visitCount: visitorData.visitCount });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Error updating repository');
+    }
+  });
+});
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
