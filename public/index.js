@@ -191,11 +191,16 @@ fetchVisitorCount();
 async function fetchUsageCount() {
       try {
         const response = await fetch('https://databse-apis.glitch.me/api/usage-count');
-        const data = await response.json();
-        document.getElementById('usage-count').innerText = `Request Apis ${data.usageCount}`;
+        if (response.ok) {
+          const data = await response.json(); 
+          const usageCount = data.usageCount;
+          document.getElementById('usage-count').innerText = usageCount;
+        } else {
+          document.getElementById('usage-count').innerText = 'Failed to load usage count';
+        }
       } catch (error) {
         console.error('Error fetching usage count:', error);
-        document.getElementById('usage-count').innerText = 'Failed to load usage count';
+        document.getElementById('usage-count').innerText = 'Error loading data';
       }
     }
 fetchUsageCount();
