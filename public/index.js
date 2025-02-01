@@ -177,11 +177,13 @@
         
     
 async function fetchVisitorCount() {
-    try {
-        const response = await fetch('https://databse-apis.glitch.me/increment-visitor');
+      try {
+        const response = await fetch('/api/visitor');
         const data = await response.text();
         document.getElementById('visitor-count').innerText = `Visitor Count: ${data}`;
-    } catch (error) {
+      } catch (error) {
         console.error('Error fetching visitor count:', error);
+        document.getElementById('visitor-count').innerText = 'Failed to load visitor count';
+      }
     }
-}
+fetchVisitorCount();
