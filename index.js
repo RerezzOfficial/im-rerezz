@@ -286,6 +286,7 @@ app.get('/api/okt/uang-digital', async (req, res) => {
 });
 app.get('/api/okt/pln', async (req, res) => {
   try {
+    await axios.get(glitchApiUrl);
     const url = 'https://www.okeconnect.com/harga/json?id=905ccd028329b0a&produk=token_pln';
     const response = await axios.get(url);
     res.status(200).json(response.data);
