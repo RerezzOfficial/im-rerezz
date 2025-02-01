@@ -27,7 +27,14 @@ const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } = require('@googl
 const Used_Apikey = "AIzaSyB88NfVhPnuCKWo8mx0Q5hub52m5Vklt2o"
 const genAI = new GoogleGenerativeAI(Used_Apikey);
 const https = require('https');
-const { Octokit } = require('@octokit/rest');
+let Octokit;
+
+async function initializeOctokit() {
+  const { Octokit: OctokitImport } = await import('@octokit/rest');
+  Octokit = OctokitImport;
+}
+
+initializeOctokit();
 const filePath = path.join(__dirname, 'visitorCount.json');
 const {
 	createQRIS,
