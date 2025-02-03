@@ -1050,11 +1050,4 @@ app.get('/api/uptime', (req, res) => {
 
 app.listen(port, async () => {
   console.log(`Server berjalan di port ${port}`);
-  await getLocalhost();
-  const startTime = Date.now(); 
-  setInterval(() => {
-    const uptime = ((Date.now() - startTime) / 1000); 
-    const uptimeMinutes = (uptime / 60).toFixed(2); 
-    console.log(`Runtime: ${uptimeMinutes} menit`); 
-  }, 60000); 
 });
