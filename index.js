@@ -704,7 +704,7 @@ app.get('/style/jsnya', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.js'));
 });
 app.get('/style/cssnya', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.js'));
+  res.sendFile(path.join(__dirname, 'public', 'index.css'));
 });
 
 app.get('/', (req, res) => {
