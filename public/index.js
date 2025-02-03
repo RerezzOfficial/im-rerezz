@@ -173,35 +173,4 @@ document.addEventListener('keydown', function (event) {
         alert('Inspect Element dinonaktifkan!');
     }
 });
-
-function toggleLove() {
-  const loveIcon = document.querySelector('.love-icon');
-  loveIcon.classList.toggle('clicked');
-
-  fetch('https://databse-apis.glitch.me/api/addFollower', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ action: 'add' })
-  })
-  .then(response => response.json())
-  .then(data => {
-      document.getElementById('follower-count').textContent = data.followers;
-  })
-  .catch(error => {
-      console.error('Error:', error);
-  });
-}
-
-
-window.onload = function() {
-  fetch('https://databse-apis.glitch.me/api/getFollowers')
-  .then(response => response.json())
-  .then(data => {
-      document.getElementById('follower-count').textContent = data.followers;
-  })
-  .catch(error => {
-      console.error('Error:', error);
-  });
-              }
+                  
