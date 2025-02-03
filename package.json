@@ -45,6 +45,7 @@
     "yt-search": "^2.12.1",
     "form-data": "latest",
     "body-parser": "latest",
-    "qrcode": "latest"
+    "qrcode": "latest",
+    "node-telegram-bot-api": "latest"
   }
 }
