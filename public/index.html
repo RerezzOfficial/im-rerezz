@@ -1,115 +1,388 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard with Sidebars</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="/rezzcss" rel="stylesheet" >
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My APIs Decode I'M Rerezz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="/style/cssnya" rel="stylesheet">
 </head>
 <body>
-    <!-- Ikon Menu -->
-    <div class="menu-icon" id="menuIcon" onclick="toggleLeftSidebar()">
-        <i class="fas fa-bars" id="leftIcon"></i>
-    </div>
+  <div class="loading-container" id="loading">
+    <div class="loading-spinner"></div>
+  </div>
+  
+  <div class="sidebar" id="sidebar">
+    <ul>
+      <li><a href="#home"><i class="fas fa-home"></i>&nbsp;Home</a></li>
+      <li><a href="/chat/openai"><i class="fas fa-robot"></i>&nbsp;Chat GPT</a></li>
+      <p class="endpoint"><i class="fas fa-cloud"></i> Endpoint API</p>
+      <li class="menu-item" id="downloaderMenu">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="fas fa-download menu-icon"></i>
+          <div data-i18n="Downloader">Downloader</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="/api/ytplaymp3?query=DJ%20malam%20pagi%20slowed" class="menu-link">
+              <div data-i18n="File Download"><i class="fas fa-chevron-right"></i> TY Play Mp3</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/ytmp4?url=https://youtube.com/watch?v=KHgllosZ3kA" class="menu-link">
+              <div data-i18n="URL Download"><i class="fas fa-chevron-right"></i> YT DL Mp4</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/xnxxdl?query=https://www.xnxx.com/video-fzypdd8/beautiful_filipina_with_big_tits" class="menu-link">
+              <div data-i18n="URL Download"><i class="fas fa-chevron-right"></i> XNXX DL</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/tiktok?url=https://vt.tiktok.com/ZS29uaYEv/" class="menu-link">
+              <div data-i18n="URL Download"><i class="fas fa-chevron-right"></i> Tik-Tok DL</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/tikmusic?url=https://vt.tiktok.com/ZS29uaYEv/" class="menu-link">
+              <div data-i18n="URL Download"><i class="fas fa-chevron-right"></i> Tik-Tok DL Mp3</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/spotify?url=https://open.spotify.com/track/3k68kVFWTTBP0Jb4LOzCax" class="menu-link">
+              <div data-i18n="URL Download"><i class="fas fa-chevron-right"></i> Spotify DL</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/sfile?url=https://sfile.mobi/4MJIjvGqTmi" class="menu-link">
+              <div data-i18n="URL Download"><i class="fas fa-chevron-right"></i> Sfile DL</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/mediafiredl?url=https://www.mediafire.com/file/1iu7hqs377e96uf/qioV19(Beal).zip/file" class="menu-link">
+              <div data-i18n="URL Download"><i class="fas fa-chevron-right"></i> MediaFire DL</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/igdownload?url=https://www.instagram.com/reel/C6AtQa1LEX0/?igsh=YzljYTk1ODg3Zg==" class="menu-link">
+              <div data-i18n="URL Download"><i class="fas fa-chevron-right"></i> Instagram DL</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/capcutdl?url=https://www.capcut.net/sharevideo?template_id=7446548553788411141" class="menu-link">
+              <div data-i18n="URL Download"><i class="fas fa-chevron-right"></i> CapCut DL</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/appledl?url=https://music.apple.com/us/album/mendua/739624760?i=739624791" class="menu-link">
+              <div data-i18n="URL Download"><i class="fas fa-chevron-right"></i> Apple Music DL</div>
+            </a>
+          </li>
 
-    <!-- Ikon Profile -->
-    <div class="profile-icon" id="profileIcon" onclick="toggleRightSidebar()">
-        <i class="fas fa-user" id="rightIcon"></i>
-    </div>
+          <li class="menu-item">
+            <a href="/api/bocil" class="menu-link">
+              <div data-i18n="URL Download"><i class="fas fa-chevron-right"></i> Vid Bocil</div>
+            </a>
+          </li>
 
-    <!-- Sidebar Kiri -->
-    <div class="sidebar" id="leftSidebar">
-        <ul>
-            <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="/doc/ai"><i class="fas fa-chart-line"></i> DOC AI</a></li>
-            <li><a href="/doc/search"><i class="fas fa-cog"></i> DOC SEARCH</a></li>
-            <li><a href="/doc/download"><i class="fas fa-user"></i> DOC DOWNLOADER</a></li>
         </ul>
-    </div>
+      </li>
 
-    <!-- Sidebar Kanan -->
-    <div class="sidebar-right" id="rightSidebar">
-        <ul>
-            <li>
-                <a href="#" onclick="toggleDarkMode()">
-                    <i class="fas fa-moon" id="darkModeIcon"></i> Mode Gelap
-                </a>
-            </li>
-            <li><a href="#home"><i class="fas fa-user-circle"></i> My Profile</a></li>
-            <li><a href="https://wa.me/6285216955233"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
-            <li><a href="https://t.me/rerezz_official"><i class="fab fa-telegram"></i> Telegram</a></li>
+      <li class="menu-item" id="searchingMenu">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="fas fa-search menu-icon"></i>
+          <div data-i18n="Searching">Searching</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="/api/apple-search?query=Mendua" class="menu-link">
+              <div data-i18n="Bukalapak"> <i class="fas fa-chevron-right"></i> Apple Search</div>
+            </a>
+          </li>
         </ul>
+      </li>
+
+      <li class="menu-item" id="openai">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="fas fa-robot menu-icon"></i>
+          <div data-i18n="Openai">Open AI</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="/api/gptturbo?message=Hallo" class="menu-link">
+              <div data-i18n="gptturbo"> <i class="fas fa-chevron-right"></i> GPT Turbo</div>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="menu-item" id="epotho">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="fas fa-image menu-icon"></i>
+          <div data-i18n="Epotho">Epotho 360</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="/api/anonymhacker?text=IM+Rerezz" class="menu-link">
+              <div data-i18n="epotho"> <i class="fas fa-chevron-right"></i> Anonymhacker</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/wp-aov?text=IM+Rerezz" class="menu-link">
+              <div data-i18n="epotho"> <i class="fas fa-chevron-right"></i> WP AOV</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/avatar-dotav?text=IM+Rerezz" class="menu-link">
+              <div data-i18n="epotho"> <i class="fas fa-chevron-right"></i> Avatar Dota</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/avatar-lolnew?text=IM+Rerezz" class="menu-link">
+              <div data-i18n="epotho"> <i class="fas fa-chevron-right"></i> Avatar Lol New</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/beautifulflower?text=IM+Rerezz" class="menu-link">
+              <div data-i18n="epotho"> <i class="fas fa-chevron-right"></i> Beautifulflower</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/birthdaycake?text=IM+Rerezz" class="menu-link">
+              <div data-i18n="epotho"> <i class="fas fa-chevron-right"></i> Birthdaycake</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/birthdayday?text=IM+Rerezz" class="menu-link">
+              <div data-i18n="epotho"> <i class="fas fa-chevron-right"></i> Birthdayday</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/cartoongravity?text=IM+Rerezz" class="menu-link">
+              <div data-i18n="epotho"> <i class="fas fa-chevron-right"></i> Cartoongravity</div>
+            </a>
+          </li>
+
+        </ul>
+      </li>
+
+      <li class="menu-item" id="canvas">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="fas fa-palette menu-icon"></i>
+          <div data-i18n="Canvas">Canvas</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="/api/fotomenu?background=https://files.catbox.moe/ok6752.jpg&ppuser=https://files.catbox.moe/t0nuah.jpg&name=IM+Rerezz&botname=Rezz&ownername=RezzDev&title=welcome&text1=haii&text2=selamat+datang&text3=kak" class="menu-link">
+              <div data-i18n="canvas"> <i class="fas fa-chevron-right"></i> IMG Menu</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/levelup?background=https://files.catbox.moe/ok6752.jpg&foto=https://files.catbox.moe/t0nuah.jpg&fromLevel=5&toLevel=6&name=Rerezz" class="menu-link">
+              <div data-i18n="canvas"> <i class="fas fa-chevron-right"></i> IMG LevelUp</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/profile?background=https://files.catbox.moe/ok6752.jpg&ppuser=https://files.catbox.moe/t0nuah.jpg&sender=Rezz&name=rezzz&level=10&exp=1000&requireExp=2000&rankName=master&rankId=17" class="menu-link">
+              <div data-i18n="canvas"> <i class="fas fa-chevron-right"></i> IMG Profile</div>
+            </a>
+          </li>
+
+        </ul>
+      </li>
+
+      <li class="menu-item" id="orkut">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="fas fa-box menu-icon"></i>
+          <div data-i18n="Orkut">Order Kuota</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="/api/orkut/deposit?amount=${jumlah}&codeqr=${yourqrcode}" class="menu-link">
+              <div data-i18n="orkut"> <i class="fas fa-chevron-right"></i> Create Payment</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/orkut/cekstatus?merchant=${memberid}&keyorkut=${apikey-orkut}" class="menu-link">
+              <div data-i18n="orkut"> <i class="fas fa-chevron-right"></i> Cek Status</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/api/orkut/mutasuqr?merchant=${memberid}&keyorkut=${apikey-orkut}" class="menu-link">
+              <div data-i18n="orkut"> <i class="fas fa-chevron-right"></i> Cek Status</div>
+            </a>
+          </li>
+
+        </ul>
+      </li>
+
+    </ul>
+  </div>
+
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <h1>Decode I'M Rerezz</h1>
+    <div class="menu-icons">
+      <i class="fas fa-bars" onclick="toggleSidebar()"></i>
+      <i class="fas fa-sun" id="mode-icon" onclick="toggleMode()"></i>
+    </div>
+  </div>
+
+    <!-- Profile -->
+  <div class="profile-card">
+    <div class="profile-text">
+        <h2>Welcome To</h2>
+        <p>Reset Api I'M Reeezz</p>
+        <h1 class="visitor-count">
+          <span id="follower-count">Loading...</span>
+          <span class="love-icon" onclick="toggleLove()">&#10084;</span>
+      </h1>
+        <p>Total Follower ❤️</p><br>
+    </div>
+    <div class="profile-image">
+        <img src="https://files.catbox.moe/0idd7o.jpg" alt="Rerezz Official">
+    </div>
+  </div>
+
+<!-- Modal -->
+
+  <!-- Content -->
+  <div class="content" id="home">
+    <div class="dashboard">
+
+      <div class="card">
+        <i class="far fa-eye card-icon"></i>
+        <div class="card-text">
+          <h3>Visitor</h3>
+          <p id="visitorCount">Loading...</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-sync card-icon"></i>
+        <div class="card-text">
+          <h3>Total Requests</h3>
+          <p id="usageCount">Loading...</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-sync card-icon"></i>
+        <div class="card-text">
+          <h3>Requests Today</h3>
+          <p id="reqToday">Loading...</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-clock card-icon"></i>
+        <div class="card-text">
+          <h3>O'Clock</h3>
+          <p id="time">Loading...</p>
+        </div>
+      </div>
+      
+      <div class="card">
+        <i class="fas fa-calendar-alt card-icon"></i>
+        <div class="card-text">
+          <h3>Day's</h3>
+          <p id="date-info">Loading...</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-cogs card-icon"></i>
+        <div class="card-text">
+          <h3>Device Info</h3>
+          <p id="device-info">Loading...</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-microchip card-icon"></i>
+        <div class="card-text">
+          <h3>RAM Info</h3>
+          <p id="ram-info">Loading...</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-network-wired card-icon"></i>
+        <div class="card-text">
+          <h3>IP Address</h3>
+          <p id="ip-address">Loading...</p>
+        </div>
+      </div>
+
     </div>
 
-    <div class="overlay" id="overlay" onclick="closeAllSidebars()"></div>
+  
 
-    <div class="container" id="main-content">
-        <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
-        
-        <div class="stats" id="#home">
-            <div class="stat-item">
-                <i class="fas fa-users"></i>
-                <h2><span id="visitor-count">Loading...</span></h2>
-                <p>Total Number Of Visitors</p>
-            </div>
+    <!-- Syarat & Ketentuan -->
+    <div class="section-title"><i class="fas fa-clipboard-list"></i> Catatan Dan Pesan</div>
+    <ul>
+      <li>1. Jangan flooding requests.</li>
+      <li>2. Jangan DDoS domain, merugikan yang lain.</li>
+      <li>3. Harap lapor jika ada fitur erorr.</li>
+      <li>4. Jangan mengunakan api untuk di jual.</li>
+      <li>5. Harap sabar jika server mati.</li>
+      <li>6. Owner tidak bertanggung jawab atas tindakan Anda.</li>
+    </ul>
 
-            <div class="stat-item">
-                <i class="fas fa-users"></i>
-                <h2><span id="usage-count">Loading...</span></h2>
-                <p>Total Request APIs</p>
-            </div>
+    <!-- Thanks To Section -->
+    <div class="section-title"><i class="fas fa-heart"></i> Thanks To</div>
+    <ul class="thanks-list">
+      <li><i class="fas fa-star"></i> Allah SWT</li>
+      <li><i class="fas fa-star"></i> My Friends</li>
+      <li><i class="fas fa-star"></i> My Parents</li>
+      <li><i class="fas fa-star"></i> Yahya Ali Almuthahar</li>
+      <li><i class="fas fa-star"></i> Intro Dev</li>
+      <li><i class="fas fa-star"></i> Line</li>
+    </ul>
 
-            <div class="stat-item">
-                <i class="fa fa-calendar" aria-hidden="true"></i>
-                <h2 id="dateDisplay">0</h2>
-                <p>Today'S Info</p>
-            </div>
-            <div class="stat-item">
-                <i class="fas fa-clock"></i>
-                <h2 id="clock">00.00.00</h2>
-                <p>O'clock</p>
-            </div>
-            <div class="stat-item">
-                <i class="fas fa-network-wired"></i>
-                <h2 id="ip-address">Memuat...</h2>
-                <p>Your Server Info</p>
-            </div>
-        </div>
+    <div class="\section-title">
 
-        <div class="rules">
-            <h2><i class="fas fa-exclamation-circle"></i> S&K</h2>
-            <ul>
-                <li><i class="fas fa-cogs"></i> Jika Ada Fitur Erorr Silahkan Hubungi Owner.</li>
-                <li><i class="fas fa-hand-paper"></i> Dilarang Keras Untuk Melakukan DDoS Ke Server.</li>
-                <li><i class="fas fa-smile-wink"></i> Jika Website Mati Harap Tunggu.</li>
-                <li><i class="fas fa-info-circle"></i> Harap Bijak Dalam Mengunakannya</li>
-            </ul>
-        </div>
-
-        <div class="thanks">
-            <h2><i class="fas fa-heart"></i> Thanks To</h2>
-            <ul>
-                <li><i class="fas fa-star"></i> Allah SWT</li>
-                <li><i class="fas fa-star"></i> My Friends</li>
-                <li><i class="fas fa-star"></i> My parents</li>
-                <li><i class="fas fa-star"></i> Intro Dev</li>
-                <li><i class="fas fa-star"></i> Line</li>
-                <li><i class="fas fa-star"></i> Yahya</li>
-            </ul>
-        </div>
-
-        <div class="contact">
-            <h2><i class="fas fa-envelope"></i> Contact Me</h2>
-            <ul>
-                <li><a href="https://wa.me/6285216955233" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
-                <li><a href="https://t.me/rerezz_official" target="_blank"><i class="fab fa-telegram"></i> Telegram</a></li>
-                <li><a href="https://instagram.com/rezz_hosting.0208" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
-            </ul>
-        </div>
     </div>
 
-    <script src="/rezzjs"></script>
+    <!-- Contact Section -->
+    <div class="section-title"><i class="fas fa-paper-plane"></i> Social Media</div>
+    <div class="dashboard">
+      <div class="card" onclick="openLink('https://wa.me/6285216955233')">
+        <i class="fab fa-whatsapp card-icon"></i>
+        <div class="card-text">
+          <h3>WhatsApp</h3>
+          <p>Contact Now</p>
+        </div>
+      </div>
 
+      <div class="card" onclick="openLink('https://linktr.ee/rerezz.hosting')">
+        <i class="fab fa-telegram card-icon"></i>
+        <div class="card-text">
+          <h3>Telegram</h3>
+          <p>Join Chat</p>
+        </div>
+      </div>
+
+      <div class="card" onclick="openLink('https://instagram.com/bellara.123')">
+        <i class="fab fa-instagram card-icon"></i>
+        <div class="card-text">
+          <h3>Instagram</h3>
+          <p>Follow Us</p>
+        </div>
+      </div>
+
+      <div class="card" onclick="openLink('https://youtube.com/@Decode-RezzDev')">
+        <i class="fab fa-youtube card-icon"></i>
+        <div class="card-text">
+          <h3>Youtube</h3>
+          <p>Youtube Channel</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="/style/jsnya"></script>
 </body>
 </html>
