@@ -116,19 +116,6 @@ fetchUsageData();
         console.error('Error:', error);
         document.getElementById('ip-address').textContent = 'Error loading IP';
     });
-    
-    const uptimeElement = document.getElementById('uptime');
-    const updateUptime = async () => {
-      try {
-        const response = await fetch('/api/uptime'); 
-        const data = await response.json();
-        uptimeElement.innerText = data.uptime;
-      } catch (error) {
-        console.error('Gagal memuat uptime:', error);
-      }
-    };
-    setInterval(updateUptime, 1000);
-    updateUptime();
    
 
     document.querySelectorAll('.menu-toggle').forEach(item => {
@@ -217,4 +204,4 @@ window.onload = function() {
   .catch(error => {
       console.error('Error:', error);
   });
-}
+              }
