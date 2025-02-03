@@ -30,6 +30,10 @@ const {
   getAudio,
   formatWeatherData
 } = require('./lib/scraper.js');
+const {
+	createQRIS,
+	checkStatus
+} = require('./orkut.js')
 const app = express();
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: false }));
@@ -697,10 +701,10 @@ app.get('/chat/openai', (req, res) => {
 });
 
 app.get('/style/jsnya', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'style', 'script.js'));
+  res.sendFile(path.join(__dirname, 'public', 'index.js'));
 });
 app.get('/style/cssnya', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'style', 'style.js'));
+  res.sendFile(path.join(__dirname, 'public', 'index.js'));
 });
 
 app.get('/', (req, res) => {
