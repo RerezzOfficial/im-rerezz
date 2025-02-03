@@ -1035,18 +1035,7 @@ app.get('/api/requesttoday/history', async (req, res) => {
 });
 
 
-
-let startTime = Date.now(); 
-const getUptime = () => {
-  const uptime = ((Date.now() - startTime) / 1000); 
-  const uptimeMinutes = (uptime / 60).toFixed(2); 
-  return uptimeMinutes;
-};
-app.get('/api/uptime', (req, res) => {
-  const uptimeMinutes = getUptime();
-  res.json({ uptime: `${uptimeMinutes} menit` });
+app.listen(port, () => {
+  console.log(`Server berjalan di http://localhost:${port}`);
 });
-
-app.listen(port, async () => {
-  console.log(`Server berjalan di port ${port}`);
-});
+	  
