@@ -46,6 +46,6 @@
     "form-data": "latest",
     "body-parser": "latest",
     "qrcode": "latest",
-    "node-telegram-bot-api": "latest"
+    "multer": "latest"
   }
 }
