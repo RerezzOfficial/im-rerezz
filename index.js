@@ -53,11 +53,10 @@ const apilol = 'VREDEN-2025'
 //=====[ API ISLAMI ]=====//
 app.get('/api/hadits', async (req, res) => {
   try {
-    await requestAll();
     const hadith = await fetchRandomHadith();
     res.json(hadith);
   } catch (error) {
-    res.status(500).send('Terjadi kesalahan saat mengambil data hadis.');
+    res.status(500).send('Terjadi kesalahan saat mengambil hadis.');
   }
 });
 app.get('/api/asmaulhusna', async (req, res) => {
