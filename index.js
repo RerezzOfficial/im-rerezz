@@ -352,6 +352,31 @@ app.get("/api/llama", async (req, res) => {
 });
 
 //=====[ API SEARCH ]=====//
+app.get('/api/ttsearch', async (req, res) => {
+    const { query } = req.query;
+    if (!query) {
+        return res.status(400).json({ error: "Parameter 'query' diperlukan." });
+    }
+    try {
+	await requestAll();
+        const response = await axios.get(`https://www.tikwm.com/api/feed/search`, {
+            params: { keywords: query }
+        });
+        const data = response.data;
+        if (!data.data || !data.data.length) {
+            return res.json({ error: "Tidak ada hasil ditemukan." });
+        }
+        const results = data.data.slice(0, 10).map(video => ({
+            title: video.title || "Tidak ada judul",
+            url: `https://www.tiktok.com/@${video.author.username}/video/${video.id}`,
+            thumbnail: video.cover,
+            username: video.author.username
+        }));
+        res.json({ creator, results });
+    } catch (error) {
+        res.status(500).json({ error: "Terjadi kesalahan saat mengambil data." });
+    }
+});
 app.get('/api/ytsearch', async (req, res) => {
     const { query } = req.query;
     if (!query) {
