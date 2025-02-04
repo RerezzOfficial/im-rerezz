@@ -46,6 +46,7 @@
     "form-data": "latest",
     "body-parser": "latest",
     "qrcode": "latest",
-    "multer": "latest"
+    "multer": "latest",
+    "tiktok-scraper": "latest"
   }
 }
