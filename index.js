@@ -5,7 +5,6 @@ const cors = require("cors");
 const axios = require('axios')
 const cheerio = require('cheerio');
 const ytSearch = require('yt-search');
-const TikTokScraper = require('tiktok-scraper');
 const { 
   getTikTokData,
   getCapCutData,
