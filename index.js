@@ -354,6 +354,7 @@ app.get('/api/ytdlmp3', async (req, res) => {
         creator: "IM Rerezz",
         ...result
     });
+    await requestAll();
 });
 
 app.get('/api/appledl', async (req, res) => {
