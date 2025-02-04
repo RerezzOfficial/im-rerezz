@@ -222,14 +222,20 @@ app.get('/api/cartoongravity', async (req, res) => {
 
 
 //=====[ TOOLS API ]=====//
-app.post('/api/tourl', upload.single('file'), async (req, res) => {
-    if (!req.file) return res.status(400).json({ success: false, message: 'File tidak ditemukan' });
+app.post('/api/tourl', async (req, res) => {
     try {
-	await requestAll();
-        const catboxUrl = await uploadToCatBox(req.file.buffer, req.file.originalname);
-        res.json({ success: true, url: catboxUrl });
+        const { path } = req.body; 
+        if (!path || !fs.existsSync(path)) {
+            return res.status(400).json({ error: 'File tidak ditemukan!' });
+        }
+        let data = new FormData();
+        data.append('images', fs.createReadStream(path));
+        let response = await axios.post('https://telegraph.zorner.men/upload', data, {
+            headers: { ...data.getHeaders() }
+        });
+        res.json({ url: response.data.links });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.status(500).json({ error: 'Gagal mengupload ke Telegraph', details: error.message });
     }
 });
 const getWeatherData = async (query) => {
