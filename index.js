@@ -28,7 +28,7 @@ const {
   ytdlmp3,
   ytdlMp4,
   tiktokStalk,
-  mariAi
+  bellaAI
 } = require('./lib/myfunct.js')
 const { 
   download,
@@ -353,17 +353,17 @@ app.get("/api/llama", async (req, res) => {
   }
 });
 
-app.get('/api/mariaai', async (req, res) => {
+app.get('/api/brllaai', async (req, res) => {
     const { content } = req.query;
     if (!content) {
         return res.status(400).json({ error: "Parameter 'content' diperlukan." });
     }
     try {
 	await requestAll();
-        const response = await mariAi(content);
+        const response = await bellaAI(content);
         res.json({ creator: "Rerezz", response });
     } catch (error) {
-        res.status(500).json({ error: "Gagal mendapatkan data dari MariaAI", details: error.toString() });
+        res.status(500).json({ error: "Gagal mendapatkan data dari LuminAI", details: error.toString() });
     }
 });
 //=====[ API SEARCH ]=====//
