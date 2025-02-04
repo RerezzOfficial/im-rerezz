@@ -47,6 +47,6 @@
     "body-parser": "latest",
     "qrcode": "latest",
     "multer": "latest",
-    "tiktok-scraper": "latest"
+    "shannz-playwright": "latest"
   }
 }
