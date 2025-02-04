@@ -27,7 +27,8 @@ const {
   getAyatAudio,
   fetchRandomHadith,
   ytdlmp3,
-  ytdlMp4
+  ytdlMp4,
+  tiktokStalk
 } = require('./lib/myfunct.js')
 const { 
   download,
@@ -353,33 +354,23 @@ app.get("/api/llama", async (req, res) => {
 });
 
 //=====[ API SEARCH ]=====//
-app.get('/api/ttsearch', async (req, res) => {
-    const { query } = req.query;
-    if (!query) {
-        return res.json({ error: "Parameter 'query' diperlukan." });
+app.get('/api/ttstalk', async (req, res) => {
+    const { username } = req.query;
+    if (!username) {
+        return res.status(400).json({ error: "Parameter 'username' diperlukan." });
     }
     try {
 	await requestAll();
-        const results = await TikTokScraper.hashtag(query, { number: 5 });
-        if (!results.collector.length) {
-            return res.json({ error: "Tidak ada hasil ditemukan." });
-        }
+        const result = await tiktokStalk(username);
         res.json({
             creator: "Rerezz",
-            results: results.collector.map(video => ({
-                title: video.text,
-                url: video.webVideoUrl,
-                thumbnail: video.covers.default,
-                author: video.authorMeta.name,
-                likes: video.diggCount,
-                shares: video.shareCount,
-                comments: video.commentCount
-            }))
+            result
         });
     } catch (error) {
-        res.json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
+
 app.get('/api/ytsearch', async (req, res) => {
     const { query } = req.query;
     if (!query) {
