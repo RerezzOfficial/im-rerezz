@@ -27,7 +27,8 @@ const {
   fetchRandomHadith,
   ytdlmp3,
   ytdlMp4,
-  tiktokStalk
+  tiktokStalk,
+  mariAi
 } = require('./lib/myfunct.js')
 const { 
   download,
@@ -352,6 +353,19 @@ app.get("/api/llama", async (req, res) => {
   }
 });
 
+app.get('/api/mariaai', async (req, res) => {
+    const { content } = req.query;
+    if (!content) {
+        return res.status(400).json({ error: "Parameter 'content' diperlukan." });
+    }
+    try {
+	await requestAll();
+        const response = await mariAi(content);
+        res.json({ creator: "Rerezz", response });
+    } catch (error) {
+        res.status(500).json({ error: "Gagal mendapatkan data dari MariaAI", details: error.toString() });
+    }
+});
 //=====[ API SEARCH ]=====//
 app.get('/api/ttstalk', async (req, res) => {
     const { username } = req.query;
@@ -361,9 +375,12 @@ app.get('/api/ttstalk', async (req, res) => {
     try {
 	await requestAll();
         const result = await tiktokStalk(username);
-        res.json({ creator: "Rerezz", result });
+        res.json({
+            creator: "Rerezz",
+            result
+        });
     } catch (error) {
-        res.status(500).json({ error: "Gagal mendapatkan data", details: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 
