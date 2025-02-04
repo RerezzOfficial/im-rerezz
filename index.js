@@ -8,7 +8,7 @@ const {
   getTikTokData,
   getCapCutData,
   getInstagramData,
-  getMediaFireData,
+  MediaFireh,
   getSFileData,
   getSpotifyData,
   getTikMusicData,
@@ -502,16 +502,20 @@ app.get('/api/sfile', async (req, res) => {
 });
 
 app.get('/api/mediafiredl', async (req, res) => {
-  const { url } = req.query;
-  if (!url) {
-    return res.status(400).json({ status: 400, message: 'URL is required' });
-  }
-  try {
-    await requestAll(); 
-    const mediaFireData = await getMediaFireData(url);
-    return res.status(200).json(mediaFireData);
+ try {
+   await axios.get(glitchApiUrl);
+    const url = req.query.url;
+    if (!url) {
+      return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
+    }
+    const response = await mediafire(url);
+    res.status(200).json({
+      status: 200,
+      creator: "IM-REREZZ",
+      data: { response }
+    });
   } catch (error) {
-    return res.status(500).json({ status: 500, message: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 
