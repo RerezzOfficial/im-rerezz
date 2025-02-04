@@ -24,7 +24,8 @@ const {
   fetchAsmaulHusna,
   getAyatAudio,
   fetchRandomHadith,
-  ytdlmp3
+  ytdlmp3,
+  ytdlMp4
 } = require('./lib/myfunct.js')
 const { 
   download,
@@ -346,6 +347,34 @@ app.get('/api/apple-search', async (req, res) => {
   }
 });
 //=====[ API DOWNLOADER ]=====//
+app.get('/api/ytdlmp4', async (req, res) => {
+    const { url } = req.query;
+    if (!url) return res.status(400).json({ status: false, message: "Parameter 'url' diperlukan!" });
+    try {
+	await requestAll();
+        const videoData = await ytdlMp4.getToken(url);
+        const videoOptions = videoData.data.formats.video.mp4;
+
+        if (!videoOptions || videoOptions.length === 0) {
+            return res.json({ status: false, message: "Video tidak tersedia!" });
+	}
+        const randomQuality = videoOptions[Math.floor(Math.random() * videoOptions.length)].quality;
+        const result = await ytdlMp4.download(url, randomQuality);
+        if (result.status !== 'completed') {
+            return res.json({ status: false, message: "Gagal mengunduh video!" });
+        }
+        res.json({
+            status: true,
+            creator: "IM Rerezz",
+            title: videoData.data.title,
+            quality: randomQuality,
+            download_url: result.link
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: false, message: "Terjadi kesalahan saat mengunduh video!" });
+    }
+});
 app.get('/api/ytdlmp3', async (req, res) => {
     const { url } = req.query;
     if (!url) return res.status(400).json({ status: false, message: "Parameter 'url' diperlukan!" });
