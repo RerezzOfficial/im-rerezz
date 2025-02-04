@@ -35,6 +35,7 @@ const {
 	createQRIS,
 	checkStatus
 } = require('./orkut.js')
+const mediafire = require('./lib/mediafire');
 const app = express();
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: false }));
