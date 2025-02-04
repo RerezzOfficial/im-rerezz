@@ -31,7 +31,9 @@ const {
   download,
   getData,
   getAudio,
-  formatWeatherData
+  formatWeatherData,
+  chatbot,
+  text2img 
 } = require('./lib/scraper.js');
 const {
 	createQRIS,
