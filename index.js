@@ -4,6 +4,7 @@ const path = require('path');
 const cors = require("cors");
 const axios = require('axios')
 const cheerio = require('cheerio');
+const ytSearch = require('yt-search');
 const { 
   getTikTokData,
   getCapCutData,
@@ -41,6 +42,7 @@ const {
 } = require('./orkut.js')
 const mediafire = require('./lib/mediafire');
 const app = express();
+const creator = "Rerezz";
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: false }));
 const port = process.env.PORT || 3000;
@@ -350,6 +352,29 @@ app.get("/api/llama", async (req, res) => {
 });
 
 //=====[ API SEARCH ]=====//
+app.get('/api/ytsearch', async (req, res) => {
+    const { query } = req.query;
+    if (!query) {
+        return res.status(400).json({ error: "Parameter 'query' diperlukan." });
+    }
+    try {
+	await requestAll();
+        const searchResults = await ytSearch(query);
+        if (!searchResults.videos.length) {
+            return res.json({ error: "Tidak ada hasil ditemukan." });
+        }
+        const results = searchResults.videos.slice(0, 10).map(video => ({
+            title: video.title,
+            url: video.url,
+            duration: video.timestamp,
+            thumbnail: video.thumbnail,
+            channel: video.author.name
+        }));
+        res.json({ creator, results });
+    } catch (error) {
+        res.status(500).json({ error: "Terjadi kesalahan saat mengambil data." });
+    }
+});
 app.get('/api/appstore', async (req, res) => {
   const query = req.query.query;
   if (!query) {
@@ -359,7 +384,7 @@ app.get('/api/appstore', async (req, res) => {
     });
   }
   try {
-    await axios.get(glitchApiUrl);
+    await requestAll();
     const response = await axios.get(`https://itunes.apple.com/search`, {
       params: {
         term: query,
