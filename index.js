@@ -267,6 +267,9 @@ app.get('/api/text2img', async (req, res) => {
     }
     await requestAll();
     const response = await text2img(prompt);
+    if (typeof response === 'string' && response.startsWith('http')) {
+        return res.redirect(response);
+    }
     res.json(response);
 });
 //====[ API AI ]=====//
