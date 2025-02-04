@@ -24,7 +24,7 @@ const {
   fetchAsmaulHusna,
   getAyatAudio,
   fetchRandomHadith,
-  uploadToCatBox
+  ytdlmp3
 } = require('./lib/myfunct.js')
 const { 
   download,
@@ -222,22 +222,6 @@ app.get('/api/cartoongravity', async (req, res) => {
 
 
 //=====[ TOOLS API ]=====//
-app.post('/api/tourl', async (req, res) => {
-    try {
-        const { path } = req.body; 
-        if (!path || !fs.existsSync(path)) {
-            return res.status(400).json({ error: 'File tidak ditemukan!' });
-        }
-        let data = new FormData();
-        data.append('images', fs.createReadStream(path));
-        let response = await axios.post('https://telegraph.zorner.men/upload', data, {
-            headers: { ...data.getHeaders() }
-        });
-        res.json({ url: response.data.links });
-    } catch (error) {
-        res.status(500).json({ error: 'Gagal mengupload ke Telegraph', details: error.message });
-    }
-});
 const getWeatherData = async (query) => {
   try {
     const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=beb7409f172c609796681fbf427ba55e&units=metric`, {
@@ -362,6 +346,12 @@ app.get('/api/apple-search', async (req, res) => {
   }
 });
 //=====[ API DOWNLOADER ]=====//
+app.get('/api/ytdlmp3', async (req, res) => {
+    const { url } = req.query;
+    if (!url) return res.status(400).json({ status: false, message: "Parameter 'url' diperlukan!" });
+    const result = await ytdlmp3(url);
+    res.json(result);
+});
 
 app.get('/api/appledl', async (req, res) => {
   const { url } = req.query;
