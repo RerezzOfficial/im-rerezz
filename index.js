@@ -361,12 +361,9 @@ app.get('/api/ttstalk', async (req, res) => {
     try {
 	await requestAll();
         const result = await tiktokStalk(username);
-        res.json({
-            creator: "Rerezz",
-            result
-        });
+        res.json({ creator: "Rerezz", result });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: "Gagal mendapatkan data", details: error.message });
     }
 });
 
