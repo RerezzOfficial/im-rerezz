@@ -21,7 +21,7 @@ const {
   downloadAppleMusicData,
   ChatGPTv2,
   sendMessageToGPT,
-  text2img
+  fetchAsmaulHusna
 } = require('./lib/myfunct.js')
 const { 
   download,
@@ -48,25 +48,19 @@ const requestAll = async () => {
 };
 const apilol = 'VREDEN-2025'
 
-//=====[ API EPOTHO 350 ]=====//
-app.get('/api/text2img', async (req, res) => {
-  const prompt = req.query.text;
-  if (!prompt) {
-    return res.status(400).send('Parameter "text" diperlukan.');
-  }
+//=====[ API ISLAMI ]=====//
+app.get('/api/asmaulhusna', async (req, res) => {
   try {
     await requestAll();
-    const imgData = await text2img(prompt);
-    if (imgData && imgData.imageUrl) {
-      res.redirect(imgData.imageUrl); // Redirect ke URL gambar
-    } else {
-      res.status(500).send('Gagal menghasilkan gambar.');
-    }
-  } catch (err) {
-    res.status(500).send('Terjadi kesalahan saat memproses permintaan.');
+    const asmaulHusna = await fetchAsmaulHusna();
+    const randomIndex = Math.floor(Math.random() * asmaulHusna.length);
+    const selectedName = asmaulHusna[randomIndex];
+    res.json(selectedName);
+  } catch (error) {
+    res.status(500).send('Terjadi kesalahan saat mengambil data.');
   }
 });
-
+//=====[ API EPOTHO 350 ]=====//
 app.get('/api/anonymhacker', async (req, res) => {
   const text = req.query.text || 'IM Rerezz'; 
   const url = `https://api.lolhuman.xyz/api/ephoto1/anonymhacker?apikey=${apilol}&text=${text}`;
@@ -77,7 +71,7 @@ app.get('/api/anonymhacker', async (req, res) => {
     res.send(response.data);
   } catch (error) {
     console.error('Error fetching image:', error);
-    res.status(500).json({
+    res.status(500).json({ 
       status: false,
       message: 'Gagal mengambil gambar',
       error: error.message,
