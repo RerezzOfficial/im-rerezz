@@ -270,16 +270,45 @@ app.get('/api/text2img', async (req, res) => {
     res.json(response);
 });
 //====[ API AI ]=====//
-app.get('/api/chatbox', async (req, res) => {
-    const { question, model } = req.query;
-    if (!question || !model) {
-        return res.status(400).json({ error: "Parameter 'question' dan 'model' diperlukan." });
+app.get('/api/chat/openai', async (req, res) => {
+    const { question } = req.query;
+    if (!question) {
+        return res.json({ error: "Parameter 'question' diperlukan." });
     }
     await requestAll();
-    const response = await chatbot(question, model);
-    res.json(response);
+    const result = await chatbot(question, "openai");
+    res.json({ creator, response: result });
 });
 
+app.get('/api/chat/llama', async (req, res) => {
+    const { question } = req.query;
+    if (!question) {
+        return res.json({ error: "Parameter 'question' diperlukan." });
+    }
+    await requestAll();
+    const result = await chatbot(question, "llama");
+    res.json({ creator, response: result });
+});
+
+app.get('/api/chat/mistral', async (req, res) => {
+    const { question } = req.query;
+    if (!question) {
+        return res.json({ error: "Parameter 'question' diperlukan." });
+    }
+    await requestAll();
+    const result = await chatbot(question, "mistral");
+    res.json({ creator, response: result });
+});
+
+app.get('/api/chat/mistral-large', async (req, res) => {
+    const { question } = req.query;
+    if (!question) {
+        return res.json({ error: "Parameter 'question' diperlukan." });
+    }
+    await requestAll();
+    const result = await chatbot(question, "mistral-large");
+    res.json({ creator, response: result });
+});
 
 app.get('/api/gptturbo', async (req, res) => {
   try {
