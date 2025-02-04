@@ -5,6 +5,7 @@ const cors = require("cors");
 const axios = require('axios')
 const cheerio = require('cheerio');
 const ytSearch = require('yt-search');
+const TikTokScraper = require('tiktok-scraper');
 const { 
   getTikTokData,
   getCapCutData,
@@ -355,26 +356,28 @@ app.get("/api/llama", async (req, res) => {
 app.get('/api/ttsearch', async (req, res) => {
     const { query } = req.query;
     if (!query) {
-        return res.status(400).json({ error: "Parameter 'query' diperlukan." });
+        return res.json({ error: "Parameter 'query' diperlukan." });
     }
     try {
 	await requestAll();
-        const response = await axios.get(`https://www.tikwm.com/api/feed/search`, {
-            params: { keywords: query }
-        });
-        const data = response.data;
-        if (!data.data || !data.data.length) {
+        const results = await TikTokScraper.hashtag(query, { number: 5 });
+        if (!results.collector.length) {
             return res.json({ error: "Tidak ada hasil ditemukan." });
         }
-        const results = data.data.slice(0, 10).map(video => ({
-            title: video.title || "Tidak ada judul",
-            url: `https://www.tiktok.com/@${video.author.username}/video/${video.id}`,
-            thumbnail: video.cover,
-            username: video.author.username
-        }));
-        res.json({ creator, results });
+        res.json({
+            creator: "Rerezz",
+            results: results.collector.map(video => ({
+                title: video.text,
+                url: video.webVideoUrl,
+                thumbnail: video.covers.default,
+                author: video.authorMeta.name,
+                likes: video.diggCount,
+                shares: video.shareCount,
+                comments: video.commentCount
+            }))
+        });
     } catch (error) {
-        res.status(500).json({ error: "Terjadi kesalahan saat mengambil data." });
+        res.json({ error: error.message });
     }
 });
 app.get('/api/ytsearch', async (req, res) => {
