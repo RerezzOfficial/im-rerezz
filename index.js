@@ -61,7 +61,7 @@ app.get('/api/asmaulhusna', async (req, res) => {
     res.status(500).send('Terjadi kesalahan saat mengambil data.');
   }
 });
-app.get('/ayatmp3/:surah/:ayat', async (req, res) => {
+app.get('/api/ayat/:surah/:ayat', async (req, res) => {
   const { surah, ayat } = req.params;
 
   try {
