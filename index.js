@@ -21,7 +21,8 @@ const {
   downloadAppleMusicData,
   ChatGPTv2,
   sendMessageToGPT,
-  fetchAsmaulHusna
+  fetchAsmaulHusna,
+  getAyatAudio
 } = require('./lib/myfunct.js')
 const { 
   download,
@@ -56,6 +57,16 @@ app.get('/api/asmaulhusna', async (req, res) => {
     const randomIndex = Math.floor(Math.random() * asmaulHusna.length);
     const selectedName = asmaulHusna[randomIndex];
     res.json(selectedName);
+  } catch (error) {
+    res.status(500).send('Terjadi kesalahan saat mengambil data.');
+  }
+});
+app.get('/ayatmp3/:surah/:ayat', async (req, res) => {
+  const { surah, ayat } = req.params;
+
+  try {
+    const ayatInfo = await getAyatAudio(surah, ayat);
+    res.json(ayatInfo);
   } catch (error) {
     res.status(500).send('Terjadi kesalahan saat mengambil data.');
   }
