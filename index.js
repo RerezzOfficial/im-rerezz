@@ -353,7 +353,7 @@ app.get("/api/llama", async (req, res) => {
   }
 });
 
-app.get('/api/brllaai', async (req, res) => {
+app.get('/api/bellaai', async (req, res) => {
     const { content } = req.query;
     if (!content) {
         return res.status(400).json({ error: "Parameter 'content' diperlukan." });
