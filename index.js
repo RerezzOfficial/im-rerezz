@@ -19,9 +19,9 @@ const {
   getAppleMusicDetail,
   searchAppleMusic,
   downloadAppleMusicData,
-  // AI API
   ChatGPTv2,
-  sendMessageToGPT
+  sendMessageToGPT,
+  text2img
 } = require('./lib/myfunct.js')
 const { 
   download,
@@ -49,6 +49,24 @@ const requestAll = async () => {
 const apilol = 'VREDEN-2025'
 
 //=====[ API EPOTHO 350 ]=====//
+app.get('/api/text2img', async (req, res) => {
+  const prompt = req.query.text;
+  if (!prompt) {
+    return res.status(400).send('Parameter "text" diperlukan.');
+  }
+  try {
+    await requestAll();
+    const imgData = await text2img(prompt);
+    if (imgData && imgData.imageUrl) {
+      res.redirect(imgData.imageUrl); // Redirect ke URL gambar
+    } else {
+      res.status(500).send('Gagal menghasilkan gambar.');
+    }
+  } catch (err) {
+    res.status(500).send('Terjadi kesalahan saat memproses permintaan.');
+  }
+});
+
 app.get('/api/anonymhacker', async (req, res) => {
   const text = req.query.text || 'IM Rerezz'; 
   const url = `https://api.lolhuman.xyz/api/ephoto1/anonymhacker?apikey=${apilol}&text=${text}`;
