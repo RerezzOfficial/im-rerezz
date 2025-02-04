@@ -221,6 +221,33 @@ app.get('/api/cartoongravity', async (req, res) => {
 
 
 //=====[ TOOLS API ]=====//
+app.post("/api/tourl", async (req, res) => {
+    try {
+        const { file } = req.body;
+        if (!file) {
+            return res.status(400).json({ status: 400, message: "File tidak ditemukan! Kirim dalam base64." });
+        }
+        const fileBuffer = Buffer.from(file, "base64");
+        const formData = new FormData();
+        formData.append("reqtype", "fileupload");
+        formData.append("userhash", "");
+        formData.append("fileToUpload", fileBuffer, { filename: "upload.jpg" });
+        const response = await axios.post("https://catbox.moe/user/api.php", formData, {
+            headers: {
+                ...formData.getHeaders(),
+                "User-Agent": "Mozilla/5.0",
+            },
+        });
+        return res.json({
+            status: 200,
+            creator: "IM-REREZZ",
+            data: { url: response.data },
+        });
+    } catch (error) {
+        console.error("Error uploading to Catbox:", error);
+        return res.status(500).json({ status: 500, message: "Gagal mengunggah gambar ke Catbox" });
+    }
+});
 const getWeatherData = async (query) => {
   try {
     const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=beb7409f172c609796681fbf427ba55e&units=metric`, {
