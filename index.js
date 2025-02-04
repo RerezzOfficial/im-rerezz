@@ -260,8 +260,27 @@ app.get('/api/cuaca', async (req, res) => {
     });
   }
 });
-
+app.get('/api/text2img', async (req, res) => {
+    const { prompt } = req.query;
+    if (!prompt) {
+        return res.status(400).json({ error: "Parameter 'prompt' diperlukan." });
+    }
+    await requestAll();
+    const response = await text2img(prompt);
+    res.json(response);
+});
 //====[ API AI ]=====//
+app.get('/api/chatbox', async (req, res) => {
+    const { question, model } = req.query;
+    if (!question || !model) {
+        return res.status(400).json({ error: "Parameter 'question' dan 'model' diperlukan." });
+    }
+    await requestAll();
+    const response = await chatbot(question, model);
+    res.json(response);
+});
+
+
 app.get('/api/gptturbo', async (req, res) => {
   try {
     await requestAll();
