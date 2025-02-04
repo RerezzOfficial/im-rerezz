@@ -22,7 +22,8 @@ const {
   ChatGPTv2,
   sendMessageToGPT,
   fetchAsmaulHusna,
-  getAyatAudio
+  getAyatAudio,
+  fetchRandomHadith
 } = require('./lib/myfunct.js')
 const { 
   download,
@@ -50,6 +51,15 @@ const requestAll = async () => {
 const apilol = 'VREDEN-2025'
 
 //=====[ API ISLAMI ]=====//
+app.get('/api/hadits', async (req, res) => {
+  try {
+    await requestAll();
+    const hadith = await fetchRandomHadith();
+    res.json(hadith);
+  } catch (error) {
+    res.status(500).send('Terjadi kesalahan saat mengambil data hadis.');
+  }
+});
 app.get('/api/asmaulhusna', async (req, res) => {
   try {
     await requestAll();
@@ -63,8 +73,8 @@ app.get('/api/asmaulhusna', async (req, res) => {
 });
 app.get('/api/ayat/:surah/:ayat', async (req, res) => {
   const { surah, ayat } = req.params;
-
   try {
+    await requestAll();
     const ayatInfo = await getAyatAudio(surah, ayat);
     res.json(ayatInfo);
   } catch (error) {
