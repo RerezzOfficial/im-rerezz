@@ -350,7 +350,10 @@ app.get('/api/ytdlmp3', async (req, res) => {
     const { url } = req.query;
     if (!url) return res.status(400).json({ status: false, message: "Parameter 'url' diperlukan!" });
     const result = await ytdlmp3(url);
-    res.json(result);
+    res.json({
+        creator: "IM Rerezz",
+        ...result
+    });
 });
 
 app.get('/api/appledl', async (req, res) => {
