@@ -503,7 +503,7 @@ app.get('/api/sfile', async (req, res) => {
 
 app.get('/api/mediafiredl', async (req, res) => {
  try {
-   await axios.get(glitchApiUrl);
+   await requestAll();  
     const url = req.query.url;
     if (!url) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
