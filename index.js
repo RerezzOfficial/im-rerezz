@@ -28,7 +28,8 @@ const {
   ytdlmp3,
   ytdlMp4,
   tiktokStalk,
-  bellaAI
+  bellaAI,
+  douyindl
 } = require('./lib/myfunct.js')
 const { 
   download,
@@ -457,6 +458,19 @@ app.get('/api/apple-search', async (req, res) => {
   }
 });
 //=====[ API DOWNLOADER ]=====//
+app.get('/api/douyin', async (req, res) => {
+  const url = req.query.url; // Ambil URL dari query parameter
+  if (!url) {
+    return res.status(400).json({ error: "URL tidak ditemukan di query parameter." });
+  }
+  await requestAll();
+  const result = await douyindl(url);
+  if (result.error) {
+    return res.status(400).json(result);
+  }
+  res.json(result);
+});
+
 app.get('/api/ytdlmp4', async (req, res) => {
     const { url } = req.query;
     if (!url) return res.status(400).json({ status: false, message: "Parameter 'url' diperlukan!" });
