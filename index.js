@@ -242,7 +242,7 @@ app.get('/api/cartoongravity', async (req, res) => {
 
 
 //=====[ TOOLS API ]=====//
-app.get('/api/enc', (req, res) => {
+app.get('/api/enc', async (req, res) => {
     const { text } = req.query;
     if (!text) return res.status(400).json({ status: false, message: "Parameter 'text' diperlukan!" });
     await requestAll();
@@ -250,7 +250,7 @@ app.get('/api/enc', (req, res) => {
     res.json({ status: true, creator: "Decode Rezz Dev", encoded });
 });
 
-app.get('/api/denc', (req, res) => {
+app.get('/api/denc', async (req, res) => {
     const { text } = req.query;
     if (!text) return res.status(400).json({ status: false, message: "Parameter 'text' diperlukan!" });
     try {
