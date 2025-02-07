@@ -523,10 +523,10 @@
 /* Chart Container */
 .chart-container {
   width: 100%;
-  min-height: 200px;
+  min-height: 300px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  padding: 10px 0;
+  padding: 10px;
   box-sizing: border-box;
 }
 
