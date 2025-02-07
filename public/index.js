@@ -174,3 +174,96 @@
       }
   });
                     
+  //dashboard
+  let requestData = {};
+
+  async function fetchData() {
+      try {
+          const response = await fetch("/api/ffstats");
+          const data = await response.json();
+          requestData = data.requestHistory;
+          updateChart('7days');
+      } catch (error) {
+          console.error("Gagal mengambil data:", error);
+      }
+  }
+
+  function updateChart(mode) {
+      let dates = Object.keys(requestData);
+      let values = dates.map(date => requestData[date]);
+
+      if (mode === '7days') {
+          dates = dates.slice(-7); // Ambil 7 hari terakhir
+          values = values.slice(-7);
+      }
+
+      const totalHits = values.reduce((a, b) => a + b, 0);
+      document.getElementById("total-weekly").textContent = totalHits.toLocaleString();
+
+      var options = {
+          chart: {
+              type: "area",
+              height: 300,
+              background: "transparent",
+              animations: {
+                  enabled: true,
+                  easing: 'easeout',
+                  speed: 1200
+              }
+          },
+          series: [{
+              name: "Total Requests",
+              data: values
+          }],
+          xaxis: {
+              categories: dates,
+              labels: {
+                  rotate: -45,
+                  style: {
+                      colors: "#00FFFF",
+                      fontSize: "12px"
+                  }
+              }
+          },
+          colors: ["#00FFFF"],
+          stroke: {
+              curve: 'smooth',  
+              width: 4
+          },
+          fill: {
+              type: "gradient",
+              gradient: {
+                  shade: 'dark',
+                  type: "vertical",
+                  gradientToColors: ["#00FFFF"],
+                  shadeIntensity: 1,
+                  opacityFrom: 0.7,
+                  opacityTo: 0.1,
+                  stops: [0, 90, 100]
+              }
+          },
+          tooltip: {
+              theme: "dark",
+              x: {
+                  format: "dd MMM"
+              }
+          },
+          markers: {
+              size: 6,
+              colors: ["#00FFFF"],
+              strokeWidth: 3
+          },
+          dataLabels: {
+              enabled: true,
+              style: {
+                  colors: ["#00FFFF"],
+                  fontSize: "14px",
+                  fontWeight: "bold"
+              }
+          }
+      };
+
+      document.querySelector("#studentChart").innerHTML = "";
+      var chart = new ApexCharts(document.querySelector("#studentChart"), options);
+      chart.render();
+  }
