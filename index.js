@@ -7,13 +7,17 @@ const cheerio = require('cheerio');
 const FormData = require('form-data');
 const ytSearch = require('yt-search');
 const puppeteer = require("puppeteer");
-const { 
+const bodyParser = require('body-parser');
+const {
+  createQRIS,
+  checkStatus,
+  checkBalance,
   getTikTokData,
-  getCapCutData,
   getInstagramData,
   MediaFireh,
   getSFileData,
   getSpotifyData,
+  spotifydl,
   getTikMusicData,
   getTikTokData2,
   getXnxxData,
@@ -33,7 +37,12 @@ const {
   Instagram,
   bellaAI,
   douyindl,
-  tiktokDL
+  tiktokDL,
+  CatBox,
+  takeScreenshot,
+  capcutdl,
+  spotifySearch,
+  formatNumber
 } = require('./lib/myfunct.js')
 const { 
   download,
@@ -44,30 +53,96 @@ const {
   text2img,
   getWeatherData
 } = require('./lib/scraper.js');
-const {
-	createQRIS,
-	checkStatus
-} = require('./orkut.js')
-const mediafire = require('./lib/mediafire');
 const app = express();
 const creator = "Rerezz";
+const apikeylol = 'VREDEN-2025'
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: false }));
 const port = process.env.PORT || 3000;
-const validKeys = ['IM-REREZZ.2007', 'REREZZ-OFFICIAL.0208'];
-const requestToday = `https://databse-apis.glitch.me/api/requesttoday/today`
-const glitchApiUrl = 'https://databse-apis.glitch.me/api/increment-usage';
 const requestAll = async () => {
   return Promise.all([
     axios.get('https://databse-apis.glitch.me/api/requesttoday/increment'),
     axios.get('https://databse-apis.glitch.me/api/increment-usage') 
   ]);
 };
-const apilol = 'VREDEN-2025'
+const apilol = `https://api.lolhuman.xyz`
 
 //=====[ API ISLAMI ]=====//
+app.get('/api/ayatmp3', async (req, res) => {
+  try {
+      await requestAll();
+      const { surah, ayah } = req.query;
+      if (!surah || !ayah) {
+          return res.status(400).json({ status: 400, message: "Surah and Ayah are required" });
+      }
+      const audioUrl = `${apilol}/api/quran/audio/${surah}/${ayah}?apikey=${apikeylol}`;
+      const audioResponse = await axios.get(audioUrl, { responseType: 'stream' });
+      if (audioResponse.status === 200) {
+          res.setHeader('Content-Type', 'audio/mpeg');
+          res.setHeader('Content-Disposition', 'inline; filename="quran_audio.mp3"');
+          audioResponse.data.pipe(res);
+      } else {
+          res.status(500).json({ status: 500, message: "Audio not found for the provided Surah and Ayah" });
+      }
+  } catch (error) {
+      console.error("Error fetching audio:", error.message);
+      res.status(500).json({ status: 500, message: "Error fetching audio", error: error.message });
+  }
+});
+
+app.get('/api/surahmp3',  async (req, res) => {
+  try {
+      await requestAll();
+      const { surah } = req.query;
+      if (!surah) {
+          return res.status(400).json({ status: 400, message: "Surah is required" });
+      }
+      const audioUrl = `${apilol}/api/quran/audio/${surah}?apikey=${apikeylol}`;
+      const audioResponse = await axios.get(audioUrl, { responseType: 'stream' });
+      if (audioResponse.status === 200) {
+          res.setHeader('Content-Type', 'audio/mpeg');
+          res.setHeader('Content-Disposition', 'inline; filename="quran_audio.mp3"');
+          audioResponse.data.pipe(res);
+      } else {
+          res.status(500).json({ status: 500, message: "Audio not found for the provided Surah" });
+      }
+  } catch (error) {
+      console.error("Error fetching audio:", error.message);
+      res.status(500).json({ status: 500, message: "Error fetching audio", error: error.message });
+  }
+});
+
+app.get('/api/ayatquran', async (req, res) => {
+  const { surah, ayah } = req.query;
+      if (!surah || !ayah) {
+          return res.status(400).json({ status: 400, message: "Surah and Ayah are required" });
+      }
+  try {
+      await requestAll();
+      const response = await axios.get(`${apilol}/api/quran/${surah}/${ayah}?apikey=${apikeylol}`);
+      res.json(response.data);
+  } catch (error) {
+      res.status(500).json({ status: 500, message: "Error fetching data", error: error.message });
+  }
+});
+
+app.get('/api/ayatquran2', async (req, res) => {
+  const { surah, ayah } = req.query;
+      if (!surah || !ayah) {
+          return res.status(400).json({ status: 400, message: "Surah and Ayah are required" });
+      }
+  try {
+      await requestAll();
+      const response = await axios.get(`${apilol}/api/quran/${surah}/${ayah}?apikey=${apikeylol}`);
+      res.json(response.data);
+  } catch (error) {
+      res.status(500).json({ status: 500, message: "Error fetching data", error: error.message });
+  }
+});
+
 app.get('/api/hadits', async (req, res) => {
   try {
+    await requestAll();
     const hadith = await fetchRandomHadith();
     res.json(hadith);
   } catch (error) {
@@ -243,25 +318,100 @@ app.get('/api/cartoongravity', async (req, res) => {
 
 
 //=====[ TOOLS API ]=====//
-app.get("/api/ssweb", async (req, res) => {
-  const { url } = req.query;
-  if (!url) return res.status(400).json({ error: "Masukkan URL!" });
+app.get('/api/iplookup', async (req, res) => {
+  const { ip } = req.query;
+  if (!ip) {
+      return res.status(400).json([
+          { success: false, creator: 'Rerezz' },
+          { error: 'Masukkan parameter ip' }
+      ]);
+  }
   try {
     await requestAll();
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto(url);
-    const screenshot = await page.screenshot();
-    await browser.close();
-
-    res.set("Content-Type", "image/png");
-    res.send(screenshot);
+      const response = await axios.get(`http://ip-api.com/json/${ip}`);
+      res.json([
+          { success: true, creator: 'Rerezz' },
+          {
+              ip: response.data.query,
+              country: response.data.country,
+              region: response.data.regionName,
+              city: response.data.city,
+              isp: response.data.isp,
+              lat: response.data.lat,
+              lon: response.data.lon,
+              timezone: response.data.timezone
+          }
+      ]);
   } catch (error) {
-    res.status(500).json({ error: "Gagal mengambil screenshot" });
+      res.status(500).json([
+          { success: false, creator: 'Rerezz' },
+          { error: 'Gagal mengambil data IP', detail: error.message }
+      ]);
   }
 });
 
-app.get('/api/enc', async (req, res) => {
+app.get('/api/ssweb', async (req, res) => {
+  const { url } = req.query;
+  if (!url) {
+      return res.status(400).json({
+          creator: 'Rerezz',
+          error: 'Masukkan parameter url'
+      });
+  }
+  try {
+      await requestAll();
+      const response = await axios.get(url, { responseType: 'arraybuffer' });
+      const browser = await puppeteer.launch({ headless: 'new' });
+      const page = await browser.newPage();
+      await page.setViewport({ width: 480, height: 800, isMobile: true });
+      await page.goto(url, { waitUntil: 'load', timeout: 30000 });
+      const screenshotBuffer = await page.screenshot({ type: 'png' });
+      await browser.close();
+      const filename = `screenshot-${Date.now()}.png`;
+      const imageUrl = await CatBox(screenshotBuffer, filename);
+      res.redirect(imageUrl);
+  } catch (error) {
+      res.status(500).json({
+          error: 'Gagal mengambil screenshot',
+          detail: error.message,
+          creator: 'Rerezz'
+      });
+  }
+});
+
+app.get('/api/sswebv2', async (req, res) => {
+  const { url } = req.query;
+  if (!url) {
+      return res.status(400).json({
+          creator: 'Rerezz',
+          error: 'Masukkan parameter url'
+      });
+  }
+  try {
+    await requestAll();
+      const [urlHP, urlTab, urlDesk] = await Promise.all([
+          takeScreenshot(url, 480, 800, 'mobile'),
+          takeScreenshot(url, 800, 1280, 'tablet'),
+          takeScreenshot(url, 1024, 768, 'desktop')
+      ]);
+      res.json({
+          success: true,
+          creator: 'Rerezz',
+          urlHP,
+          urlTab,
+          urlDesk
+      });
+  } catch (error) {
+      res.status(500).json({
+          success: false,
+          error: 'Gagal mengambil screenshot',
+          detail: error.message,
+          creator: 'Rerezz'
+      });
+  }
+});
+
+app.get('/api/base64', async (req, res) => {
     const { text } = req.query;
     if (!text) return res.status(400).json({ status: false, message: "Parameter 'text' diperlukan!" });
     await requestAll();
@@ -269,7 +419,7 @@ app.get('/api/enc', async (req, res) => {
     res.json({ status: true, creator: "Decode Rezz Dev", encoded });
 });
 
-app.get('/api/denc', async (req, res) => {
+app.get('/api/unbase64', async (req, res) => {
     const { text } = req.query;
     if (!text) return res.status(400).json({ status: false, message: "Parameter 'text' diperlukan!" });
     try {
@@ -291,7 +441,6 @@ app.get('/api/cuaca', async (req, res) => {
   }
   try {
     await requestAll();
-    await axios.get(glitchApiUrl); 
     const weatherData = await getWeatherData(query);
     const formattedData = formatWeatherData(weatherData);
     res.status(200).json(formattedData);
@@ -316,7 +465,8 @@ app.get('/api/text2img', async (req, res) => {
     res.json(response);
 });
 //====[ API AI ]=====//
-app.get('/api/chat/openai', async (req, res) => {
+
+app.get('/api/openai', async (req, res) => {
     const { question } = req.query;
     if (!question) {
         return res.json({ error: "Parameter 'question' diperlukan." });
@@ -326,7 +476,7 @@ app.get('/api/chat/openai', async (req, res) => {
     res.json({ creator, response: result });
 });
 
-app.get('/api/chat/llama', async (req, res) => {
+app.get('/api/llamav2', async (req, res) => {
     const { question } = req.query;
     if (!question) {
         return res.json({ error: "Parameter 'question' diperlukan." });
@@ -336,7 +486,7 @@ app.get('/api/chat/llama', async (req, res) => {
     res.json({ creator, response: result });
 });
 
-app.get('/api/chat/mistral', async (req, res) => {
+app.get('/api/mistral', async (req, res) => {
     const { question } = req.query;
     if (!question) {
         return res.json({ error: "Parameter 'question' diperlukan." });
@@ -346,7 +496,7 @@ app.get('/api/chat/mistral', async (req, res) => {
     res.json({ creator, response: result });
 });
 
-app.get('/api/chat/mistral-large', async (req, res) => {
+app.get('/api/mistral-large', async (req, res) => {
     const { question } = req.query;
     if (!question) {
         return res.json({ error: "Parameter 'question' diperlukan." });
@@ -405,7 +555,79 @@ app.get('/api/bellaai', async (req, res) => {
         res.status(500).json({ error: "Gagal mendapatkan data dari LuminAI", details: error.toString() });
     }
 });
-//=====[ API SEARCH ]=====//
+//=====[ API STALKER ]=====//
+const API_KEY = `AIzaSyAGaSbQFcpHsaajY9NbyequHtwkoTuPqck`
+app.get('/api/ytstalk', async (req, res) => {
+  let { username } = req.query;
+  if (!username) {
+      return res.status(400).json({ error: "Masukkan parameter 'username' (@handle YouTube)" });
+  }
+  try {
+      await requestAll();
+      if (!username.startsWith('@')) {
+          username = `@${username}`;
+      }
+      const response = await axios.get(`https://www.googleapis.com/youtube/v3/channels`, {
+          params: {
+              part: 'snippet,statistics,brandingSettings',
+              forHandle: username,
+              key: API_KEY
+          }
+      });
+      if (!response.data.items.length) {
+          return res.status(404).json({ error: "Channel tidak ditemukan" });
+      }
+      const channel = response.data.items[0];
+      const channelURL = `https://www.youtube.com/${username}`;
+      const profilePicture = {
+          default: channel.snippet.thumbnails.default.url,
+          medium: channel.snippet.thumbnails.medium.url,
+          high: channel.snippet.thumbnails.high.url,
+          maxres: channel.snippet.thumbnails.maxres?.url || channel.snippet.thumbnails.high.url
+      };
+      res.json({
+          id: channel.id,
+          username: username,
+          nama: channel.snippet.title,
+          deskripsi: channel.snippet.description,
+          profile_picture: profilePicture,
+          banner: channel.brandingSettings?.image?.bannerExternalUrl || null,
+          subscriber: formatNumber(channel.statistics.subscriberCount),
+          total_video: formatNumber(channel.statistics.videoCount),
+          total_views: formatNumber(channel.statistics.viewCount),
+          dibuat_pada: channel.snippet.publishedAt,
+          url: channelURL
+      });
+
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Terjadi kesalahan pada server" });
+  }
+});
+
+
+const RAPIDAPI_KEY = 'dd6a4f59c9msh0c7cbb5ec2f7267p1c44d5jsn540d7b5c48fa'; 
+app.get('/api/igstalk', async (req, res) => {
+    let { username } = req.query;
+    if (!username) {
+        return res.status(400).json({ error: "Masukkan parameter 'username'" });
+    }
+    try {
+      await requestAll();
+        const response = await axios.get('https://instagram-scraper-api2.p.rapidapi.com/v1.2/search', {
+            params: { search_query: username },
+            headers: {
+                'X-RapidAPI-Key': RAPIDAPI_KEY,
+                'X-RapidAPI-Host': 'instagram-scraper-api2.p.rapidapi.com'
+            }
+        });
+        res.json(response.data);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Terjadi kesalahan saat mengambil data Instagram" });
+    }
+});
+
 app.get('/api/ttstalk', async (req, res) => {
     const { username } = req.query;
     if (!username) {
@@ -421,6 +643,41 @@ app.get('/api/ttstalk', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+});
+
+//=====[ API SEARCH ]=====//
+
+app.get('/api/otakudesu/search', async (req, res) => {
+  const { query } = req.query;
+  if (!query) return res.status(400).json({ error: "Query parameter is required" });
+  const url = `https://otakudesu.cloud/?s=${query}&post_type=anime`;
+  try {
+    await requestAll();
+      const { data } = await axios.get(url);
+      const $ = cheerio.load(data);
+      const animeList = [];
+      $('.chivsrc > li').each((index, element) => {
+          if (index >= 10) return false; 
+          const title = $(element).find('h2 a').text().trim();
+          const link = $(element).find('h2 a').attr('href');
+          const imageUrl = $(element).find('img').attr('src');
+          const genres = $(element).find('.set').first().text().replace('Genres : ', '').trim();
+          const status = $(element).find('.set').eq(1).text().replace('Status : ', '').trim();
+          const rating = $(element).find('.set').eq(2).text().replace('Rating : ', '').trim() || 'N/A';
+          animeList.push({
+              title,
+              link,
+              imageUrl,
+              genres,
+              status,
+              rating
+          });
+      });
+      res.json({ results: animeList });
+  } catch (error) {
+      console.error('Error fetching data:', error);
+      res.status(500).json({ error: 'Error fetching data' });
+  }
 });
 
 app.get('/api/ytsearch', async (req, res) => {
@@ -495,7 +752,72 @@ app.get('/api/apple-search', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+app.get('/api/spotifysearch', async (req, res) => {
+  const query = req.query.q;
+  if (!query) {
+      return res.status(400).json({ error: 'Parameter "q" dibutuhkan' });
+  }
+  try {
+    await requestAll();
+      const results = await spotifySearch(query);
+      res.json(results);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 //=====[ API DOWNLOADER ]=====//
+app.get('/api/capcutdl', async (req, res) => {
+  const { url } = req.query;
+  if (!url) {
+    await requestAll()
+      return res.status(400).json({
+          success: false,
+          creator: 'Rerezz',
+          error: 'Masukkan parameter url'
+      });
+  }
+  try {
+      const data = await capcutdl(url);
+      if (!data) {
+          return res.status(500).json({
+              success: false,
+              creator: 'Rerezz',
+              error: 'Gagal mengambil data CapCut'
+          });
+      }
+      res.json({
+          success: true,
+          creator: 'Rerezz',
+          data
+      });
+  } catch (error) {
+      res.status(500).json({
+          success: false,
+          creator: 'Rerezz',
+          error: 'Terjadi kesalahan saat mengambil data',
+          detail: error.message
+      });
+  }
+});
+
+app.get('/api/spotifydl', async (req, res) => {
+  const { url } = req.query;
+  if (!url) {
+      return res.status(400).json({ error: 'Parameter "url" diperlukan.' });
+  }
+  try {
+    await requestAll()
+      const result = await spotifydl(url);
+      res.json(result);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+});
+
 app.get('/api/ttdl', async (req, res) => {
   const { url } = req.query;
   if (!url) {
@@ -524,8 +846,8 @@ app.get('/api/igdl', async (req, res) => {
   }
 });
 
-app.get('/api/douyin', async (req, res) => {
-  const url = req.query.url; // Ambil URL dari query parameter
+app.get('/api/douyindl', async (req, res) => {
+  const url = req.query.url; 
   if (!url) {
     return res.status(400).json({ error: "URL tidak ditemukan di query parameter." });
   }
@@ -764,20 +1086,6 @@ app.get('/api/igdownload', async (req, res) => {
   }
 });
 
-app.get('/api/capcutdl', async (req, res) => {
-  const { url } = req.query;
-  if (!url) {
-    return res.status(400).json({ status: 400, message: 'URL is required' });
-  }
-  try {
-    await requestAll()
-    const videoData = await getCapCutData(url);
-    return res.status(200).json(videoData);
-  } catch (error) {
-    return res.status(500).json({ status: 500, message: error.message });
-  }
-});
-
 app.get('/api/tiktokdl', async (req, res) => {
   const { url } = req.query;
   if (!url) {
@@ -997,267 +1305,6 @@ app.post("/chat", async (req, res) => {
   }
 });
 
-
-const domain = 'https://dalang.x.decode.im-rerezz.xyz';
-const apikey = 'ptla_c64EvoRQ2F15yVIv99I1tk53uDAAershnparTwhO77k';
-
-app.post('/create-server', async (req, res) => {
-    const { username, ramOption, key } = req.body; 
-    console.log(`Received key: ${key}`);
-
-    if (!validKeys.includes(key)) {
-        return res.status(403).json({ message: '❌ Kunci key tidak valid!' });
-    }
-    if (!username || !ramOption) {
-        return res.status(400).json({ message: '❌ Semua input harus diisi!' });
-    }
-    await requestAll();
-    let ram, disk, cpu;
-
-    switch (ramOption) {
-      case "panel1gb":
-        ram = 1000;
-        disk = 1000;
-        cpu = 50;
-        break;
-    case "panel2gb":
-        ram = 2000;
-        disk = 2000;
-        cpu = 100;
-        break;
-    case "panel3gb":
-        ram = 3000;
-        disk = 3000;
-        cpu = 150;
-        break;
-    case "panel4gb":
-        ram = 4000;
-        disk = 4000;
-        cpu = 200;
-        break;
-    case "panel5gb":
-        ram = 5000;
-        disk = 5000;
-        cpu = 250;
-        break;
-    case "panel6gb":
-        ram = 6000;
-        disk = 6000;
-        cpu = 300;
-        break;
-    case "panel7gb":
-        ram = 7000;
-        disk = 7000;
-        cpu = 350;
-        break;
-    case "panel8gb":
-        ram = 8000;
-        disk = 8000;
-        cpu = 400;
-        break;
-    case "panel9gb":
-        ram = 9000;
-        disk = 9000;
-        cpu = 450;
-        break;
-    case "panel10gb":
-        ram = 10000;
-        disk = 10000;
-        cpu = 500;
-        break;
-    case "panel11gb":
-        ram = 11000;
-        disk = 11000;
-        cpu = 550;
-        break;
-    case "panel12gb":
-        ram = 12000;
-        disk = 12000;
-        cpu = 600;
-        break;
-    case "panel13gb":
-        ram = 13000;
-        disk = 13000;
-        cpu = 650;
-        break;
-    case "panel14gb":
-        ram = 14000;
-        disk = 14000;
-        cpu = 700;
-        break;
-    case "panel15gb":
-        ram = 15000;
-        disk = 15000;
-        cpu = 750;
-        break;
-    case "panel16gb":
-        ram = 16000;
-        disk = 16000;
-        cpu = 800;
-        break;
-    case "panel17gb":
-        ram = 17000;
-        disk = 17000;
-        cpu = 850;
-        break;
-    case "panel18gb":
-        ram = 18000;
-        disk = 18000;
-        cpu = 900;
-        break;
-    case "panel19gb":
-        ram = 19000;
-        disk = 19000;
-        cpu = 950;
-        break;
-    case "panel20gb":
-        ram = 20000;
-        disk = 20000;
-        cpu = 1000;
-        break;
-      case "unlimited":
-          ram = 0;
-          disk = 0;
-          cpu = 0;
-          break;
-      default:
-          return res.status(400).json({ message: "❌ Pilihan RAM tidak valid!" });
-  }
-    try {
-        const response = await fetch(`https://apis.xyrezz.online-server.biz.id/api/cpanel?domain=${domain}&apikey=${apikey}&username=${username}&ram=${ram}&disk=${disk}&cpu=${cpu}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        const data = await response.json();
-        if (data.error) {
-            return res.status(500).json({ message: `Error: ${data.error}` });
-        }
-        res.status(200).json({ message: '✅ Server berhasil dibuat!', serverInfo: data });
-    } catch (error) {
-        res.status(500).json({ message: '❌ Terjadi kesalahan saat membuat server. Harap coba lagi.' });
-    }
-});
-
-app.get('/api/list-users', async (req, res) => {
-  try {
-    await requestAll();
-    let response = await fetch(`${domain}/api/application/users`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${apikey}`,
-      },
-    });
-    let data = await response.json();
-    if (data.errors) {
-      return res.status(500).json({ error: `❌ *Error:* ${data.errors[0].detail}` });
-    }
-    let users = data.data;
-    if (users.length === 0) {
-      return res.status(404).json({ message: '❌ *Tidak ada pengguna yang ditemukan.*' });
-    }
-    let userList = users.map(user => {
-      let userInfo = user.attributes;
-      return {
-        id: userInfo.id,
-        username: userInfo.username,
-        email: userInfo.email,
-        language: userInfo.language
-      };
-    });
-    res.status(200).json({ data: userList });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: '❌ *Terjadi kesalahan saat mengambil daftar pengguna. Periksa konfigurasi atau coba lagi.*' });
-  }
-});
-
-app.delete('/api/delete-user/:id', async (req, res) => {
-  const { id } = req.params;
-  if (!id) return res.status(400).json({ error: 'ID pengguna tidak diberikan.' });
-  try {
-    await requestAll();
-      let response = await fetch(`${domain}/api/application/users/${id}`, {
-          method: 'DELETE',
-          headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${apikey}`,
-          },
-      });
-      let result = response.ok ? { message: 'Successfully deleted the user.' } : await response.json();
-      if (result.errors) {
-          return res.status(404).json({ error: 'User not found or deletion failed.' });
-      }
-      res.status(200).json(result);
-  } catch (e) {
-      console.error(e);
-      res.status(500).json({ error: 'Terjadi kesalahan saat menghapus pengguna.' });
-  }
-});
-
-app.get('/api/list-servers', async (req, res) => {
-  try {
-    await requestAll();
-      const page = req.query.page || '1'; 
-      const response = await fetch(`${domain}/api/application/servers?page=${page}`, {
-          method: 'GET',
-          headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${apikey}`
-          }
-      });
-      const data = await response.json();
-      const servers = data.data;
-      if (!servers || servers.length === 0) {
-          return res.json({ error: '❌ Tidak ada server yang ditemukan.' });
-      }
-      const serverList = servers.map(server => ({
-          id: server.attributes.id,
-          identifier: server.attributes.identifier,
-          name: server.attributes.name,
-          description: server.attributes.description,
-          suspended: server.attributes.suspended,
-          memory: server.attributes.limits.memory == 0 ? "unlimited" : `${server.attributes.limits.memory / 1000} GB`,
-          disk: server.attributes.limits.disk == 0 ? "unlimited" : `${server.attributes.limits.disk / 1000} GB`,
-          cpu: server.attributes.limits.cpu == 0 ? "unlimited" : `${server.attributes.limits.cpu}%`
-      }));
-
-      res.json({ data: serverList, page: data.meta.pagination.current_page, total_pages: data.meta.pagination.total_pages });
-
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: '❌ Terjadi kesalahan saat mengambil daftar server.' });
-  }
-});
-app.delete('/api/delete-server/:id', async (req, res) => {
-  const srvId = req.params.id;
-  if (!srvId) {
-      return res.json({ error: 'ID server tidak ditemukan.' });
-  }
-  try {
-    await requestAll();
-      const response = await fetch(`${domain}/api/application/servers/${srvId}`, {
-          method: 'DELETE',
-          headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${apikey}`
-          }
-      });
-      if (response.ok) {
-          return res.json({ message: 'Server berhasil dihapus.' });
-      }
-      const result = await response.json();
-      return res.json({ error: result.errors || 'Server tidak ditemukan.' });
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: '❌ Terjadi kesalahan saat menghapus server.' });
-  }
-});
 
 
 app.get('/api/get-usage-count', async (req, res) => {
