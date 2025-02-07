@@ -6,6 +6,7 @@ const axios = require('axios')
 const cheerio = require('cheerio');
 const FormData = require('form-data');
 const ytSearch = require('yt-search');
+const puppeteer = require("puppeteer");
 const { 
   getTikTokData,
   getCapCutData,
@@ -242,6 +243,24 @@ app.get('/api/cartoongravity', async (req, res) => {
 
 
 //=====[ TOOLS API ]=====//
+app.get("/api/screenshot", async (req, res) => {
+  const { url } = req.query;
+  if (!url) return res.status(400).json({ error: "Masukkan URL!" });
+  try {
+    await requestAll();
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(url);
+    const screenshot = await page.screenshot();
+    await browser.close();
+
+    res.set("Content-Type", "image/png");
+    res.send(screenshot);
+  } catch (error) {
+    res.status(500).json({ error: "Gagal mengambil screenshot" });
+  }
+});
+
 app.get('/api/enc', async (req, res) => {
     const { text } = req.query;
     if (!text) return res.status(400).json({ status: false, message: "Parameter 'text' diperlukan!" });
