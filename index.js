@@ -4,6 +4,7 @@ const path = require('path');
 const cors = require("cors");
 const axios = require('axios')
 const cheerio = require('cheerio');
+const FormData = require('form-data');
 const ytSearch = require('yt-search');
 const { 
   getTikTokData,
@@ -30,7 +31,8 @@ const {
   tiktokStalk,
   Instagram,
   bellaAI,
-  douyindl
+  douyindl,
+  tiktokDL
 } = require('./lib/myfunct.js')
 const { 
   download,
@@ -459,6 +461,19 @@ app.get('/api/apple-search', async (req, res) => {
   }
 });
 //=====[ API DOWNLOADER ]=====//
+app.get('/api/ttdl', async (req, res) => {
+  const { url } = req.query;
+  if (!url) {
+    return res.status(400).json({ status: false, creator: "Decode Rezz Dev", message: "Parameter 'url' diperlukan!" });
+  }
+  try {
+    await requestAll();  
+    const result = await tiktokDL(url);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ status: false, creator: "Decode Rezz Dev", message: "Terjadi kesalahan pada server!" });
+  }
+});
 
 app.get('/api/igdl', async (req, res) => {
   const url = req.query.url;
