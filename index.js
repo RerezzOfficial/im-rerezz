@@ -1288,6 +1288,14 @@ app.get('/dashboard', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard.html')); 
 });
 
+app.get('/api/ffstats', async (req, res) => {
+  try {
+      const response = await axios.get('https://databse-apis.glitch.me/api/requesttoday/history');
+      res.json(response.data);
+  } catch (error) {
+      res.status(500).json({ error: 'Gagal mengambil data' });
+  }
+});
 
 app.post("/chat", async (req, res) => {
   const { message } = req.body;
