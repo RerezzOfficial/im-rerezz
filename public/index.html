@@ -545,8 +545,29 @@
     </div>
   </div>
 
-<!-- Modal -->
+<!-- Dashboard -->
+<div class="dashboard-container">
+      <div class="card-header">
+          <i class="fas fa-chart-line"></i> Student Statistics
+      </div>
 
+      <div class="chart-wrapper">
+          <div class="button-container">
+              <button class="btn" onclick="updateChart('all')">
+                  <i class="fas fa-database"></i> Tampilkan Semua Data
+              </button>
+              <button class="btn" onclick="updateChart('7days')">
+                  <i class="fas fa-calendar-week"></i> Tampilkan 7 Hari Terakhir
+              </button>
+          </div><br>
+          <div class="chart-container" id="studentChart"></div>
+      </div>
+      
+      <div class="stats">
+          <h4 id="total-weekly">9.040</h4>
+          <p>Total Requests</p>
+      </div>
+</div>
   <!-- Content -->
   <div class="content" id="home">
     <div class="dashboard">
