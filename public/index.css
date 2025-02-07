@@ -433,3 +433,150 @@
             text-align: center;
             border-bottom: 2px solid aqua;
           }
+
+
+/* Dashboard Container */
+.dashboard-container {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(15px);
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Card Header - Student Statistics */
+.card-header {
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #00E5FF;
+  letter-spacing: 1px;
+  margin-bottom: 50px; /* Tambahkan jarak agar tidak bertumpuk dengan button */
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-header i {
+  font-size: 24px;
+  color: #00E5FF;
+}
+
+/* Chart Wrapper */
+.chart-wrapper {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+  margin-top: 20px; /* Jarak dari "Student Statistics" */
+}
+
+/* Button Container */
+.button-container {
+  position: absolute;
+  top: -30px; /* Naik sedikit tapi tidak bertabrakan */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 8px 12px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  flex-wrap: wrap; /* Agar tombol turun di layar kecil */
+}
+
+/* Button Styling */
+.btn {
+  background: #00E5FF;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #003B46;
+  font-weight: bold;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn:hover {
+  background: #008FB3;
+}
+
+.btn i {
+  font-size: 16px;
+}
+
+/* Chart Container */
+.chart-container {
+  width: 100%;
+  min-height: 300px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Stats Section - Total Requests */
+.stats {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.stats h4 {
+  margin: 0;
+  font-size: 28px;
+  color: #00E5FF;
+}
+
+.stats p {
+  margin: 0;
+  font-size: 16px;
+  color: #B0EFFF;
+}
+
+@media (max-width: 768px) {
+  .button-container {
+    width: calc(100% - 40px);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  .card-header {
+    font-size: 18px;
+    margin-bottom: 60px;
+  }
+
+  .card-header i {
+    font-size: 20px;
+  }
+
+  .stats h4 {
+    font-size: 24px;
+  }
+
+  .stats p {
+    font-size: 14px;
+  }
+}
