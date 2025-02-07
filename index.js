@@ -28,6 +28,7 @@ const {
   ytdlmp3,
   ytdlMp4,
   tiktokStalk,
+  igstalk,
   bellaAI,
   douyindl
 } = require('./lib/myfunct.js')
@@ -383,6 +384,20 @@ app.get('/api/ttstalk', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+});
+
+app.get('/api/igstalk', async (req, res) => {
+	const user = req.query.user;
+	if (!user) {
+		return res.status(400).json({ status: false, message: "Parameter 'user' diperlukan!" });
+	}
+	try {
+		await requestAll();
+		const result = await igstalk(user);
+		res.json({ status: true, data: result });
+	} catch (error) {
+		res.status(500).json({ status: false, message: error.message });
+	}
 });
 
 app.get('/api/ytsearch', async (req, res) => {
