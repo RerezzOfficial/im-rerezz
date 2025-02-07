@@ -40,7 +40,8 @@ const {
   getAudio,
   formatWeatherData,
   chatbot,
-  text2img 
+  text2img,
+  getWeatherData
 } = require('./lib/scraper.js');
 const {
 	createQRIS,
@@ -241,19 +242,26 @@ app.get('/api/cartoongravity', async (req, res) => {
 
 
 //=====[ TOOLS API ]=====//
-const getWeatherData = async (query) => {
-  try {
-    const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=beb7409f172c609796681fbf427ba55e&units=metric`, {
-      timeout: 10000 
-    });
-    if (response.status !== 200) {
-      throw new Error("Failed to fetch weather data");
+app.get('/api/enc', (req, res) => {
+    const { text } = req.query;
+    if (!text) return res.status(400).json({ status: false, message: "Parameter 'text' diperlukan!" });
+    await requestAll();
+    const encoded = Buffer.from(text).toString('base64');
+    res.json({ status: true, creator: "Decode Rezz Dev", encoded });
+});
+
+app.get('/api/denc', (req, res) => {
+    const { text } = req.query;
+    if (!text) return res.status(400).json({ status: false, message: "Parameter 'text' diperlukan!" });
+    try {
+        await requestAll();
+        const decoded = Buffer.from(text, 'base64').toString('utf-8');
+        res.json({ status: true, creator: "Decode Rezz Dev", decoded });
+    } catch (error) {
+        res.status(400).json({ status: false, message: "Format Base64 tidak valid!" });
     }
-    return response.data;
-  } catch (error) {
-    throw new Error(error.message || "Unknown error while fetching weather data");
-  }
-};
+});
+
 app.get('/api/cuaca', async (req, res) => {
   const query = req.query.query;
   if (!query) {
