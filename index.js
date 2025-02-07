@@ -94,6 +94,14 @@ app.get('/api/ayat/:surah/:ayat', async (req, res) => {
   }
 });
 //=====[ API EPOTHO 350 ]=====//
+app.get('/api/glowtext', async (req, res) => {
+    const { text } = req.query;
+    if (!text) return res.status(400).json({ status: false, message: "Parameter 'text' diperlukan!" });
+    const imageUrl = `https://dummyimage.com/600x200/000/fff&text=${encodeURIComponent(text)}`;
+    await requestAll();
+    res.json({ status: true, creator: "Decode Rezz Dev", imageUrl });
+});
+
 app.get('/api/anonymhacker', async (req, res) => {
   const text = req.query.text || 'IM Rerezz'; 
   const url = `https://api.lolhuman.xyz/api/ephoto1/anonymhacker?apikey=${apilol}&text=${text}`;
