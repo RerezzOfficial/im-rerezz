@@ -181,7 +181,7 @@ app.get('/api/glowtext', async (req, res) => {
 
 app.get('/api/anonymhacker', async (req, res) => {
   const text = req.query.text || 'IM Rerezz'; 
-  const url = `https://api.lolhuman.xyz/api/ephoto1/anonymhacker?apikey=${apilol}&text=${text}`;
+  const url = `https://api.lolhuman.xyz/api/ephoto1/anonymhacker?apikey=${apikeylol}&text=${text}`;
   try {
     await requestAll();
     const response = await axios.get(url, { responseType: 'arraybuffer' });
@@ -198,7 +198,7 @@ app.get('/api/anonymhacker', async (req, res) => {
 });
 app.get('/api/wp-aov', async (req, res) => {
   const text = req.query.text || 'IM Rerezz'; 
-  const url = `https://api.lolhuman.xyz/api/ephoto1/aovwall?apikey=${apilol}&text=${text}`;
+  const url = `https://api.lolhuman.xyz/api/ephoto1/aovwall?apikey=${apikeylol}&text=${text}`;
   try {
     await requestAll();
     const response = await axios.get(url, { responseType: 'arraybuffer' });
@@ -215,7 +215,7 @@ app.get('/api/wp-aov', async (req, res) => {
 });
 app.get('/api/avatar-dota', async (req, res) => {
   const text = req.query.text || 'IM Rerezz';
-  const url = `https://api.lolhuman.xyz/api/ephoto1/avatardota?apikey=${apilol}&text=${text}`;
+  const url = `https://api.lolhuman.xyz/api/ephoto1/avatardota?apikey=${apikeylol}&text=${text}`;
   try {
     await requestAll(); 
     const response = await axios.get(url, { responseType: 'arraybuffer' });
@@ -232,7 +232,7 @@ app.get('/api/avatar-dota', async (req, res) => {
 });
 app.get('/api/avatar-lolnew', async (req, res) => {
   const text = req.query.text || 'IM Rerezz';
-  const url = `https://api.lolhuman.xyz/api/ephoto1/avatarlolnew?apikey=${apilol}&text=${text}`;
+  const url = `https://api.lolhuman.xyz/api/ephoto1/avatarlolnew?apikey=${apikeylol}&text=${text}`;
   try {
     await requestAll(); 
     const response = await axios.get(url, { responseType: 'arraybuffer' });
@@ -249,7 +249,7 @@ app.get('/api/avatar-lolnew', async (req, res) => {
 });
 app.get('/api/beautifulflower', async (req, res) => {
   const text = req.query.text || 'IM Rerezz';
-  const url = `https://api.lolhuman.xyz/api/ephoto1/beautifulflower?apikey=${apilol}&text=${text}`;
+  const url = `https://api.lolhuman.xyz/api/ephoto1/beautifulflower?apikey=${apikeylol}&text=${text}`;
   try {
     await requestAll(); 
     const response = await axios.get(url, { responseType: 'arraybuffer' });
@@ -266,7 +266,7 @@ app.get('/api/beautifulflower', async (req, res) => {
 });
 app.get('/api/birthdaycake', async (req, res) => {
   const text = req.query.text || 'IM Rerezz';
-  const url = `https://api.lolhuman.xyz/api/ephoto1/birthdaycake?apikey=${apilol}&text=${text}`;
+  const url = `https://api.lolhuman.xyz/api/ephoto1/birthdaycake?apikey=${apikeylol}&text=${text}`;
   try {
     await requestAll(); 
     const response = await axios.get(url, { responseType: 'arraybuffer' });
@@ -283,7 +283,7 @@ app.get('/api/birthdaycake', async (req, res) => {
 });
 app.get('/api/birthdayday', async (req, res) => {
   const text = req.query.text || 'IM Rerezz';
-  const url = `https://api.lolhuman.xyz/api/ephoto1/birthdayday?apikey=${apilol}&text=${text}`;
+  const url = `https://api.lolhuman.xyz/api/ephoto1/birthdayday?apikey=${apikeylol}&text=${text}`;
   try {
     await requestAll(); 
     const response = await axios.get(url, { responseType: 'arraybuffer' });
@@ -300,7 +300,7 @@ app.get('/api/birthdayday', async (req, res) => {
 });
 app.get('/api/cartoongravity', async (req, res) => {
   const text = req.query.text || 'IM Rerezz';
-  const url = `https://api.lolhuman.xyz/api/ephoto1/cartoongravity?apikey=${apilol}&text=${text}`;
+  const url = `https://api.lolhuman.xyz/api/ephoto1/cartoongravity?apikey=${apikeylol}&text=${text}`;
   try {
     await requestAll(); 
     const response = await axios.get(url, { responseType: 'arraybuffer' });
