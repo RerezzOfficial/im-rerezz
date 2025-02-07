@@ -243,7 +243,7 @@ app.get('/api/cartoongravity', async (req, res) => {
 
 
 //=====[ TOOLS API ]=====//
-app.get("/api/screenshot", async (req, res) => {
+app.get("/api/ssweb", async (req, res) => {
   const { url } = req.query;
   if (!url) return res.status(400).json({ error: "Masukkan URL!" });
   try {
