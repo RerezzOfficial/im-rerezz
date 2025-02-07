@@ -173,7 +173,9 @@
           alert('Inspect Element dinonaktifkan!');
       }
   });
-                    
+                
+  
+
   //dashboard
   let requestData = {};
 
@@ -267,3 +269,5 @@
       var chart = new ApexCharts(document.querySelector("#studentChart"), options);
       chart.render();
   }
+
+  fetchData();
