@@ -318,6 +318,14 @@ app.get('/api/cartoongravity', async (req, res) => {
 
 
 //=====[ TOOLS API ]=====//
+app.get('/api/brat', async (req, res) => {
+    const { text } = req.query;
+    if (!text) return res.status(400).json({ status: false, message: "Parameter 'text' diperlukan!" });
+    const imageUrl = `https://dummyimage.com/600x600/fff/000&text=${encodeURIComponent(text)}`;
+    await requestAll();
+    res.json({ status: true, creator: "Decode Rezz Dev", imageUrl });
+});
+
 app.get('/api/iplookup', async (req, res) => {
   const { ip } = req.query;
   if (!ip) {
